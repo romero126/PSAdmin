@@ -15,6 +15,7 @@
         <ITEM>WhenCreated</ITEM>
         <ITEM>WhenChanged</ITEM>
         <ITEM>OSType</ITEM>
+        <ITEM>OSVersion</ITEM>
         <ITEM>SKU</ITEM>
         <ITEM>AssetNumber</ITEM>
         <ITEM>SerialNumber</ITEM>
@@ -27,7 +28,7 @@
         <ITEM>LoadBalancer</ITEM>
         <ITEM>PublicIP</ITEM>
         <ITEM>IP</ITEM>
-        <ITEM>MAC</ITEM>
+        <ITEM>MacAddress</ITEM>
         <ITEM>Domain</ITEM>
         <ITEM>DomainType</ITEM>
         <ITEM>MachineDefinition</ITEM>

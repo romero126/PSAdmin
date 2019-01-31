@@ -1,0 +1,10 @@
+<CONFIG>
+    <Database>
+        <ConnectionType>SQLite</ConnectionType>
+        <ConnectionString>Data Source={0};Pooling={1};FailIfMissing={2};Synchronous={3};</ConnectionString>
+        <DataSource>PSAdmin.DB</DataSource>
+        <Pooling>True</Pooling>
+        <FailIfMissing>False</FailIfMissing>
+        <Synchronous>Full</Synchronous>
+    </Database>
+</CONFIG>
