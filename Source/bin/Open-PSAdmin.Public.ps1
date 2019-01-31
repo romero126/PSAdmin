@@ -16,12 +16,8 @@ function Open-PSAdmin
         $Script:PSAdminConfig = [XML](Get-Content $Path)
 
         Write-Debug "Storing DB Connection String"
-        #$Script:PSAdminDBConfig = [PSCustomObject][HashTable]($Script:PSAdminConfig.CONFIG.Database | Select -First 1)
-        #$Script:PSAdminDBConfig = [PSCustomObject]@{}
-        #$Script:PSAdminDBConfig = [PSCustomObject]@{}
-        #$Script:PSAdminConfig.CONFIG.Database.ChildNodes | ForEach-Object { Add-Member -InputObject $Script:PSAdminDBConfig -MemberType NoteProperty -Name $_.Name -Value $_.'#Text' }
         $Script:PSAdminDBConfig = @{}
-        $Script:PSAdminDBConfig["Path"] = $Path | Split-Path
+        $Script:PSAdminDBConfig["Path"] = Get-Item -Path $Path | ForEach-Object Directory
         $Script:PSAdminConfig.CONFIG.Database.ChildNodes | ForEach-Object { $Script:PSAdminDBConfig[$_.Name] = $_.'#Text' }
         $DBInitScripts = Get-ChildItem $PSScriptRoot\..\*.OpenDB.ps1 -Recurse
 

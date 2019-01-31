@@ -22,7 +22,7 @@ function Local:GenerateTableSchema
         $TableName = $MachineSchema.DB.Table.Name
         $TableObj = [PSCustomObject]@{}
         $MachineSchema.DB.Table.ITEM | ForEach-Object { Add-Member -InputObject $TableObj -MemberType NoteProperty -Name $_ -Value "" }
-        New-PSAdminSQLiteTable -Database $Database -Table $TableName -PSCustomObject $TableObj
+        $null = New-PSAdminSQLiteTable -Database $Database -Table $TableName -PSCustomObject $TableObj
     }
 
     end
