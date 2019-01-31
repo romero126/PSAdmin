@@ -1,4 +1,5 @@
 ## Commands
+```sh
 Get-PSAdminMachine
     -Id
     -SQLIdentity
@@ -16,3 +17,5 @@ Remove-PSAdminMachine
     -Id
     -SQLIdentity
     -Name
+
+```
