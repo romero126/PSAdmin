@@ -20,11 +20,15 @@ Remove-PSAdminMachine -Name "Myname"
 ## PSAdmin Command List
 
 Note this is always changing and will change as features get added.
-[Open-PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
-[Get-PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
-[Set-PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
-[New-PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
-[Remove-PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
+
+1. [Open-PSAdmin][PSAdmin]
+2. [Get-PSAdminMachine][PSAdminMachine]
+3. [Set-PSAdminMachine][PSAdminMachine]
+4. [New-PSAdminMachine][PSAdminMachine]
+5. [Remove-PSAdminMachine][PSAdminMachine]
+
+[PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
+[PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
 
 ## Upcoming Features / Wish List
 1. Automated Workflows
