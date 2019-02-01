@@ -3,7 +3,7 @@ Write-Warning "Running tests for PSAdminMachine"
 describe "PSAdminMachine" {
     BeforeAll {
         $PSModuleArgs = @{
-            Path                    = "$PSScriptRoot\TestDatabase\"
+            Path                    = "$PSScriptRoot/TestDatabase/"
             DBConfigFile            = "DBConfig.xml"
         }
         Import-Module $PWD\Source\PSAdmin.psm1 -ArgumentList $PSModuleArgs -Force

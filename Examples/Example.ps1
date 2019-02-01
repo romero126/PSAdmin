@@ -1,5 +1,5 @@
-Import-Module "$PSScriptRoot\..\Source\PSAdmin.psm1"
-Open-PSAdmin -Path "$PSScriptRoot\PSAdmin.xml"
+Import-Module "$PSScriptRoot/../Source/PSAdmin.psm1"
+Open-PSAdmin -Path "$PSScriptRoot/PSAdmin.xml"
 
 
 

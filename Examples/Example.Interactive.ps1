@@ -1,4 +1,4 @@
-Import-Module "$PSScriptRoot\..\Source\PSAdmin.psm1"
+Import-Module "$PSScriptRoot/../Source/PSAdmin.psm1"
 Get-Module *PSAdmin*
 Write-Host ""
 Write-Host "Loading Database" -ForegroundColor Yellow

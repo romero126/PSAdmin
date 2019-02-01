@@ -19,7 +19,7 @@ function Open-PSAdmin
         $Script:PSAdminDBConfig = @{}
         $Script:PSAdminDBConfig["Path"] = Get-Item -Path $Path | ForEach-Object Directory
         $Script:PSAdminConfig.CONFIG.Database.ChildNodes | ForEach-Object { $Script:PSAdminDBConfig[$_.Name] = $_.'#Text' }
-        $DBInitScripts = Get-ChildItem $PSScriptRoot\..\*.OpenDB.ps1 -Recurse
+        $DBInitScripts = Get-ChildItem $PSScriptRoot/../*.OpenDB.ps1 -Recurse
 
         foreach ($Item in $DBInitScripts)
         {

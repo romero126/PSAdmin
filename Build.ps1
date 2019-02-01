@@ -25,7 +25,7 @@ if (!$Action) {
         },
         [PSCustomObject]@{
             Action          = "Example"
-            Description     = "Simple example"
+            Description     = "Adds your computer to the database."
         },
         [PSCustomObject]@{
             Action          = "Example.Interactive"
@@ -47,7 +47,7 @@ Switch ($Action)
     }
     "Test" {
         Write-Warning "Beginning Unit Tests for PSAdmin"
-        $PesterItems = Get-ChildItem $PSScriptRoot\Tests\*.Tests.ps1
+        $PesterItems = Get-ChildItem $PSScriptRoot/Tests/*.Tests.ps1
         Invoke-Pester $PesterItems
     }
     "Execute" {
@@ -59,6 +59,6 @@ Switch ($Action)
         . "$PSScriptRoot\Examples\Example.ps1"
     }
     "Example.Interactive" {
-       Start-Process powershell ("-noexit -command . $PSScriptRoot\Examples\Example.Interactive.ps1") -PassThru
+       Start-Process powershell ("-noexit -command . $PSScriptRoot/Examples/Example.Interactive.ps1") -PassThru
     }
 }

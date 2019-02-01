@@ -43,9 +43,9 @@ function Write-Log
 
 $ModuleName = "PSAdmin"
 
-$InitScripts        = Get-ChildItem -Path "$PSScriptRoot\bin\*.Init.ps1" -Recurse
-$PublicScripts      = Get-ChildItem -Path "$PSScriptRoot\bin\*.Public.ps1" -Recurse
-$PrivateScripts     = Get-ChildItem -Path "$PSScriptRoot\bin\*.Public.ps1" -Recurse
+$InitScripts        = Get-ChildItem -Path "$PSScriptRoot/bin/*.Init.ps1" -Recurse
+$PublicScripts      = Get-ChildItem -Path "$PSScriptRoot/bin/*.Public.ps1" -Recurse
+$PrivateScripts     = Get-ChildItem -Path "$PSScriptRoot/bin/*.Public.ps1" -Recurse
 
 Write-Log "Initializing" -Status Verbose
 
@@ -110,8 +110,3 @@ if ($ArgumentList) {
 }
 
 write-host ($path | out-string)
-
-
-#VERBOSE: 
-#DEBUG:   
-#WARNING: 

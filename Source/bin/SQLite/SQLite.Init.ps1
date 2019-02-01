@@ -4,11 +4,11 @@ Write-Log "SQLite.init.ps1" -Status Debug -Offset 2
 
 if ([System.Environment]::Is64BitProcess)
 {
-    $Libraries = Get-ChildItem -Path "$PSScriptRoot\x64\*.dll"
+    $Libraries = Get-ChildItem -Path "$PSScriptRoot/x64/*.dll"
 }
 else 
 {
-    $Libraries = Get-ChildItem -Path "$PSScriptRoot\x86\*.dll"
+    $Libraries = Get-ChildItem -Path "$PSScriptRoot/x86/*.dll"
 }
 
 Write-Log "Loading Dependencies" -Status Debug -Offset 3
