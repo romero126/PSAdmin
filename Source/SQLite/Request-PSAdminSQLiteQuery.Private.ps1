@@ -8,7 +8,9 @@ function Request-PSAdminSQLiteQuery() {
 	)
 	begin
 	{
+		
 		$Database.Open()
+
 	}
 
 	process
@@ -27,13 +29,16 @@ function Request-PSAdminSQLiteQuery() {
 			}
 
 			$Result
+
 		}
 		
 	}
 
 	end
 	{
+
 		$Database.Close()
+
 	}
 }
 

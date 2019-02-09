@@ -1,0 +1,71 @@
+<!DOCTYPE root [  
+  <!ELEMENT root ANY>   
+  <!ELEMENT data ANY>
+  <!ATTLIST data name ID #REQUIRED>
+]>
+<root>
+    <data name="ExceptionUpdateDatabase">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>Unable to update Database</Value>
+    </data>
+
+    <data name="KeyVaultRemoveAll">
+        <Value>Warning this will destroy all association to the keyvault '{0}' irreparatly</Value>
+    </data>
+    <data name="KeyVaultRemoveCertificates">
+        <Value>Removing all Certificates from '{0}'</Value>
+    </data>
+
+    <data name="KeyVaultRemoveSecret">
+        <Value>Removing all Secrets from '{0}'</Value>
+    </data>
+    <data name="KeyVaultExceptionVaultNameExists">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>Cannot create an object with Name '{0}' item already exists</Value>
+    </data>
+
+
+    <data name="KeyVaultExceptionCertificateNotInstalled">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>Certificate is not installed in KeyVault.</Value>
+    </data>
+    <data name="KeyVaultExceptionCertificateInstalled">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>Certificate is installed in KeyVault.</Value>
+    </data>
+
+    <data name="KeyVaultExceptionResultCount">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>{0} '{1}' expected expected {2} recieved {3}</Value>
+    </data>
+
+    <data name="KeyVaultExceptionVaultNameLookupResultTooMany">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>VaultName '{0}' returned too many results expected {1} recieved {2}</Value>
+    </data>
+
+    <data name="KeyVaultExceptionVaultNameLookupResultTooFew">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>VaultName '{0}' returned too few results expected {1} recieved {2}</Value>
+    </data>
+
+    <data name="KeyVaultExceptionVaultNameLookupResultCount">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>VaultName '{0}' expected expected {1} recieved {2}</Value>
+    </data>
+
+
+
+
+
+    <data name="KeyVaultCertificateExceptionExists">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>Cannot create an object in vault '{0}' with name '{1}' already exists</Value>
+    </data>
+
+    <data name="KeyVaultCertificateExceptionPrivateKey">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>The Certificate loaded does not contain a PrivateKey for Decryption</Value>
+    </data>
+
+</root>

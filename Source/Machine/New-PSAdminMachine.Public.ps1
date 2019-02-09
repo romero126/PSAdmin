@@ -74,7 +74,9 @@ function New-PSAdminMachine
         $Guid = [Guid]::NewGuid().ToString()
         Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Id" -Value $Guid -Force
         Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "SQLIdentity" -Value $Guid -Force
-        
+        Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Created" -Value ([DateTime]::UtcNow)
+        Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Updated" -Value ([DateTime]::UtcNow)
+
         $Result = Get-PSAdminMachine -Name $DBQuery.InputObject.Name
         if ($Result)
         {

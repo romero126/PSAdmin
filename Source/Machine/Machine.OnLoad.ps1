@@ -1,6 +1,5 @@
 $Script:PSAdminMachineSchema = [XML](Get-Content "$PSScriptRoot\DBSchema.xml")
 
-
 function Local:GenerateTableSchema
 {
     [CmdletBinding()]
@@ -46,7 +45,11 @@ function Local:UpdateTableSchema
     }
     process
     {
-#        Write-Host "Placeholder for Powershell"
+        #Write-Host "Placeholder for Powershell"
+        $Schema = Request-PSAdminSQLiteQuery -Database $Database -Query "PRAGMA table_info('PSAdminMachine')"
+        #$Schema | ft -a
+        #Write-Host "-------------"
+        #$MachineSchema.DB.Table.ITEM | ForEach-Object { $_ }
     }
     end
     {
@@ -58,8 +61,5 @@ $Database = Connect-PSAdminSQlite @Script:PSAdminDBConfig
 
 Local:GenerateTableSchema -Database $Database -MachineSchema $Script:PSAdminMachineSchema
 Local:UpdateTableSchema -Database $Database -MachineSchema $Script:PSAdminMachineSchema
-
-
-
 
 Disconnect-PSAdminSQLite -Database $Database

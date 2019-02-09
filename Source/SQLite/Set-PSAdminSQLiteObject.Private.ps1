@@ -14,11 +14,14 @@ function Set-PSAdminSQLiteObject
 
     begin
     {
+
         $Database.Open()
+
     }
 
     process
     {
+
         $Filter = foreach ($Item in $InputObject.PSObject.Properties)
         {
             if ($Keys -eq $Item.Name) {
@@ -38,6 +41,9 @@ function Set-PSAdminSQLiteObject
         $tableSchema = new-object System.Collections.Arraylist
         
         foreach ($i in $InputObject.PSObject.Properties) {
+            if ($Keys -eq $i.Name) {
+                Continue;
+            }
             $tableSchema.Add(("{0} = @{0}" -f $i.Name)) | out-null
             $cmd.Parameters.AddWithValue($i.Name, $i.Value) | out-null
         }
@@ -55,9 +61,12 @@ function Set-PSAdminSQLiteObject
         }
 
         return $result
+
     }
     end
     {
+
         $Database.Close()
+
     }
 }

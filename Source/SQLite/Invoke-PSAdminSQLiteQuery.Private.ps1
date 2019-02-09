@@ -6,12 +6,17 @@ function Invoke-PSAdminSQLiteQuery
 		[System.Data.SQLite.SQLiteConnection]$Database,
 		[String]$Query
 	)
+	
 	begin
 	{
+
 		$Database.Open()
+
 	}
+
 	process
 	{
+
 		Write-Verbose ("{0}: {1}" -f $MyInvocation.MyCommand, $Query)
 		$Call = [System.Data.SQLite.SQLiteCommand]::new($Query, $Database)
 
@@ -22,7 +27,9 @@ function Invoke-PSAdminSQLiteQuery
 			$result = -1
 		}
 		$Result
+
 	}
+
 	end
 	{
 		$Database.Close()

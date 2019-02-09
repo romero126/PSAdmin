@@ -2,3 +2,6 @@
 MyDatabase/*
 MyDatabase/DBConfig.xml
 Examples/PSAdmin.DB
+/*.pfx
+/*.DB
+/TestCert.ps1

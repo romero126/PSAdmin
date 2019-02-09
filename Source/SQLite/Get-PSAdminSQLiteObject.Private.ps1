@@ -11,10 +11,12 @@ function Get-PSAdminSQLiteObject
         [Parameter(Mandatory)]
         [PSCustomObject]$InputObject
     )
+    
     begin
     {
 
     }
+
     process
     {
 
@@ -22,15 +24,18 @@ function Get-PSAdminSQLiteObject
         {
             
             if ($Keys -eq $Item.Name) {
-                "``{0}`` LIKE '{1}'" -f $Item.Name, $Item.Value.Replace("_", "\_").Replace("*", "%")
+
+                ("``{0}`` LIKE '{1}'" -f $Item.Name, $Item.Value.Replace('_', '\_').Replace("*", "%") )
             }
         }
-        
+
         $Query = "SELECT * From ``{0}`` WHERE {1} ESCAPE '\'" -f $Table, ($Filter -join " AND ")
+        #$Query | Write-Host
         $Result = Request-PSAdminSQLiteQuery -Database $Database -Query $Query
         $Result
         
     }
+
     end
     {
 

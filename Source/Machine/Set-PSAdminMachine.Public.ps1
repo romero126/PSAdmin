@@ -68,6 +68,8 @@ function Set-PSAdminMachine
             Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name $Param.Key -Value $Param.Value
         }
 
+        Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Updated" -Value ([DateTime]::UtcNow) -Force
+
         $Result = Set-PSAdminSQliteObject @DBQuery
         if ($Result -eq -1)
         {

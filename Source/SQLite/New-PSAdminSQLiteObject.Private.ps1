@@ -13,11 +13,14 @@ function New-PSAdminSQLiteObject
     )
     begin
     {
+        
         $Database.Open()
+
     }
 
     process
     {
+
         $cmd = [System.Data.SQLite.SQLiteCommand]::new($Database)
  
         $tableSchema = new-object System.Collections.Arraylist
@@ -42,11 +45,14 @@ function New-PSAdminSQLiteObject
         }
 
         return $result
+
     }
 
     end
     {
+
         $Database.Close()
+
     }
 
 }

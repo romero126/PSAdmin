@@ -2,11 +2,8 @@ Write-Warning "Running tests for PSAdminMachine"
 
 describe "PSAdminMachine" {
     BeforeAll {
-        $PSModuleArgs = @{
-            Path                    = "$PSScriptRoot/TestDatabase/"
-            DBConfigFile            = "DBConfig.xml"
-        }
-        Import-Module $PWD\Source\PSAdmin.psm1 -ArgumentList $PSModuleArgs -Force
+        Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
+        Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
     }
     Context "New-PSAdminMachine" {
         it "Validate [POS] Create Machine" {
@@ -27,7 +24,7 @@ describe "PSAdminMachine" {
         it "Validate [POS] Get Wildcard" {
             New-PSAdminMachine -Name "Test_Get1" -Description "Test_Get1"
             New-PSAdminMachine -Name "Test_Get2" -Description "Test_Get2"
-            Get-PSAdminMachine -Name "Test_G*" | Should -HaveCount 2
+            Get-PSAdminMachine -Name "Test_*" | Should -HaveCount 2
         }
     }
 

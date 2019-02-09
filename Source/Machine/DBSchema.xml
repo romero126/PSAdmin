@@ -1,0 +1,41 @@
+
+<DB>
+    <TABLE Name="PSAdminMachine">
+        <TypeName>PSAdminMachine.PSAdmin.Module</TypeName>
+        <DefaultDisplayPropertySet>Name, AssetNumber, SerialNumber, Location, Ip, Domain,  Description, MachineDefinition </DefaultDisplayPropertySet>
+        
+        <KEY>SQLIdentity</KEY>
+        <KEY>Id</KEY>
+        <KEY>Name</KEY>
+
+        <ITEM>SQLIdentity</ITEM>
+        <ITEM>Id</ITEM>
+        <ITEM>Name</ITEM>
+        <ITEM>Description</ITEM>
+        <ITEM>Created</ITEM>
+        <ITEM>Updated</ITEM>
+        <ITEM>OSType</ITEM>
+        <ITEM>OSVersion</ITEM>
+        <ITEM>SKU</ITEM>
+        <ITEM>AssetNumber</ITEM>
+        <ITEM>SerialNumber</ITEM>
+        <ITEM>Location</ITEM>
+        <ITEM>Building</ITEM>
+        <ITEM>Room</ITEM>
+        <ITEM>Rack</ITEM>
+        <ITEM>Slot</ITEM>
+        <ITEM>FQDN</ITEM>
+        <ITEM>LoadBalancer</ITEM>
+        <ITEM>PublicIP</ITEM>
+        <ITEM>IP</ITEM>
+        <ITEM>MacAddress</ITEM>
+        <ITEM>Domain</ITEM>
+        <ITEM>DomainType</ITEM>
+        <ITEM>MachineDefinition</ITEM>
+        <ITEM>IsVM</ITEM>
+        <ITEM>VMHost</ITEM>
+        <ITEM>ProvisioningState</ITEM>
+        <ITEM>DeploymentState</ITEM>
+        <ITEM>IsValid</ITEM>
+    </TABLE>
+</DB>

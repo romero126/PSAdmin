@@ -35,6 +35,7 @@ function Remove-PSAdminSQLiteObject
 
         $Query = "DELETE FROM {0} WHERE {1}" -f $Table, $Filter
         Invoke-PSAdminSQLiteQuery -Database $Database -Query $Query
+        
     }
 
     end

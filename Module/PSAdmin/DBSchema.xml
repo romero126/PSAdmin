@@ -12,8 +12,8 @@
         <ITEM>Id</ITEM>
         <ITEM>Name</ITEM>
         <ITEM>Description</ITEM>
-        <ITEM>WhenCreated</ITEM>
-        <ITEM>WhenChanged</ITEM>
+        <ITEM>Created</ITEM>
+        <ITEM>Updated</ITEM>
         <ITEM>OSType</ITEM>
         <ITEM>OSVersion</ITEM>
         <ITEM>SKU</ITEM>
