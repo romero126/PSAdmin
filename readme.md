@@ -11,7 +11,7 @@ By far this is no where a complete project as it should evolve since the ambitio
 ```sh
 Import-Module $PWD\Source\PSAdmin.psm1
 Open-PSAdmin -Path "$pwd\MyDatabase\MyDatabase.xml"
-New-PSAdminMachine -Name "MyName" -Description "MyDescription' -IP "YourIP"
+New-PSAdminMachine -Name "MyName" -Description "MyDescription" -IP "YourIP"
 Set-PSAdminMachine -Name "MyName" -Location "MyLocation"
 Get-PSAdminMachine -Name "MyName"
 Remove-PSAdminMachine -Name "Myname"
