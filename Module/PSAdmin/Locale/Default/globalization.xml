@@ -68,4 +68,8 @@
         <Value>The Certificate loaded does not contain a PrivateKey for Decryption</Value>
     </data>
 
+    <data name="KeyVaultSecretExceptionExists">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>Cannot create a KeyVaultSecret in vault '{0}' with name '{1}' already exists</Value>
+    </data>
 </root>
