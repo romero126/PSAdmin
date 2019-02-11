@@ -1,6 +1,6 @@
 function Remove-PSAdminKeyVault
 {
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'High')]
     param(
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id = "*",
@@ -20,11 +20,19 @@ function Remove-PSAdminKeyVault
 
     process
     {
+        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName
         
-        if (!$PSCmdlet.ShouldProcess(($Script:PSAdminLocale.GetElementById("KeyVaultRemoveAll").Value -f $VaultName)))
+        if (!$KeyVault)
+        {
+            Write-Host ($Script:PSAdminLocale.GetElementById("KeyVaultNotFound").Value -f $VaultName)
+            return
+        }
+
+        if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveAll").Value -f $VaultName) ))
         {
             return
         }
+        
         $DBQuery = @{
             Database        = $Database
             Keys            = ("VaultName", "Id")
