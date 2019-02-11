@@ -9,6 +9,10 @@
         <Value>Unable to update Database</Value>
     </data>
 
+    <data name="KeyVaultNotFound">
+        <Value>Could not find a KeyVault with a name of '{0}'</Value>
+    </data>
+    
     <data name="KeyVaultRemoveAll">
         <Value>Warning this will destroy all association to the keyvault '{0}' irreparatly</Value>
     </data>
