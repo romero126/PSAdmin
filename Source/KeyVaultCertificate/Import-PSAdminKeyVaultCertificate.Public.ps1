@@ -35,6 +35,13 @@ function Import-PSAdminKeyVaultCertificate
 
     process
     {
+        $KeyVault = @(Get-PSAdminKeyVault -VaultName $VaultName)
+
+        if ($KeyVault.Count -ne 1)
+        {
+            Cleanup
+            throw New-PSAdminException -ErrorID KeyVaultExceptionResultCount -ArgumentList "VaultName", $VaultName, 1, $KeyVault.Count
+        }
 
         $Result = Get-PSAdminKeyVaultCertificate -Name $Name -VaultName $VaultName
         if ($Result)
