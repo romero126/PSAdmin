@@ -14,7 +14,6 @@ $Menu = @(
             $ModulePath = "$PSScriptRoot/Module/PSAdmin/PSAdmin.psm1"
 
             Remove-Item -Path $PSScriptRoot/Module -Recurse -ErrorAction SilentlyContinue -Force -Confirm:$false | Out-Null
-            #Remove-item -Path $ModulePath -Recurse -Force
             New-Item -Path $PSScriptRoot/Module/PSAdmin -ItemType Directory -ErrorAction SilentlyContinue -Force | Out-Null
             Copy-Item -Path $PSScriptRoot/Source/Bin/* -Destination $PSScriptRoot/Module/PSAdmin -Recurse
 
@@ -116,7 +115,6 @@ $Menu = @(
     }
 )
 
-
 if (!$Action) {
     Write-Warning "Cannot Determine Desired Action"
     Write-Warning "Opening a Window"
@@ -124,98 +122,10 @@ if (!$Action) {
     $Action = $Menu | Select Name, Description | Out-GridView -Title "Select an Option" -PassThru | ForEach-Object Name
 }
 
-
 $MenuItem = $Menu | Where-Object Name -eq $Action
-
-#Write-Host $MenuItem
-#$MenuItem | Select Name, Description
 
 Write-Host "Calling Action", $MenuItem.Action
 
 if ($MenuItem.ScriptBlock) {
     . $MenuItem.ScriptBlock
 }
-
-
-
-#Begin Notes
-<#
-
-Generate a cert and save it
-Run as administrator
-$Password = "123456"
-$Cert = New-SelfSignedCertificate -Subject "PSAdminKeyVault.Module" -KeyUsage DataEncipherment -KeyAlgorithm RSA -KeyLength 2048 -KeyProtection None -KeyExportPolicy Exportable -KeySpec Signature
-$certraw = $cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pkcs12, $Password)
-$certraw | Set-Content -Path .\cert.pfx -Encoding Byte
-
-
-$CertRaw = Get-Content -Path .\Cert.pfx -Encoding Byte
-$x509 = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$certraw, "123456")
-
-
-#Validate Cert
-$NewCertRaw = $x509.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::SerializedCert )
-$x5092 = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$NewCertRaw)
-$x5092.HasPrivateKey
-
-
-
-
-function DecryptFromCert
-{
-    param(
-        $text,
-        $cert
-    )
-}
-
-#Encrypt Data
-$ToEncryptString = "Herro World"
-$ToEncryptString = [System.Text.Encoding]::UTF8.GetBytes($ToEncryptString)
-
-$EncData = $Cert.PublicKey.Key.Encrypt($ToEncryptString, $True)
-$encData
-
-#Decrypt
-$Cert.PublicKey.Key.Decrypt([byte[]]$EncData,$false)
-
-
-$ToEncryptString = "Herro World"
-$ToEncryptString = [System.Text.Encoding]::UTF8.GetBytes($ToEncryptString)
-$pubcer.PublicKey.Key.Encrypt($byteval,$true)
-
-$decryptedBytes = $Cert.PrivateKey.Decrypt($EncData,$true)
-
-
-function DecryptFromCert
-{
-    param(
-        [Parameter(Mandatory)]
-        [System.Security.Cryptography.X509Certificates.X509Certificate2]$Certificate,
-
-        [Parameter()]
-        [String]$InputString
-
-        [Parameter(Mandatory)]
-        [ValidateSet("Encrypt", "Decrypt")]
-        [String]$Action
-    )
-
-    begin
-    {
-
-    }
-
-    process
-    {
-
-    }
-
-    end 
-    {
-
-    }
-}
-
-
-#>
