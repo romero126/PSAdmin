@@ -45,6 +45,3 @@ $Certificate.Export([System.Security.Cryptography.X509Certificates.X509ContentTy
 
 Get-ChildItem $ExportCertificate.FileName
 ```
-
-
-
