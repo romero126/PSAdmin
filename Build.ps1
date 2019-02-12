@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [ValidateSet("Build", "Test", "Execute", "Example","Example.Interactive")]
-    [String]$Action
+    [String]$Action,
+    [String]$TestName = "*"
 )
 
 $Menu = @(
@@ -87,7 +88,8 @@ $Menu = @(
         Description     = "Pester Tests"
         ScriptBlock     = {
             Write-Warning "Beginning Unit Tests for PSAdmin"
-            $PesterItems = Get-ChildItem $PSScriptRoot/Tests/*.Tests.ps1
+            $PesterItems = Get-ChildItem ("{0}/Tests/{1}.Tests.ps1" -f $PSScriptRoot, $TestName)
+            #$PesterItems = Get-ChildItem $PSScriptRoot/Tests/*.Tests.ps1
             Invoke-Pester $PesterItems
         }
     },
