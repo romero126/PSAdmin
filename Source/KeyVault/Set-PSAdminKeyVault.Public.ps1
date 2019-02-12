@@ -2,8 +2,8 @@ function Set-PSAdminKeyVault
 {
     [CmdletBinding()]
     param(
-        #[Parameter(ValueFromPipelineByPropertyName)]
-        #[System.String]$Id = "*",
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [System.String]$Id,
 
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [System.String]$VaultName,
@@ -40,10 +40,13 @@ function Set-PSAdminKeyVault
             Database        = $Database
             Keys            = ("VaultName", "Id")
             Table           = "PSAdminKeyVault"
-            InputObject = [PSCustomObject]@{
-                VaultName               = $VaultName
-                Id                      = $Id
-            }
+            InputObject = [PSCustomObject]@{ }
+
+        }
+
+        foreach ($Param in $PSBoundParameters.GetEnumerator())
+        {
+            Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name $Param.Key -Value $Param.Value
         }
 
         $Result = Set-PSAdminSQliteObject @DBQuery
