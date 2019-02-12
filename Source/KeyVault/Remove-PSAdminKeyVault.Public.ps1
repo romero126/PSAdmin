@@ -24,8 +24,9 @@ function Remove-PSAdminKeyVault
         
         if (!$KeyVault)
         {
-            Write-Host ($Script:PSAdminLocale.GetElementById("KeyVaultNotFound").Value -f $VaultName)
-            return
+            Cleanup
+            throw ($Script:PSAdminLocale.GetElementById("KeyVaultNotFound").Value -f $VaultName)
+            
         }
 
         if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveAll").Value -f $VaultName) ))
