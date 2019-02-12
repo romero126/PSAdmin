@@ -4,4 +4,5 @@ MyDatabase/DBConfig.xml
 Examples/PSAdmin.DB
 /*.pfx
 /*.DB
+PSAdmin/Tests/TestDatabase/PSAdmin.DB
 /TestCert.ps1
