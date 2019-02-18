@@ -37,7 +37,7 @@ function New-PSAdminKeyVault
             Keys            = ("VaultName")
             Table           = "PSAdminKeyVault"
             InputObject     = [PSCustomObject]@{
-                Id                              = [Guid]::NewGuid().ToString().Replace('-', '')
+                Id                              = "*"
                 VaultName                       = $VaultName
                 Location                        = $Location
                 VaultURI                        = $VaultURI
@@ -51,15 +51,15 @@ function New-PSAdminKeyVault
             }
         }
 
-        $Result = Get-PSAdminKeyVault -VaultName $VaultName
+        $Result = Get-PSAdminKeyVault -VaultName $VaultName -Exact
 
         if ($Result)
         {
             Cleanup
-            throw New-PSAdminException -ErrorID KeyVaultExceptionVaultNameExists -ArgumentList $VaultName
-            
+            throw New-PSAdminException -ErrorID KeyVaultExceptionVaultNameExists -ArgumentList $VaultName            
         }
 
+        $VaultName.InputObject.Id = [Guid]::NewGuid().ToString().Replace('-', '')
         $Result = New-PSAdminSQliteObject @DBQuery
 
         if ($Result -eq -1)

@@ -5,8 +5,10 @@ function Get-PSAdminKeyVault {
         [System.String]$Id = "*",
 
         [Parameter(ValueFromPipelineByPropertyName, Position = 0)]
-        [System.String]$VaultName = "*"
+        [System.String]$VaultName = "*",
 
+        [Parameter()]
+        [Switch]$Exact
     )
 
     begin
@@ -28,7 +30,7 @@ function Get-PSAdminKeyVault {
                 VaultName               = $VaultName
             }
         }
-        $Results = Get-PSAdminSQliteObject @DBQuery
+        $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
         
         foreach ($Result in $Results) {
             $Result.PSObject.TypeNames.Insert(0, "PSAdminKeyVault.PSAdmin.Module")            

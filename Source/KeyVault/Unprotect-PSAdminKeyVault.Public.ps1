@@ -17,8 +17,8 @@ function Unprotect-PSAdminKeyVault
     process
     {
         #Try Load
-        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName
-        $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Thumbprint $Thumbprint
+        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName -Exact
+        $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Thumbprint $Thumbprint -Exact
 
         #Check if Thumbprint is already installed
         if (!$KeyVault.Thumbprint)

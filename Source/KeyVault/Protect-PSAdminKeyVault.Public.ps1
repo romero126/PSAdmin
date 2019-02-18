@@ -17,8 +17,8 @@ function Protect-PSAdminKeyVault
     process
     {
 
-        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName
-        $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Thumbprint $Thumbprint
+        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName -Exact
+        $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Thumbprint $Thumbprint -Exact
 
         #Check if Thumbprint is already installed
         if ($KeyVault.Thumbprint)
@@ -45,6 +45,7 @@ function Protect-PSAdminKeyVault
         }
 
         try {
+            
             $Database = Connect-PSAdminSQLite @Script:PSAdminDBConfig
             $DBQuery = @{
                 Database        = $Database
@@ -73,20 +74,6 @@ function Protect-PSAdminKeyVault
             Disconnect-PSAdminSQLite -Database $Database
         }
         $x509.Dispose()
-        <#
-        $EncStr = [System.Text.Encoding]::UTF8.GetBytes($InputString)
-           
-
-        $DecryptedValue = "Hello world from Encrypted Value"
-        $DecryptedValue = [System.Text.Encoding]::UTF8.GetBytes($DecryptedValue)
-        #Test Encryption
-        $EncryptedValue = $x509.PublicKey.Key.EncryptValue([byte[]]$DecryptedValue)
-
-        $EncryptedValue
-
-        $Certificate | ft | Out-String | Write-Host -ForegroundColor Cyan
-        $KeyVault | ft | out-String | Write-Host -ForegroundColor Yellow
-        #>
     }
 
     end

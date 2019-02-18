@@ -6,7 +6,10 @@ function Remove-PSAdminKeyVault
         [System.String]$Id = "*",
 
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [System.String]$VaultName
+        [System.String]$VaultName,
+
+        [Parameter()]
+        [Switch]$Match
 
     )
 
@@ -20,7 +23,7 @@ function Remove-PSAdminKeyVault
 
     process
     {
-        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName
+        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName -Exact:(!$Match)
         
         if (!$KeyVault)
         {
@@ -45,10 +48,10 @@ function Remove-PSAdminKeyVault
         }
 
         Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveCertificates").Value -f $VaultName)
-        Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "*"
+        Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "*" -Match
 
         Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveSecrets").Value -f $VaultName)
-        Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*"
+        Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match
         
         $Result = Remove-PSAdminSQliteObject @DBQuery
         
