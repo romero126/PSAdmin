@@ -1,6 +1,31 @@
 function Open-PSAdmin
 {
+    <#
+        .SYNOPSIS
+            Opens a database configuration file for connections to SQLite/SQL Databases.
+
+        .DESCRIPTION
+            Opens database configuration file for connections to SQLite/SQL Database.
+        
+        .PARAMETER Path
+            Specify path to .xml configuration file
+
+        .EXAMPLE
+            Open-PSAdmin -Path "C:\MyDatabase\DBConfig.xml"
+
+        .INPUTS
+            None. You cannot pipe objects to Open-PSAdmin
+
+        .OUTPUTS
+            None. Upon successful completion.
+
+        .NOTES
+
+        .LINK
+
+    #>
     [CmdletBinding()]
+
     param(
         [Parameter(Mandatory)]
         [ValidateScript({ return Test-Path -Path $_ -PathType Leaf })]
