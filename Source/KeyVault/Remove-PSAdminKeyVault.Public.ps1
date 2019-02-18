@@ -53,7 +53,7 @@ function Remove-PSAdminKeyVault
         Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveSecrets").Value -f $VaultName)
         Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match
         
-        $Result = Remove-PSAdminSQliteObject @DBQuery
+        $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
         
         if ($Result -eq -1)
         {
