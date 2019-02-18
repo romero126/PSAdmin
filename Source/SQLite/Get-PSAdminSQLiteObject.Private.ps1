@@ -48,8 +48,7 @@ function Get-PSAdminSQLiteObject
         if ($Match) {
             $Query = $Query + "`nESCAPE`n '\'"
         }
-#        Write-Host "Query:"
-#        Write-Host $Query -ForegroundColor Yellow
+        
         $Result = Request-PSAdminSQLiteQuery -Database $Database -Query $Query
         $Result
         
