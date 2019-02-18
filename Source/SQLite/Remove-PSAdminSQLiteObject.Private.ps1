@@ -45,7 +45,7 @@ function Remove-PSAdminSQLiteObject
 
         if ([System.String]::IsNullOrEmpty($Filter))
         {
-            Write-Error "PSCustomObject InputObject must contain a $Key Property"
+            Write-Error "PSCustomObject InputObject must contain a ($($Keys -join ', ')) Property"
         }
 
         $Query = "DELETE FROM`n ``{0}```nWHERE {1}" -f $Table, ($Filter -join " AND ")
