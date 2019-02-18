@@ -8,7 +8,9 @@ function Get-PSAdminMachine
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id          = "*",
         [Parameter(ValueFromPipelineByPropertyName)]
-        [System.String]$SQLIdentity = "*"
+        [System.String]$SQLIdentity = "*",
+        [Parameter()]
+        [Switch]$Exact
     )
 
     begin
@@ -39,13 +41,12 @@ function Get-PSAdminMachine
             }
         }
 
-        $Results = Get-PSAdminSQliteObject @DBQuery
+        $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
 
         foreach ($Result in $Results) {
             $Result.PSObject.TypeNames.Insert(0, $PSTypeName)            
             $Result
         }
-
 
     }
 
