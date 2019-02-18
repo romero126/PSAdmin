@@ -4,6 +4,7 @@
 
 The Database file is a flat XML that sets up a ConnectionString to a SQLite Database
 Example:
+DBConfig.xml
 ```sh
 <CONFIG>
     <Database>
@@ -16,7 +17,12 @@ Example:
     </Database>
 </CONFIG>
 ```
+Command to run
+```sh
+Open-PSAdmin -Path .\MyDatabase\DBConfig.xml
+```
 
 ## Commands
-Open-PSAdmin -Path <PathOfXMLFile>
-    Things to note: If you dont specify a full path for DataSource it will be relative to where the XML file is placed.
+
+1. [Open-PSAdmin][OpenPSAdmin] Opens PSAdmin Database.
+[OpenPSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdmin/Open-PSAdmin.md
