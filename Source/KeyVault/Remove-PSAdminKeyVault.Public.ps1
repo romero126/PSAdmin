@@ -1,5 +1,40 @@
 function Remove-PSAdminKeyVault
 {
+    <#
+        .SYNOPSIS
+            Removes KeyVault from Database
+
+        .DESCRIPTION
+            Removes KeyVault from Database
+        
+        .PARAMETER Id
+            Unique Identifier for KeyVault
+        
+        .Parameter VaultName
+            Unique Name for KeyVault
+
+        .Parameter Match
+            Specify for Match Search based on ID/Name
+
+        .EXAMPLE
+            #Example: Exact
+            Remove-PSAdminKeyVault -VaultName "<VaultName>"
+
+        .EXAMPLE
+            #Example: Matching
+            Remove-PSAdminKeyVault -VaultName "Vault*" -Match
+
+        .INPUTS
+            PSAdminKeyVault.PSAdmin.Module, or any specific object that contains Id, VaultName
+
+        .OUTPUTS
+            None. If Successful
+
+        .NOTES
+
+        .LINK
+
+    #>
     [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'High')]
     param(
         [Parameter(ValueFromPipelineByPropertyName)]

@@ -1,4 +1,35 @@
 function Get-PSAdminKeyVault {
+    <#
+        .SYNOPSIS
+            Searches KeyVault for an Item with the specified Id/Name and returns results.
+
+        .DESCRIPTION
+            Searches KeyVault for an Item with the specified Id/Name and returns results.
+        
+        .PARAMETER Id
+            Unique Identifier for KeyVault
+        
+        .Parameter VaultName
+            Unique Name for KeyVault
+
+        .Parameter Exact
+            Specify for Exact Search based on ID/Name
+
+        .EXAMPLE
+            Get-PSAdminKeyVault -VaultName "<VaultName>"
+
+        .INPUTS
+            PSAdminKeyVault.PSAdmin.Module, or any specific object that contains Id, Name
+
+        .OUTPUTS
+            PSAdminKeyVault.PSAdmin.Module.
+
+        .NOTES
+
+        .LINK
+
+    #>
+
     [CmdletBinding()]
     param(
         [Parameter(ValueFromPipelineByPropertyName)]

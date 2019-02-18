@@ -1,5 +1,32 @@
 function Protect-PSAdminKeyVault
 {
+        <#
+        .SYNOPSIS
+            Protects the KeyVault with a Certificate from the KeyVaultCertificate store.
+
+        .DESCRIPTION
+            Protects the KeyVault with a Certificate from the KeyVaultCertificate store.
+        
+        .PARAMETER VaultName
+            VaultName of Existing Vault
+        
+        .PARAMETER Thumbprint
+            Thumbprint of the KeyVaultCertificate you wish to protect the KeyVault VaultKey
+
+        .EXAMPLE
+            Protect-PSAdminKeyVault -VaultName "<VaultName>" -Thumbprint "<GuidOfThumbprint>"
+
+        .INPUTS
+            None. Protect-PSAdminKeyVault does not take Pipeline Input.
+
+        .OUTPUTS
+            None. If Successful
+
+        .NOTES
+
+        .LINK
+
+    #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, Position = 0)]

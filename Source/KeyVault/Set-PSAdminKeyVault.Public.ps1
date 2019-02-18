@@ -1,5 +1,41 @@
 function Set-PSAdminKeyVault
 {
+        <#
+        .SYNOPSIS
+            Sets KeyVault with Specified Values
+
+        .DESCRIPTION
+            Sets KeyVault with Specified Values
+        
+        .PARAMETER VaultName
+            A Unique Name (Note this is Wildcard Searchable)
+        
+        .PARAMETER Location
+            Specify a Location
+
+        .PARAMETER VaultURI
+            Specify a URI for Reference
+
+        .PARAMETER SoftDeleteEnabled
+            Specify Soft Delete Enabled (Note: This feature is not enabled)
+
+        .PARAMETER Tags
+            Specify a Tag or Multiple Tags
+
+        .EXAMPLE
+            Set-PSAdminKeyVault -VaultName "MyVaultName" -Location "Office"
+
+        .INPUTS
+            PSAdminKeyVault.PSAdmin.Module, or any specific object that contains Id, Name
+
+        .OUTPUTS
+            None.
+
+        .NOTES
+
+        .LINK
+
+    #>
     [CmdletBinding()]
     param(
         [Parameter(ValueFromPipelineByPropertyName)]

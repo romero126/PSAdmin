@@ -1,5 +1,41 @@
 function New-PSAdminKeyVault
 {
+    <#
+        .SYNOPSIS
+            Creates a new KeyVault with the specified Unique Name
+
+        .DESCRIPTION
+            Creates a new KeyVault with the specified Unique Name
+        
+        .PARAMETER VaultName
+            A Unique Name
+        
+        .PARAMETER Location
+            Specify a Location
+
+        .PARAMETER VaultURI
+            Specify a URI for Reference
+
+        .PARAMETER SoftDeleteEnabled
+            Specify Soft Delete Enabled (Note: This feature is not enabled)
+
+        .PARAMETER Tags
+            Specify a Tag or Multiple Tags
+
+        .EXAMPLE
+            New-PSAdminKeyVault -VaultName "MyVaultName" -Location "Office"
+
+        .INPUTS
+            None. New-PSAdminKeyVault does not take Pipeline Input.
+
+        .OUTPUTS
+            None. If Successful
+
+        .NOTES
+
+        .LINK
+
+    #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
