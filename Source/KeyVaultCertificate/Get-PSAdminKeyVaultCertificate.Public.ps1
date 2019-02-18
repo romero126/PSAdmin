@@ -11,7 +11,10 @@ function Get-PSAdminKeyVaultCertificate {
         [System.String]$Name = "*",
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [System.String]$Thumbprint = "*"
+        [System.String]$Thumbprint = "*",
+
+        [Parameter()]
+        [Switch]$Exact
     )
 
     begin
@@ -36,7 +39,7 @@ function Get-PSAdminKeyVaultCertificate {
                 Id                      = $Id
             }
         }
-        $Results = Get-PSAdminSQliteObject @DBQuery
+        $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
         foreach ($Result in $Results) {
             $Result.PSObject.TypeNames.Insert(0, "PSAdminKeyVaultCertificate.PSAdmin.Module")            
             $Result
