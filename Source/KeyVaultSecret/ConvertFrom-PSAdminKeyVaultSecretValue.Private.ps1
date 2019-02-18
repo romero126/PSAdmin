@@ -19,7 +19,7 @@ function ConvertFrom-PSAdminKeyVaultSecretValue
     process
     {
         
-        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName
+        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName -Exact
 
         $EncKey = $KeyVault.VaultKey
 

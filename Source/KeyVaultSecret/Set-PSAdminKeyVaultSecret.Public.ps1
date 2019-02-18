@@ -30,6 +30,7 @@ function Set-PSAdminKeyVaultSecret
         
         [Parameter(ValueFromPipelineByPropertyName)]
         [PSObject]$SecretValue
+        
     )
 
     begin

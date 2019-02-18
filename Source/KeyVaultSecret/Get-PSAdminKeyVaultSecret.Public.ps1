@@ -12,7 +12,10 @@ function Get-PSAdminKeyVaultSecret
         [System.String]$Id = "*",
 
         [Parameter()]
-        [Switch]$Decrypt
+        [Switch]$Decrypt,
+
+        [Parameter()]
+        [Switch]$Exact
     )
 
     begin
@@ -37,7 +40,7 @@ function Get-PSAdminKeyVaultSecret
             }
         }
 
-        $Results = Get-PSAdminSQliteObject @DBQuery
+        $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
 
         foreach ($Result in $Results) {
             $Result.SecretValue = ConvertFrom-PSAdminKeyVaultSecretValue -VaultName $VaultName -InputData $Result.SecretValue -Decrypt:$Decrypt
