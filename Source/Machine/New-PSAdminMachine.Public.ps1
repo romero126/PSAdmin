@@ -77,7 +77,8 @@ function New-PSAdminMachine
         Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Created" -Value ([DateTime]::UtcNow)
         Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Updated" -Value ([DateTime]::UtcNow)
 
-        $Result = Get-PSAdminMachine -Name $DBQuery.InputObject.Name
+        $Result = Get-PSAdminMachine -Name $DBQuery.InputObject.Name -Exact
+
         if ($Result)
         {
             Cleanup
