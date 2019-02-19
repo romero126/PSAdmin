@@ -64,7 +64,7 @@ function Remove-PSAdminKeyVault
         {
             Cleanup
             throw ($Script:PSAdminLocale.GetElementById("KeyVaultNotFound").Value -f $VaultName)
-            
+
         }
 
         if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveAll").Value -f $VaultName) ))
@@ -82,11 +82,18 @@ function Remove-PSAdminKeyVault
             }
         }
 
-        Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveCertificates").Value -f $VaultName)
-        Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "*" -Match
+        try
+        {
+            Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveCertificates").Value -f $VaultName)
+            Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "*" -Match
 
-        Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveSecrets").Value -f $VaultName)
-        Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match
+            Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveSecrets").Value -f $VaultName)
+            Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match
+        }
+        catch
+        {
+
+        }
         
         $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
         
