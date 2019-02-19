@@ -16,10 +16,19 @@
     <data name="KeyVaultRemoveAll">
         <Value>Warning this will destroy all association to the keyvault '{0}' irreparatly</Value>
     </data>
+
     <data name="KeyVaultRemoveCertificates">
         <Value>Removing all Certificates from '{0}'</Value>
     </data>
 
+    <begin Name="---------- KeyVaultSecret ----------" />
+    <data name="KeyVaultSecretNotFound">
+        <Value>Could not find a KeyVault with a name of '{0}' in KeyVault '{1}'</Value>
+    </data>
+    <data name="KeyVaultSecretRemoveAll">
+        <Value>Warning this remove all Secret items matching '{0}' in KeyVault '{1}'</Value>
+    </data>
+    
     <data name="KeyVaultRemoveSecret">
         <Value>Removing all Secrets from '{0}'</Value>
     </data>
@@ -28,7 +37,7 @@
         <Value>Cannot create an object with Name '{0}' item already exists</Value>
     </data>
 
-
+    <begin Name="---------- KeyVaultCertificate ----------" />
     <data name="KeyVaultExceptionCertificateNotInstalled">
         <TypeName>System.NullReferenceException</TypeName>
         <Value>Certificate is not installed in KeyVault.</Value>
