@@ -20,7 +20,6 @@ function Get-PSAdminKeyVaultSecret
 
     begin
     {
-        $PSTypeName = "PSAdminKeyVaultSecret.PSAdmin.Module"
         function Cleanup {
             Disconnect-PSAdminSQLite -Database $Database
         }
