@@ -92,7 +92,7 @@ function New-PSAdminKeyVaultSecret
             Cleanup
             throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
         }
-
+        
     }
 
     end
