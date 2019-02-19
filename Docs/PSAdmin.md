@@ -23,6 +23,6 @@ Open-PSAdmin -Path .\MyDatabase\DBConfig.xml
 ```
 
 ## Commands
-
 1. [Open-PSAdmin][OpenPSAdmin] Opens PSAdmin Database.
+
 [OpenPSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdmin/Open-PSAdmin.md
