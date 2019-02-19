@@ -21,7 +21,7 @@ function ConvertTo-PSAdminKeyVaultSecretValue
 
         if ($KeyVault.Thumbprint)
         {
-            $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Thumbprint $KeyVault.Thumbprint
+            $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Thumbprint $KeyVault.Thumbprint -Exact
             $x509 = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$Certificate.Certificate, $Certificate.Thumbprint)
             $EncKey = $x509.PrivateKey.Decrypt($EncKey, $True)
         }
