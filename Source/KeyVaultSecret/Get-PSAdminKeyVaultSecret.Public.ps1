@@ -40,9 +40,9 @@ function Get-PSAdminKeyVaultSecret
         }
 
         $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
-
+        
         foreach ($Result in $Results) {
-            $Result.SecretValue = ConvertFrom-PSAdminKeyVaultSecretValue -VaultName $VaultName -InputData $Result.SecretValue -Decrypt:$Decrypt
+            $Result.SecretValue = ConvertFrom-PSAdminKeyVaultSecretValue -VaultName $Result.VaultName -InputData $Result.SecretValue -Decrypt:$Decrypt
             $Result.PSObject.TypeNames.Insert(0, "PSAdminKeyVaultSecret.PSAdmin.Module")
             $Result
         }
