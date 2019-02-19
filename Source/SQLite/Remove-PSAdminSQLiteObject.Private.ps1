@@ -21,24 +21,26 @@ function Remove-PSAdminSQLiteObject
 
     process
     {
+
         $Filter = foreach ($Item in $InputObject.PSObject.Properties)
         {
-            if ($Keys -eq $Item.Name) {
-                if (!$Match)
+            if ($Keys -eq $Item.Name)
+            {
+                if ((!$Match) -and ($Item.Value -eq "*")) {
+                    continue;
+                }
+                elseif (!$Match)
                 {
                     $ItemValue = $Item.Value
                     $SearchComparator = "="
+                    ("`n ``{0}`` {1} '{2}'" -f $Item.Name, $SearchComparator, $ItemValue)
                 }
                 else
                 {
                     $ItemValue = $Item.Value.Replace('_', '\_').Replace("*", "%")
                     $SearchComparator = "LIKE"
+                    ("`n ``{0}`` {1} '{2}' ESCAPE '\'" -f $Item.Name, $SearchComparator, $ItemValue)
                 }
-                if ((!$Match) -and ($Item.Value -eq "*")) {
-                    continue;
-                }
-
-                ("`n ``{0}`` {1} '{2}'" -f $Item.Name, $SearchComparator, $ItemValue )
 
             }
         }
@@ -49,10 +51,6 @@ function Remove-PSAdminSQLiteObject
         }
 
         $Query = "DELETE FROM`n ``{0}```nWHERE {1}" -f $Table, ($Filter -join " AND ")
-
-        if ($Match) {
-            $Query = $Query + "`nESCAPE`n '\'"
-        }
 
         Invoke-PSAdminSQLiteQuery -Database $Database -Query $Query
         

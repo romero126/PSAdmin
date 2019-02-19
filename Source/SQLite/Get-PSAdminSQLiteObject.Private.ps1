@@ -26,29 +26,32 @@ function Get-PSAdminSQLiteObject
         {
             if ($Keys -eq $Item.Name)
             {
-                if (!$Match)
+                if ((!$Match) -and ($Item.Value -eq "*")) {
+                    continue;
+                }
+                elseif (!$Match)
                 {
                     $ItemValue = $Item.Value
                     $SearchComparator = "="
+                    ("`n ``{0}`` {1} '{2}'" -f $Item.Name, $SearchComparator, $ItemValue)
                 }
                 else
                 {
                     $ItemValue = $Item.Value.Replace('_', '\_').Replace("*", "%")
                     $SearchComparator = "LIKE"
+                    ("`n ``{0}`` {1} '{2}' ESCAPE '\'" -f $Item.Name, $SearchComparator, $ItemValue)
                 }
-                if ((!$Match) -and ($Item.Value -eq "*")) {
-                    continue;
-                }
-                ("`n ``{0}`` {1} '{2}'" -f $Item.Name, $SearchComparator, $ItemValue)
+
             }
         }
 
         $Query = "SELECT`n *`nFROM`n ``{0}```nWHERE {1}" -f $Table, ($Filter -join " AND ")
 
-        if ($Match) {
-            $Query = $Query + "`nESCAPE`n '\'"
-        }
-        
+
+        #if ($Match) {
+        #    $Query = $Query + "`nESCAPE`n '\'"
+        #}
+        #Write-host "Query:", $Query.Replace("`n", ' ')
         $Result = Request-PSAdminSQLiteQuery -Database $Database -Query $Query
         $Result
         
