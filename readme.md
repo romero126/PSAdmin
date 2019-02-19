@@ -17,8 +17,17 @@ Get-PSAdminMachine -Name "MyName"
 Remove-PSAdminMachine -Name "Myname"
 ```
 
-## PSAdmin Command List
+## PSAdmin Core Components
+0. [PSAdmin][PSAdmin]
+1. PSAdminMachine
+2. [PSAdminKeyVault][PSAdminKeyVault]
+3. PSAdminKeyVaultSecret
+4. PSAdminKeyVaultCertificate
 
+[PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
+[PSAdminKeyVault]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVault.md
+
+## Commands Available
 Note this is always changing and will change as features get added.
 
 1. [Open-PSAdmin][PSAdmin]
