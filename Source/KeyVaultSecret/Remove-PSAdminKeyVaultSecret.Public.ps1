@@ -1,6 +1,6 @@
 function Remove-PSAdminKeyVaultSecret
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'High')]
     param(
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [System.String]$VaultName,
@@ -25,6 +25,20 @@ function Remove-PSAdminKeyVaultSecret
 
     process
     {
+        
+        $KeyVaultSecret = Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name $Name -Exact:(!$Match)
+
+        if (!$KeyVaultSecret)
+        {
+            Cleanup
+            throw ($Script:PSAdminLocale.GetElementById("KeyVaultSecretNotFound").Value -f $Name, $VaultName)
+        }
+
+        if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultSecretRemoveAll").Value -f $Name, $VaultName) ))
+        {
+            return
+        }
+
         $DBQuery = @{
             Database        = $Database
             Keys            = ("VaultName", "Name", "Id")
@@ -40,7 +54,6 @@ function Remove-PSAdminKeyVaultSecret
 
         if ($Result -eq -1)
         {
-
             Cleanup
             throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
         }
