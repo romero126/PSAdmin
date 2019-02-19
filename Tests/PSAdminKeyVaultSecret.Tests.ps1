@@ -3,73 +3,81 @@ describe -Name "PSAdminKeyVault" {
     BeforeAll {
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
         Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
-        New-PSAdminKeyVault -VaultName "VaultSecretTest"
+        $VaultName      = "Vault_Secret_Test"
+        #$SecretValue    = (1..25 | ForEach-Object { [char]( (65..90), (97..122) | Get-Random ) } ) -join ""
+        $SecretValue = [Guid]::NewGuid().ToString().Replace('-', '')
+        New-PSAdminKeyVault -VaultName $VaultName
     }
 
     Context "New-PSAdminKeyVaultSecret" {
-        
         it -Name "Validate [POS] Create KeyVaultSecret" {
-            New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "New" -SecretValue "SecretValue"
-            Get-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "New" | Should -HaveCount 1
+            New-PSAdminKeyVaultSecret -VaultName $VaultName -Name "New" -SecretValue $SecretValue
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "New" | Should -HaveCount 1
         }
         
         it "Validate [NEG] Create KeyVaultSecret with Duplicate Name" {
-            { New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "New" } | Should -Throw
+            { New-PSAdminKeyVaultSecret -VaultName $VaultName -Name "New" -SecretValue $SecretValue } | Should -Throw
         }
-
     }
 
     Context "Get-PSAdminKeyVaultSecret" {
+        it "Validate [POS] Get Null" {
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_Null" | Should -HaveCount 0
+        }
 
         it "Validate [POS] Get" {
-            Get-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "*" | Should -HaveCount 1
+            New-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get" -SecretValue $SecretValue
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get" | Should -HaveCount 1
+        }
+
+        it "Validate [POS] Get Exact" {
+            New-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_Exact" -SecretValue $SecretValue
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_Exact" -Exact | Should -HaveCount 1
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get*" -Exact | Should -HaveCount 0
         }
 
         it "Validate [POS] Get Wildcard" {
-            New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "GetWildCard01" -SecretValue "SecretValue"
-            New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "GetWildCard02" -SecretValue "SecretValue"
-            Get-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "GetWildCard*" | Should -HaveCount 2
-        }
-        
-        it "Validate [POS] Secret Value" {
-            $SecretValue = [Guid]::NewGuid().ToString()
-            New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "GetSecretValue" -SecretValue $SecretValue
-            Get-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "GetSecretValue" | ForEach-Object SecretValue | Should -BeOfType SecureString
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get*" | Should -HaveCount 2
         }
 
-        it "Validate [POS] Secret Value Decrypted" {
-            $SecretValue = [Guid]::NewGuid().ToString()
-            New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "GetSecretValueDecrypted" -SecretValue $SecretValue
-            Get-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "GetSecretValueDecrypted" -Decrypt | ForEach-Object SecretValue | Should -Be $SecretValue
+        it "Validate [POS] Get SecretValue [SecureString]" {
+            New-PSAdminkeyVaultSecret -VaultName $VaultName -Name "Get_SecureString" -SecretValue $SecretValue
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_SecureString" | ForEach-Object SecretValue | Should -BeOfType [SecureString]
         }
 
+        it "Validate [POS] Get SecretValue [String]" {
+            New-PSAdminkeyVaultSecret -VaultName $VaultName -Name "Get_Decrypted" -SecretValue $SecretValue
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_Decrypted" -Decrypt | ForEach-Object SecretValue | Should -Be $SecretValue
+        }
     }
 
     Context "Set-PSAdminKeyVault" {
         it "Validate [POS] Set Item" {
-            $SecretValue = [Guid]::NewGuid().ToString()
-            New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "SetSecretValue" -SecretValue "NotYah"
-            Set-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "SetSecretValue" -SecretValue $SecretValue
-            Get-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "SetSecretValue" -Decrypt | ForEach-Object SecretValue | Should -Be $SecretValue
+            New-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Set" -SecretValue ([Guid]::NewGuid().ToString())
+            Set-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Set" -SecretValue $SecretValue
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Set" -Decrypt | ForEach-Object SecretValue | Should -Be $SecretValue
         }
     }
-
+    
     Context "Remove-PSAdminKeyVault" {
         it "Validate [POS] Remove Vault" {
-            New-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "RemoveSecretValue" -SecretValue "Test"
-            Remove-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "RemoveSecretValue"
-            Get-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "RemoveSecretValue" | Should -BeNullOrEmpty
+            New-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Remove" -SecretValue $SecretValue
+            Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Remove" -Confirm:$false
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Remove" | Should -BeNullOrEmpty
         }
         it "Validate [NEG] Remove NonExistant Vault" {
-            { Remove-PSAdminKeyVaultSecret -VaultName "VaultSecretTest" -Name "RemoveNonExist" } | Should -Throw 
+            { Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Remove_NonExistant" -Confirm:$false } | Should -Throw 
         }
 
     }
 
     Context "Cleanup" {
         it "Cleanup" {
-            Remove-PSAdminKeyVault -VaultName "*" -Confirm:$false
+            Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match -Confirm:$false
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" | Should -HaveCount 0
+
+            Remove-PSAdminKeyVault -VaultName $VaultName -Confirm:$false
+            Get-PSAdminKeyVault -VaultName $VaultName | Should -HaveCount 0
         }
     }
-
 }
