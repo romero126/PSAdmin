@@ -62,37 +62,40 @@ function Remove-PSAdminKeyVaultSecret
 
     process
     {
+        $Secrets = Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name $Name -Exact:(!$Match)
         
-        $KeyVaultSecret = Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name $Name -Exact:(!$Match)
-
-        if (!$KeyVaultSecret)
+        if (-not $Secrets)
         {
             Cleanup
             throw ($Script:PSAdminLocale.GetElementById("KeyVaultSecretNotFound").Value -f $Name, $VaultName)
         }
 
-        if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultSecretRemoveAll").Value -f $Name, $VaultName) ))
+        foreach ($Secret in $Secrets)
         {
-            return
-        }
-
-        $DBQuery = @{
-            Database        = $Database
-            Keys            = ("VaultName", "Name", "Id")
-            Table           = "PSAdminKeyVaultSecret"
-            InputObject     = [PSCustomObject]@{
-                VaultName       = $VaultName
-                Name            = $Name
-                Id              = $Id
+            if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultSecretRemove").Value -f $Secret.Name, $Secret.VaultName) ))
+            {
+                continue;
             }
-        }
 
-        $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
+            $DBQuery = @{
+                Database        = $Database
+                Keys            = ("VaultName", "Name", "Id")
+                Table           = "PSAdminKeyVaultSecret"
+                InputObject     = [PSCustomObject]@{
+                    VaultName       = $Secret.VaultName
+                    Name            = $Secret.Name
+                    Id              = $Secret.Id
+                }
+            }
 
-        if ($Result -eq -1)
-        {
-            Cleanup
-            throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
+            $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
+
+            if ($Result -eq -1)
+            {
+                Cleanup
+                throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
+            }
+
         }
 
     }
