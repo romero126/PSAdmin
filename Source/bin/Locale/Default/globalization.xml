@@ -4,6 +4,14 @@
   <!ATTLIST data name ID #REQUIRED>
 ]>
 <root>
+    <data name="MachineNotFound">
+        <Value>Could not find a Machine with a name of '{0}'</Value>
+    </data>
+
+    <data name="MachineRemove">
+        <Value>Warning this remove the Machine '{0}'</Value>
+    </data>
+
     <begin Name="---------- KeyVault ----------" />
     <data name="ExceptionUpdateDatabase">
         <TypeName>System.NullReferenceException</TypeName>
@@ -81,5 +89,5 @@
         <TypeName>System.NullReferenceException</TypeName>
         <Value>The Certificate loaded does not contain a PrivateKey for Decryption</Value>
     </data>
-    
+
 </root>
