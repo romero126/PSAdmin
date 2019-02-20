@@ -19,12 +19,13 @@ Remove-PSAdminMachine -Name "Myname"
 
 ## PSAdmin Core Components
 0. [PSAdmin][PSAdmin]
-1. PSAdminMachine
+1. [PSAdminMachine][PSAdminMachine]
 2. [PSAdminKeyVault][PSAdminKeyVault]
 3. [PSAdminKeyVaultSecret][PSAdminKeyVaultSecret]
 4. PSAdminKeyVaultCertificate
 
 [PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
+[PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
 [PSAdminKeyVault]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVault.md
 [PSAdminKeyVaultSecret]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVaultSecret.md
 
