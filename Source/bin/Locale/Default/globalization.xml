@@ -4,6 +4,7 @@
   <!ATTLIST data name ID #REQUIRED>
 ]>
 <root>
+    <begin Name="---------- KeyVault ----------" />
     <data name="ExceptionUpdateDatabase">
         <TypeName>System.NullReferenceException</TypeName>
         <Value>Unable to update Database</Value>
@@ -17,24 +18,27 @@
         <Value>Warning this will destroy all association to the keyvault '{0}' irreparatly</Value>
     </data>
 
+    <data name="KeyVaultExceptionVaultNameExists">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>Cannot create an object with Name '{0}' item already exists</Value>
+    </data>
+
     <data name="KeyVaultRemoveCertificates">
         <Value>Removing all Certificates from '{0}'</Value>
     </data>
 
     <begin Name="---------- KeyVaultSecret ----------" />
     <data name="KeyVaultSecretNotFound">
-        <Value>Could not find a KeyVault with a name of '{0}' in KeyVault '{1}'</Value>
-    </data>
-    <data name="KeyVaultSecretRemoveAll">
-        <Value>Warning this remove all Secret items matching '{0}' in KeyVault '{1}'</Value>
+        <Value>Could not find a Secret with a name of '{0}' in KeyVault '{1}'</Value>
     </data>
     
-    <data name="KeyVaultRemoveSecret">
-        <Value>Removing all Secrets from '{0}'</Value>
+    <data name="KeyVaultSecretRemove">
+        <Value>Warning this remove the Secret item '{0}' in KeyVault '{1}'</Value>
     </data>
-    <data name="KeyVaultExceptionVaultNameExists">
-        <TypeName>System.NullReferenceException</TypeName>
-        <Value>Cannot create an object with Name '{0}' item already exists</Value>
+
+    <data name="KeyVaultSecretExceptionExists">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>Cannot create a KeyVaultSecret in vault '{0}' with name '{1}' already exists</Value>
     </data>
 
     <begin Name="---------- KeyVaultCertificate ----------" />
@@ -42,6 +46,7 @@
         <TypeName>System.NullReferenceException</TypeName>
         <Value>Certificate is not installed in KeyVault.</Value>
     </data>
+    
     <data name="KeyVaultExceptionCertificateInstalled">
         <TypeName>System.InvalidOperationException</TypeName>
         <Value>Certificate is installed in KeyVault.</Value>
@@ -67,10 +72,6 @@
         <Value>VaultName '{0}' expected expected {1} recieved {2}</Value>
     </data>
 
-
-
-
-
     <data name="KeyVaultCertificateExceptionExists">
         <TypeName>System.NullReferenceException</TypeName>
         <Value>Cannot create an object in vault '{0}' with name '{1}' already exists</Value>
@@ -80,9 +81,5 @@
         <TypeName>System.NullReferenceException</TypeName>
         <Value>The Certificate loaded does not contain a PrivateKey for Decryption</Value>
     </data>
-
-    <data name="KeyVaultSecretExceptionExists">
-        <TypeName>System.InvalidOperationException</TypeName>
-        <Value>Cannot create a KeyVaultSecret in vault '{0}' with name '{1}' already exists</Value>
-    </data>
+    
 </root>
