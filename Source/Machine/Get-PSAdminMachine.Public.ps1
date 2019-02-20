@@ -5,10 +5,13 @@ function Get-PSAdminMachine
     param(
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName, Position=0)]
         [System.String]$Name        = "*",
+        
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id          = "*",
+        
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$SQLIdentity = "*",
+
         [Parameter()]
         [Switch]$Exact
     )
