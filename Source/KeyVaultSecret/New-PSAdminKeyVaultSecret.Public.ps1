@@ -1,7 +1,54 @@
 function New-PSAdminKeyVaultSecret
 {
+    <#
+        .SYNOPSIS
+            Creates a new Secret to place in the Vault
 
-    #New-PSAdminKeyVaultSecret -VaultName "LocalAdministrator" -Name "127.0.0.1" -Enabled True -ContentType txt -SecretValue "12345"
+        .DESCRIPTION
+            Creates a new Secret to place in the Vault
+        
+        .Parameter VaultName
+            Unique Name for KeyVault
+
+        .Parameter Name
+            Unique Name for Secret
+
+        .Parameter Version
+            Version for Secret
+
+        .Parameter Enabled
+            Specify if Secret is enabled
+
+        .Parameter Expires
+            Specify when Secret is expired
+
+        .Parameter NotBefore
+            Specify when Secret should take effect.
+
+        .Parameter ContentType
+            Specify ContentType Text or Blob
+
+        .Parameter Tags
+            Unique Tag Identifiers
+
+        .Parameter SecretValue
+            Secret Value to lock away in the KeyVault
+            
+        .EXAMPLE
+            New-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<NameOfSecret>" -Enabled True -ContentType txt -SecretValue "My Secret Value"
+
+        .INPUTS
+            PSAdminKeyVaultSecret.PSAdmin.Module, or any specific object that contains VaultName, Name, SecretValue
+
+        .OUTPUTS
+            None. When Successful
+
+        .NOTES
+
+        .LINK
+
+    #>
+    
 
     [CmdletBinding()]
     param(

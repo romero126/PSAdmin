@@ -1,5 +1,56 @@
 function Set-PSAdminKeyVaultSecret
 {
+    <#
+        .SYNOPSIS
+            Sets an property of an Existing Secret in the Vault
+
+        .DESCRIPTION
+            Sets an property of an Existing Secret in the Vault
+        
+        .Parameter VaultName
+            Unique Name for KeyVault
+
+        .Parameter Name
+            Unique Name for Secret
+
+        .Parameter Id
+            Unique Id for Secret
+
+        .Parameter Version
+            Version for Secret
+
+        .Parameter Enabled
+            Specify if Secret is enabled
+
+        .Parameter Expires
+            Specify when Secret is expired
+
+        .Parameter NotBefore
+            Specify when Secret should take effect.
+
+        .Parameter ContentType
+            Specify ContentType Text or Blob
+
+        .Parameter Tags
+            Unique Tag Identifiers
+
+        .Parameter SecretValue
+            Secret Value to lock away in the KeyVault
+            
+        .EXAMPLE
+            New-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<NameOfSecret>" -Enabled True -ContentType txt -SecretValue "My Secret Value"
+
+        .INPUTS
+            PSAdminKeyVaultSecret.PSAdmin.Module, or any specific object that contains VaultName, Name, SecretValue
+
+        .OUTPUTS
+            None. When Successful
+
+        .NOTES
+
+        .LINK
+    #>
+
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
@@ -7,6 +58,9 @@ function Set-PSAdminKeyVaultSecret
         
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [System.String]$Name,
+
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
+        [System.String]$Id,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Version,

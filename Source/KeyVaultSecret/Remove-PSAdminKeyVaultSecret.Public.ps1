@@ -1,5 +1,42 @@
 function Remove-PSAdminKeyVaultSecret
 {
+    <#
+        .SYNOPSIS
+            Removes Secret from from the KeyVaultSecret Store.
+
+        .DESCRIPTION
+            Removes Secret from from the KeyVaultSecret Store.
+        
+        .Parameter VaultName
+            Unique Name for KeyVault
+
+        .Parameter Name
+            Unique Name for Secret
+
+        .Parameter Id
+            Unique identifier for Secret
+            
+        .Parameter Match
+            Specify for Match Search based on ID/Name
+
+        .EXAMPLE
+            Remove-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>"
+
+        .EXAMPLE
+            Remove-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>*"
+
+        .INPUTS
+            PSAdminKeyVaultSecret.PSAdmin.Module, or any specific object that contains Id, Name
+
+        .OUTPUTS
+            None. If Successful
+
+        .NOTES
+
+        .LINK
+
+    #>
+
     [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'High')]
     param(
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]

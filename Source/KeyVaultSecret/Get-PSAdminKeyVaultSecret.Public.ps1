@@ -1,5 +1,45 @@
 function Get-PSAdminKeyVaultSecret
 {
+    <#
+        .SYNOPSIS
+            Searches KeyVaultSecret Store for an Item with the Specified VaultName/Name and returns the results.
+
+        .DESCRIPTION
+            Searches KeyVaultSecret Store for an Item with the Specified VaultName/Name and returns the results.
+        
+        .Parameter VaultName
+            Unique Name for KeyVault
+
+        .Parameter Name
+            Unique Name for Secret
+
+        .Parameter Id
+            Unique identifier for Secret
+
+        .Parameter Decrypt
+            Automatically Decrypt Value
+            
+        .Parameter Exact
+            Specify for Exact Search based on ID/Name
+
+        .EXAMPLE
+            Get-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>"
+
+        .EXAMPLE
+            Get-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>" -Decrypt
+
+        .INPUTS
+            PSAdminKeyVaultSecret.PSAdmin.Module, or any specific object that contains Id, Name
+
+        .OUTPUTS
+            PSAdminKeyVaultSecret.PSAdmin.Module.
+
+        .NOTES
+
+        .LINK
+
+    #>
+
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
