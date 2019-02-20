@@ -5,46 +5,73 @@ describe "PSAdminMachine" {
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
         Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
     }
+
     Context "New-PSAdminMachine" {
         it "Validate [POS] Create Machine" {
-            New-PSAdminMachine -Name "Test1" -Description "Test Data"
-            Get-PSAdminMachine -Name "Test1" | Should -HaveCount 1
+            New-PSAdminMachine -Name "Machine_New"
+            Get-PSAdminMachine -Name "Machine_New" | Should -HaveCount 1
         }
 
         it "Validate [NEG] Create Machine with Duplicate Name" {
-            { New-PSAdminMachine -Name "Test1" -Description "Should fail" } | Should -Throw
+            { New-PSAdminMachine -Name "Machine_New" } | Should -Throw
         }
     }
 
     Context "Get-PSAdminMachine" {
+        it "Validate [POS] Get Null" {
+            Get-PSAdminMachine -Name "Machine_Get_Null" | Should -HaveCount 0
+        }
+
         it "Validate [POS] Get" {
-            Get-PSAdminMachine "*" | Should -HaveCount 1
+            New-PSAdminMachine -Name "Machine_Get"
+            Get-PSAdminMachine -Name "Machine_Get" | Should -HaveCount 1
+        }
+
+        it "Validate [POS] Get Exact" {
+            New-PSAdminMachine -Name "Machine_Get_Exact"
+            Get-PSAdminMachine -Name "Machine_Get_Exact" | Should -HaveCount 1
         }
 
         it "Validate [POS] Get Wildcard" {
-            New-PSAdminMachine -Name "Test_Get1" -Description "Test_Get1"
-            New-PSAdminMachine -Name "Test_Get2" -Description "Test_Get2"
-            Get-PSAdminMachine -Name "Test_*" | Should -HaveCount 2
+            Get-PSAdminMachine -Name "Machine_Get*" | Should -HaveCount 2
         }
+
     }
 
     Context "Set-PSAdminMachine" {
+        #Set Item should be wildcard only.
         it "Validate [POS] Set Value" {
-            New-PSAdminMachine -Name "Test_Set" -Description "Test_Set"
-            Set-PSAdminMachine -Name "Test_Set" -Description "ValidateMe"
-            Get-PSAdminMachine -Name "Test_Set" | ForEach-Object Description | Should -be "ValidateMe"
+            New-PSAdminMachine -Name "Machine_Set"
+            Set-PSAdminMachine -Name "Machine_Set" -Description "Machine_Set"
+            Get-PSAdminMachine -Name "Machine_Set" | ForEach-Object Description | Should -Be "Machine_Set"
         }
     }
 
     Context "Remove-PSAdminMachine" {
-        it "Validate [POS] Validate Removal" {
-            Remove-PSAdminMachine -Name "Test_*"
-            Get-PSAdminMachine -Name "Test_*" | Should -HaveCount 0
+        it "Validate [POS] Remove Exact" {
+            New-PSAdminMachine -Name "Machine_Remove_Exact"
+            Remove-PSAdminMachine -Name "Machine_Remove_Exact" -Confirm:$False
+            Get-PSAdminMachine -Name "Machine_Remove_Exact" | Should -BeNullOrEmpty
+
         }
+        
+        it "Validate [POS] Remove WildCard" {
+            New-PSAdminMachine -Name "Machine_Remove_WildCard1"
+            New-PSAdminMachine -Name "Machine_Remove_WildCard2"
+            Remove-PSAdminMachine -Name "Machine_Remove_WildCard*" -Confirm:$false -Match
+            Get-PSAdminMachine -Name "Machine_Remove_WildCard*" | Should -BeNullOrEmpty
+        }
+
+        it "Validate [NEG] Remove NonExistant" {
+            { Remove-PSAdminKeyVault -Name "Machine_Remove_Null" } | Should -Throw 
+        }
+
     }
 
     Context "Cleanup" {
-        Remove-PSAdminMachine -Name "*"
+        Remove-PSAdminMachine -Name "*" -Confirm:$false -Match
         Get-PSAdminMachine -Name "*" | Should -HaveCount 0
     }
 }
+
+
