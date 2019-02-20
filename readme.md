@@ -7,44 +7,31 @@ Currently PSAdmin is a Database tool designed to handle your assets as cleanly a
 ### It's Experimental!
 By far this is no where a complete project as it should evolve since the ambition for the project clearly outweighs what a single person's ambition can do on his spare time after work.
 
-## Examples of use
-```sh
-Import-Module $PWD\Source\PSAdmin.psm1
-Open-PSAdmin -Path "$pwd\MyDatabase\MyDatabase.xml"
-New-PSAdminMachine -Name "MyName" -Description "MyDescription" -IP "YourIP"
-Set-PSAdminMachine -Name "MyName" -Location "MyLocation"
-Get-PSAdminMachine -Name "MyName"
-Remove-PSAdminMachine -Name "Myname"
-```
-
 ## PSAdmin Core Components
+
+Note this is always changing and will change as features get added.
+
 0. [PSAdmin][PSAdmin]
 1. [PSAdminMachine][PSAdminMachine]
 2. [PSAdminKeyVault][PSAdminKeyVault]
 3. [PSAdminKeyVaultSecret][PSAdminKeyVaultSecret]
-4. PSAdminKeyVaultCertificate
+4. PSAdminKeyVaultCertificate (Documentation is coming)
 
 [PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
 [PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
 [PSAdminKeyVault]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVault.md
 [PSAdminKeyVaultSecret]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVaultSecret.md
 
-## Commands Available
-Note this is always changing and will change as features get added.
-
-1. [Open-PSAdmin][PSAdmin]
-2. [Get-PSAdminMachine][PSAdminMachine]
-3. [Set-PSAdminMachine][PSAdminMachine]
-4. [New-PSAdminMachine][PSAdminMachine]
-5. [Remove-PSAdminMachine][PSAdminMachine]
-
-[PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
-[PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
-
-## Upcoming Features / Wish List
-1. Automated Workflows
-2. Store SecureValues
-3. Blob Storage
-4. Remote Invoke/PSSession
-5. Easy and Automated Ingestion of Log files to tools like Kibana/Elastisearch
-6. This is just brainstorming.
+## My Wishlist with this project
+ 1. [X] Machine Database
+ 2. [X] KeyVault Storage (Main Storage)
+ 3. [X] Certificate Storage
+ 4. [ ] Blob Storage
+ 5. [ ] Key Storage
+ 6. [X] Secret Storage
+ 7. [ ] Store/Roll Credentials
+ 8. [ ] Remote Invoke/PSSession
+ 9. [ ] Create Automated Workflows
+10. [ ] Automated Ingestion of Log Files to Tools like Kibana/Elstisearch
+11. [ ] 
+12. [X] This is just brainstorming.
