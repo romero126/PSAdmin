@@ -2,7 +2,8 @@
 
 ## The Configuration File
 
-The Database file is a flat XML that sets up a ConnectionString to a SQLite Database
+The Config file is a simple XML that sets up a ConnectionString to a SQLite Database
+
 Example:
 DBConfig.xml
 ```sh
