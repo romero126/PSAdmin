@@ -59,7 +59,7 @@ function Set-PSAdminKeyVaultSecret
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [System.String]$Name,
 
-        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id,
 
         [Parameter(ValueFromPipelineByPropertyName)]
