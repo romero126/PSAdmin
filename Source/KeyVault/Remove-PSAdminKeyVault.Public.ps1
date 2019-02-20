@@ -58,50 +58,52 @@ function Remove-PSAdminKeyVault
 
     process
     {
-        $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName -Exact:(!$Match)
+        $KeyVaults = Get-PSAdminKeyVault -VaultName $VaultName -Exact:(!$Match)
         
-        if (!$KeyVault)
+        if (!$KeyVaults)
         {
             Cleanup
             throw ($Script:PSAdminLocale.GetElementById("KeyVaultNotFound").Value -f $VaultName)
 
         }
 
-        if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveAll").Value -f $VaultName) ))
+        foreach ($KeyVault in $KeyVaults)
         {
-            return
-        }
-        
-        $DBQuery = @{
-            Database        = $Database
-            Keys            = ("VaultName", "Id")
-            Table           = "PSAdminKeyVault"
-            InputObject     = [PSCustomObject]@{
-                Id              = $Id
-                VaultName       = $VaultName
+            if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveAll").Value -f $KeyVault.VaultName) ))
+            {
+                return
             }
-        }
+            $DBQuery = @{
+                Database        = $Database
+                Keys            = ("VaultName", "Id")
+                Table           = "PSAdminKeyVault"
+                InputObject     = [PSCustomObject]@{
+                    Id              = $KeyVault.Id
+                    VaultName       = $KeyVault.VaultName
+                }
+            }
 
-        try
-        {
-            Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveCertificates").Value -f $VaultName)
-            Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "*" -Match
+            try
+            {
+                Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveCertificates").Value -f $VaultName)
+                Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "*" -Match
+    
+                Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveSecrets").Value -f $VaultName)
+                Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match
+            }
+            catch
+            {
+    
+            }
 
-            Write-Debug -Message ($Script:PSAdminLocale.GetElementById("KeyVaultRemoveSecrets").Value -f $VaultName)
-            Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match
-        }
-        catch
-        {
-
-        }
+            $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
         
-        $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
-        
-        if ($Result -eq -1)
-        {
+            if ($Result -eq -1)
+            {
+                Cleanup
+                throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
+            }
 
-            Cleanup
-            throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
         }
 
     }
