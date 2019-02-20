@@ -1,5 +1,42 @@
 function Get-PSAdminMachine
 {
+    <#
+        .SYNOPSIS
+            Searches PSAdminMachine for an machine with Specified Matching Name.
+
+        .DESCRIPTION
+            Searches PSAdminMachine for an machine with Specified Matching Name.
+        
+        .Parameter Name
+            Unique Machine Name
+
+        .Parameter Id
+            Unique identifier
+
+        .Parameter SQLIdentity
+            Unique SQLIdentity
+            
+        .Parameter Exact
+            Specify Exact Search Mode
+
+        .EXAMPLE
+            Get-PSAdminMachine -Name "<HostName>"
+
+        .EXAMPLE
+            Get-PSAdminMachine -Name "<HostName>" -Exact
+
+        .INPUTS
+            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, Name, SQLIdentity
+
+        .OUTPUTS
+            PSAdminMachine.PSAdmin.Module.
+
+        .NOTES
+
+        .LINK
+
+    #>
+
     [OutputType([PSCustomObject[]])]
     [CmdletBinding()]
     param(

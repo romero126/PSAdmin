@@ -1,5 +1,42 @@
 function Remove-PSAdminMachine
 {
+    <#
+        .SYNOPSIS
+            Removes PSAdminMachine and removes Specified Matching item.
+
+        .DESCRIPTION
+            Removes PSAdminMachine and removes Specified Matching item.
+        
+        .Parameter Name
+            Unique Machine Name
+
+        .Parameter Id
+            Unique identifier
+
+        .Parameter SQLIdentity
+            Unique SQLIdentity
+            
+        .Parameter Match
+            Specify Match Search Mode
+
+        .EXAMPLE
+            Remove-PSAdminMachine -Name "<HostName>" 
+
+        .EXAMPLE
+            Remove-PSAdminMachine -Name "<HostName>" -Match
+
+        .INPUTS
+            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, Name, SQLIdentity
+
+        .OUTPUTS
+            None.
+
+        .NOTES
+
+        .LINK
+
+    #>
+
     [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'High')]
     param(
         [Parameter(ValueFromPipeline, Position=0, ValueFromPipelineByPropertyName)]

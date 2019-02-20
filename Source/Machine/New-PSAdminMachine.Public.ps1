@@ -1,5 +1,36 @@
 function New-PSAdminMachine
 {
+    <#
+        .SYNOPSIS
+            Searches PSAdminMachine for an machine with Specified Matching Name.
+
+        .DESCRIPTION
+            Searches PSAdminMachine for an machine with Specified Matching Name.
+        
+        .Parameter Name
+            Unique Machine Name
+            
+        .Parameter DynamicParameter
+            Specify a DynamicParameter defined by DBSchema
+
+        .EXAMPLE
+            New-PSAdminMachine -Name "<HostName>"
+
+        .EXAMPLE
+            New-PSAdminMachine -Name "<HostName>" -DynamicParameter "Value"
+
+        .INPUTS
+            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, Name, SQLIdentity
+
+        .OUTPUTS
+            None.
+
+        .NOTES
+
+        .LINK
+
+    #>
+
     [CmdletBinding()]
     param(
         

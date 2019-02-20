@@ -1,5 +1,33 @@
 function Set-PSAdminMachine
 {
+    <#
+        .SYNOPSIS
+            Sets a value for PSAdminMachine with Specified Matching Name.
+
+        .DESCRIPTION
+            Sets a value for PSAdminMachine with Specified Matching Name.
+        
+        .Parameter Name
+            Unique Machine Name
+            
+        .Parameter DynamicParameter
+            Specify a DynamicParameter defined by DBSchema
+
+        .EXAMPLE
+            Set-PSAdminMachine -Name "<HostName>" -DynamicParameter "Value"
+
+        .INPUTS
+            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, Name, SQLIdentity
+
+        .OUTPUTS
+            None.
+
+        .NOTES
+
+        .LINK
+
+    #>
+
     [CmdletBinding()]
     param(
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
