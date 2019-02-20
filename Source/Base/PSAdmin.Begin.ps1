@@ -23,7 +23,6 @@ $Script:PSAdminDB       = $null
 $Script:PSAdminDBConfig = $null
 
 $Script:PSAdminLocale =  & {
-    write-host $PSScriptRoot
     $Path = "{0}/Locale/{1}/globalization.xml" -f $PSScriptRoot, [System.Globalization.CultureInfo]::CurrentCulture.Name
     if ( Test-Path $Path ) {
         return [xml](Get-Content $Path)
