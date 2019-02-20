@@ -21,11 +21,12 @@ Remove-PSAdminMachine -Name "Myname"
 0. [PSAdmin][PSAdmin]
 1. PSAdminMachine
 2. [PSAdminKeyVault][PSAdminKeyVault]
-3. PSAdminKeyVaultSecret
+3. [PSAdminKeyVaultSecret][PSAdminKeyVaultSecret]
 4. PSAdminKeyVaultCertificate
 
 [PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
 [PSAdminKeyVault]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVault.md
+[PSAdminKeyVaultSecret]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVaultSecret.md
 
 ## Commands Available
 Note this is always changing and will change as features get added.
