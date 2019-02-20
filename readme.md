@@ -31,7 +31,7 @@ Note this is always changing and will change as features get added.
  6. [X] Secret Storage
  7. [ ] Store/Roll Credentials
  8. [ ] Remote Invoke/PSSession
- 9. [ ] Create Automated Workflows
-10. [ ] Automated Ingestion of Log Files to Tools like Kibana/Elstisearch
-11. [ ] 
-12. [X] This is just brainstorming.
+ 9. [ ] Create and Automate Workflows
+10. [ ] Ability to quickly Audit Environment for machines and Assets
+11. [ ] Automated Ingestion of Log Files to Tools like Kibana/Elstisearch
+12. [X] This is just brainstorming
