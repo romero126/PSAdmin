@@ -4,14 +4,20 @@
   <!ATTLIST data name ID #REQUIRED>
 ]>
 <root>
-    <data name="MachineNotFound">
-        <Value>Could not find a Machine with a name of '{0}'</Value>
+    <data name="MachineNotFoundException">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>Could not find a Machine with a name of '{0}' in KeyVault '{1}'</Value>
+    </data>
+    
+    <data name="MachineExistsException">
+        <TypeName>System.NullReferenceException</TypeName>
+        <Value>Machine '{0}' already exists in Vault '{1}'</Value>
     </data>
 
     <data name="MachineRemove">
-        <Value>Warning this remove the Machine '{0}'</Value>
+        <Value>Warning this remove the Machine '{0}' in KeyVault '{1}'</Value>
     </data>
-
+    
     <begin Name="---------- KeyVault ----------" />
     <data name="ExceptionUpdateDatabase">
         <TypeName>System.NullReferenceException</TypeName>

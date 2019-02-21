@@ -1,32 +1,32 @@
 function Remove-PSAdminMachine
 {
-    <#
+        <#
         .SYNOPSIS
             Removes PSAdminMachine and removes Specified Matching item.
 
         .DESCRIPTION
             Removes PSAdminMachine and removes Specified Matching item.
         
-        .Parameter Name
-            Unique Machine Name
-
         .Parameter Id
-            Unique identifier
+            Specify identifier
 
-        .Parameter SQLIdentity
-            Unique SQLIdentity
+        .Parameter VaultName
+            Specify VaultName
+
+        .Parameter Name
+            Specify Machine Name
             
         .Parameter Match
             Specify Match Search Mode
 
         .EXAMPLE
-            Remove-PSAdminMachine -Name "<HostName>" 
+            Remove-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" 
 
         .EXAMPLE
-            Remove-PSAdminMachine -Name "<HostName>" -Match
+            Remove-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -Match
 
         .INPUTS
-            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, Name, SQLIdentity
+            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, VaultName, Name
 
         .OUTPUTS
             None.
@@ -39,14 +39,14 @@ function Remove-PSAdminMachine
 
     [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'High')]
     param(
-        [Parameter(ValueFromPipeline, Position=0, ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [System.String]$Id = "*",
+
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
+        [System.String]$VaultName,
+        
+        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [System.String]$Name,
-        
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [System.String]$Id,
-        
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [System.String]$SQLIdentity,
 
         [Parameter()]
         [Switch]$Match
@@ -62,35 +62,31 @@ function Remove-PSAdminMachine
 
     process
     {
-        #Generate Parameters without CommonParameters and Match
-        $Params = @{}
-        $PSBoundParameters.GetEnumerator() | 
-            Where-Object Key -ne "Match" | 
-                Where-Object { @([System.Management.Automation.PSCmdlet]::OptionalCommonParameters + [System.Management.Automation.PSCmdlet]::CommonParameters) -NotContains $_.Key } |
-                    ForEach-Object {
-                        $Params.Add($_.Key, $_.Value)
-                    }
-
-        $Machines = Get-PSAdminMachine @Params -Exact:(!$Match)
-
-        if (!$Machines)
+        $Machines = Get-PSAdminMachineV2 -VaultName $VaultName -Name $Name -Exact:(!$Match)
+        
+        if (-not $Machines)
         {
             Cleanup
-            throw ($Script:PSAdminLocale.GetElementById("MachineNotFound").Value -f $Name)
+            throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
+            throw ($Script:PSAdminLocale.GetElementById("MachineNotFoundException").Value -f $Name, $VaultName)
         }
 
         foreach ($Machine in $Machines)
         {
-            if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("MachineRemove").Value -f $Machine.Name) ))
+            if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("MachineRemove").Value -f $Machine.Name, $Machine.VaultName) ))
             {
                 continue;
             }
 
             $DBQuery = @{
                 Database        = $Database
-                Keys            = $Script:PSAdminMachineSchema.DB.Table.KEY | ForEach-Object { $_ }
-                Table           = $Script:PSAdminMachineSchema.DB.Table.Name
-                InputObject     = $Machine
+                Keys            = $Script:MachineConfig.TableKeys
+                Table           = $Script:MachineConfig.TableName
+                InputObject     = [PSCustomObject]@{
+                    VaultName       = $VaultName
+                    Name            = $Name
+                    Id              = $Id
+                }
             }
 
             $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
@@ -100,10 +96,11 @@ function Remove-PSAdminMachine
                 Cleanup
                 throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
             }
+
         }
 
     }
-
+    
     end
     {
         Cleanup

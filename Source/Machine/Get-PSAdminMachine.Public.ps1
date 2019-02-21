@@ -2,31 +2,31 @@ function Get-PSAdminMachine
 {
     <#
         .SYNOPSIS
-            Searches PSAdminMachine for an machine with Specified Matching Name.
+            Searches PSAdminMachine for an machine with Specified Matching Name
 
         .DESCRIPTION
-            Searches PSAdminMachine for an machine with Specified Matching Name.
+            Searches PSAdminMachine for an machine with Specified Matching Name
         
-        .Parameter Name
-            Unique Machine Name
+        .PARAMETER Id
+            Specify Id
 
-        .Parameter Id
-            Unique identifier
+        .PARAMETER VaultName
+            Specify VaultName
 
-        .Parameter SQLIdentity
-            Unique SQLIdentity
-            
-        .Parameter Exact
+        .PARAMETER Name
+            Specify Machine Name
+
+        .PARAMETER Exact
             Specify Exact Search Mode
 
         .EXAMPLE
-            Get-PSAdminMachine -Name "<HostName>"
+            Get-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>"
 
         .EXAMPLE
-            Get-PSAdminMachine -Name "<HostName>" -Exact
+            Get-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>"
 
         .INPUTS
-            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, Name, SQLIdentity
+            PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, VaultName, Name
 
         .OUTPUTS
             PSAdminMachine.PSAdmin.Module.
@@ -34,64 +34,54 @@ function Get-PSAdminMachine
         .NOTES
 
         .LINK
-
     #>
-
+    
     [OutputType([PSCustomObject[]])]
     [CmdletBinding()]
     param(
-        [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName, Position=0)]
-        [System.String]$Name        = "*",
-        
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id          = "*",
-        
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [System.String]$SQLIdentity = "*",
 
+        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName, Position=0)]
+        [System.String]$VaultName,
+
+        [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName, Position=1)]
+        [System.String]$Name        = "*",
+        
         [Parameter()]
         [Switch]$Exact
     )
-
     begin
     {
-        $Database = Connect-PSAdminSQLite @Script:PSAdminDBConfig
-    
-        $PSProperties = $Script:PSAdminMachineSchema.DB.Table.DefaultDisplayPropertySet.Split(",").Trim()
-        $PSTypeName = $Script:PSAdminMachineSchema.DB.Table.TypeName
-        $PSTypeData = Get-TypeData -TypeName $PSTypeName
-
-        if (!$PSTypeData)
-        {
-            Update-TypeData -TypeName $PSTypeName -DefaultDisplayPropertySet $PSProperties
+        function Cleanup {
+            Disconnect-PSAdminSQLite -Database $Database
         }
-
+        $Database = Connect-PSAdminSQLite @Script:PSAdminDBConfig
     }
 
     process
     {
         $DBQuery = @{
             Database        = $Database
-            Keys            = $Script:PSAdminMachineSchema.DB.Table.KEY | ForEach-Object { $_ }
-            Table           = $Script:PSAdminMachineSchema.DB.Table.Name
+            Keys            = $Script:MachineConfig.TableKeys
+            Table           = $Script:MachineConfig.TableName
             InputObject     = [PSCustomObject]@{
-                SQLIdentity     = $SQLIdentity
-                Id              = $Id
+                VaultName       = $VaultName
                 Name            = $Name
+                Id              = $Id
             }
         }
 
         $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
-
+        
         foreach ($Result in $Results) {
-            $Result.PSObject.TypeNames.Insert(0, $PSTypeName)            
-            $Result
+            [PSAdminMachine]$Result
         }
 
     }
 
     end
     {
-        Disconnect-PSAdminSQLite -Database $Database
+        Cleanup
     }
 }

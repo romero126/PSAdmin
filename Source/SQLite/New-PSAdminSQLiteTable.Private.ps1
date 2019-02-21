@@ -23,6 +23,8 @@ function New-PSAdminSQLiteTable
             $NameType = $null
             
             Switch ($i.TypeNameOfValue) {
+                "System.Net.IPAddress" { $NameType = "String" }
+                "System.DateTime" { $NameType = "String" }
                 "System.String" { $NameType = "String" }
                 "System.Int32" { $NameType = "INTEGER" }
                 "System.Char[]" { $NameType = "BLOB" }
