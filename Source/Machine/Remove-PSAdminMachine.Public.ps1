@@ -62,7 +62,7 @@ function Remove-PSAdminMachine
 
     process
     {
-        $Machines = Get-PSAdminMachineV2 -VaultName $VaultName -Name $Name -Exact:(!$Match)
+        $Machines = Get-PSAdminMachine -VaultName $VaultName -Name $Name -Exact:(!$Match)
         
         if (-not $Machines)
         {

@@ -213,7 +213,7 @@ function New-PSAdminMachine
             throw New-PSAdminException -ErrorID KeyVaultNotFound -ArgumentList $VaultName
         }
 
-        $Result = Get-PSAdminMachineV2 -VaultName $VaultName -Name $Name -Exact
+        $Result = Get-PSAdminMachine -VaultName $VaultName -Name $Name -Exact
         if ($Result)
         {
             Cleanup
