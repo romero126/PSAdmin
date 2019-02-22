@@ -268,10 +268,9 @@ function New-PSAdminMachine
             Cleanup
             throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
         }
-        if ($Passthru) {
+        if ($PassThru) {
             [PSAdminMachine]@($DBQuery.InputObject)
         }
-
 
     }
 

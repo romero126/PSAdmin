@@ -220,6 +220,14 @@ Function Set-PSAdminMachine
             throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
         }
 
+        if ($PassThru) {
+            $Result = Get-PSAdminMachine -VaultName $VaultName -Name $Name -Exact
+            if ($Result)
+            {
+                [PSAdminmachine]$Result
+            }
+        }
+
     }
     
     end
