@@ -41,10 +41,9 @@ function Get-PSAdminKeyVaultCertificate {
         }
         $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
         foreach ($Result in $Results) {
-            $Result.PSObject.TypeNames.Insert(0, "PSAdminKeyVaultCertificate.PSAdmin.Module")
-            $Result
+            $Result.Certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$Result.Certificate, $Result.Thumbprint)
+            [PSAdminKeyVaultCertificate]$Result
         }
-        
     }
 
     end
