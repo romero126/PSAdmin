@@ -3,9 +3,9 @@ class PSAdminMachine {
     [String] $VaultName;
     [String] $Name;
     [String] $Description;
-    [Datetime] $Created;
-    [Datetime] $Updated;
-    [Datetime] $LastOnline;
+    [Nullable[Datetime]] $Created;
+    [Nullable[Datetime]] $Updated;
+    [Nullable[Datetime]] $LastOnline;
 
     [String] $AssetNumber;
     [String] $SerialNumber;
