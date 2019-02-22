@@ -17,7 +17,7 @@
     <data name="MachineRemove">
         <Value>Warning this remove the Machine '{0}' in KeyVault '{1}'</Value>
     </data>
-    
+
     <begin Name="---------- KeyVault ----------" />
     <data name="ExceptionUpdateDatabase">
         <TypeName>System.NullReferenceException</TypeName>
@@ -58,7 +58,7 @@
     <begin Name="---------- KeyVaultCertificate ----------" />
     <data name="KeyVaultExceptionCertificateNotInstalled">
         <TypeName>System.NullReferenceException</TypeName>
-        <Value>Certificate is not installed in KeyVault.</Value>
+        <Value>Certificate is not installed in KeyVault</Value>
     </data>
     
     <data name="KeyVaultExceptionCertificateInstalled">
