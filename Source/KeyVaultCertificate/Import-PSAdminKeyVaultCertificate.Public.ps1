@@ -86,8 +86,8 @@ function Import-PSAdminKeyVaultCertificate
                 SecretId                = $x509.SerialNumber
                 Thumbprint              = $x509.Thumbprint
                 RecoveryLevel           = "Default"
-                ScheduledPurgeDate      = ""
-                DeletedDate             = ""
+                ScheduledPurgeDate      = $null
+                DeletedDate             = $null
                 Enabled                 = "True"
                 Expires                 = $x509.NotAfter
                 NotBefore               = $x509.NotBefore
