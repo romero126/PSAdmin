@@ -197,7 +197,6 @@ Function Set-PSAdminMachine
 
     process
     {
-        $Updated = [DateTime]::UTCNow
         $DBQuery = @{
             Database        = $Database
             Keys            = $Script:MachineConfig.TableKeys
