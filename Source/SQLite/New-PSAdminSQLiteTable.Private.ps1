@@ -19,23 +19,26 @@ function New-PSAdminSQLiteTable
 
         foreach ($i in $PSCustomObject.PSObject.Properties)
         {
-    
-            $NameType = $null
-            
-            Switch ($i.TypeNameOfValue) {
-                "System.Net.IPAddress" { $NameType = "String" }
-                "System.DateTime" { $NameType = "String" }
-                "System.String" { $NameType = "String" }
-                "System.Int32" { $NameType = "INTEGER" }
-                "System.Char[]" { $NameType = "BLOB" }
-                "System.Byte[]" { $NameType = "BLOB" }
-                Default { write-host $i.Name, $i.TypeNameOfValue }
+                
+            $NameType = Switch -Wildcard ($i.TypeNameOfValue) {
+                'System.Net.IPAddress' { 'String' }
+                'System.DateTime' { 'String' }
+                'System.Management.Automation.PSObject' { 'BLOB' }
+                'System.Nullable``1`[`[System.DateTime*`]`]' { 'String' }
+                'System.String' { 'String' }
+                'System.Int32' { 'INTEGER' }
+                'System.Char`[`]' { 'BLOB' }
+                'System.Byte`[`]' { 'BLOB' }
+                Default {
+                    'BLOB';
+                    write-host ("Information: Using ``BLOB`` for ``{0}`` an Unknown Type discovered ``{1}``" -f $i.Name, $i.TypeNameOfValue) -ForegroundColor Yellow
+                }
             }
 
             $Properties.Add( ("``{0}`` {1}" -f $i.Name, $NameType)) | out-null
     
         }
-        
+
         Invoke-PSAdminSQLiteQuery -Database $Database -Query ("CREATE TABLE IF NOT EXISTS ``{0}`` ({1})" -f $Table, ($Properties -join ", "))
     
     }
