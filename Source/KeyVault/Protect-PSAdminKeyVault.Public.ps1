@@ -65,7 +65,7 @@ function Protect-PSAdminKeyVault
         }
         
         #Load Certificate
-        $x509 = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([Byte[]]$Certificate.Certificate, $Thumbprint)
+        $x509 = $Certificate.Certificate
 
         if ((!$x509.HasPrivateKey) -or (!$x509.PrivateKey)) {
             throw New-PSAdminException -ErrorID KeyVaultCertificateExceptionPrivateKey
