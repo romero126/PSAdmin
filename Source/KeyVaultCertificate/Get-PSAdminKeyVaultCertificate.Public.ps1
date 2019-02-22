@@ -30,8 +30,8 @@ function Get-PSAdminKeyVaultCertificate {
 
         $DBQuery = @{
             Database        = $Database
-            Keys            = ("VaultName", "Name", "Id", "Thumbprint")
-            Table           = "PSAdminKeyVaultCertificate"
+            Keys            = $Script:KeyVaultCertificateConfig.TableKeys
+            Table           = $Script:KeyVaultCertificateConfig.TableName
             InputObject = [PSCustomObject]@{
                 Thumbprint              = $Thumbprint
                 VaultName               = $VaultName
@@ -41,7 +41,7 @@ function Get-PSAdminKeyVaultCertificate {
         }
         $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
         foreach ($Result in $Results) {
-            $Result.PSObject.TypeNames.Insert(0, "PSAdminKeyVaultCertificate.PSAdmin.Module")            
+            $Result.PSObject.TypeNames.Insert(0, "PSAdminKeyVaultCertificate.PSAdmin.Module")
             $Result
         }
         
