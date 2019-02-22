@@ -14,7 +14,10 @@ function Get-PSAdminKeyVaultCertificate {
         [System.String]$Thumbprint = "*",
 
         [Parameter()]
-        [Switch]$Exact
+        [Switch]$Exact, 
+
+        [Parameter()]
+        [Switch]$Export
     )
 
     begin
@@ -41,7 +44,15 @@ function Get-PSAdminKeyVaultCertificate {
         }
         $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
         foreach ($Result in $Results) {
-            $Result.Certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$Result.Certificate, $Result.Thumbprint)
+            if ($Export)
+            {
+                $Result.Certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$Result.Certificate, $Result.Thumbprint, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::Exportable)
+            }
+            else
+            {
+                $Result.Certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$Result.Certificate, $Result.Thumbprint)
+            }
+
             [PSAdminKeyVaultCertificate]$Result
         }
     }
