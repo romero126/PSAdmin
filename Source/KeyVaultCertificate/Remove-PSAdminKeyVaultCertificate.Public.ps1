@@ -5,8 +5,8 @@ function Remove-PSAdminKeyVaultCertificate
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id = "*",
 
-        [Parameter(ValueFromPipelineByPropertyName, Position = 0)]
-        [System.String]$VaultName = "*",
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName, Position = 0)]
+        [System.String]$VaultName,
 
         [Parameter(ValueFromPipelineByPropertyName, Position = 1)]
         [System.String]$Name = "*",
