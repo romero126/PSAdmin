@@ -1,6 +1,6 @@
 function Remove-PSAdminKeyVaultCertificate
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $True, ConfirmImpact = 'High')]
     param(
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id = "*",
@@ -28,25 +28,34 @@ function Remove-PSAdminKeyVaultCertificate
 
     process
     {
+        $Certificates = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Exact:(!$Match)
 
-        $DBQuery = @{
-            Database        = $Database
-            Keys            = ("VaultName", "Name", "Id", "Thumbprint")
-            Table           = "PSAdminKeyVaultCertificate"
-            InputObject = [PSCustomObject]@{
-                Thumbprint              = $Thumbprint
-                VaultName               = $VaultName
-                Name                    = $Name
-                Id                      = $Thumbprint
-            }
-        }
-
-        $Result = Remove-PSAdminSQliteObject @DBQuery -Match:($Match)
-
-        if ($Result -eq -1)
+        if (!$Certificates)
         {
             Cleanup
-            throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
+            throw ($Script:PSAdminLocale.GetElementById("KeyVaultExceptionCertificateNotFound").Value -f $VaultName, $Name)
+        }
+
+        foreach ($Certificate in $Certificates)
+        {
+            if (!$PSCmdlet.ShouldProcess( ($Script:PSAdminLocale.GetElementById("KeyVaultCertificateRemove").Value -f $Certificate.Name, $Certificate.VaultName) ))
+            {
+                return
+            }
+            #Todo Validate Many and Should Process
+            $DBQuery = @{
+                Database        = $Database
+                Keys            = $Script:KeyVaultCertificateConfig.TableKeys
+                Table           = $Script:KeyVaultCertificateConfig.TableName
+                InputObject     = $Certificate
+            }
+
+            $Result = Remove-PSAdminSQliteObject @DBQuery
+            if ($Result -eq -1)
+            {
+                Cleanup
+                throw New-PSAdminException -ErrorID ExceptionUpdateDatabase
+            }
         }
     }
 
