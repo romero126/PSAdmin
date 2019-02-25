@@ -6,9 +6,9 @@ function Export-PSAdminKeyVaultCertificate
         [Parameter(Mandatory, ParameterSetName = "ExportToFile")]
         [System.String]$VaultName,
 
-        [Parameter(ParameterSetName = "ExportToString")]
-        [Parameter(ParameterSetName = "ExportToFile")]
-        [System.String]$ThumbPrint,
+        [Parameter(Mandatory, ParameterSetName = "ExportToString")]
+        [Parameter(Mandatory, ParameterSetName = "ExportToFile")]
+        [System.String]$Name,
 
         [Parameter(Mandatory, ParameterSetName = "ExportToFile")]
         [System.String]$FilePath,
@@ -29,7 +29,7 @@ function Export-PSAdminKeyVaultCertificate
 
     process
     {
-        $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -ThumbPrint $ThumbPrint -Exact -Export
+        $Certificate = Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Name $Name -Exact -Export
 
         if (!$Certificate)
         {
@@ -45,7 +45,6 @@ function Export-PSAdminKeyVaultCertificate
                 $CertificateByteArray | Set-Content -Path $FilePath -Encoding Byte
             }
             "ExportToString" {
-
                 [System.Convert]::ToBase64String($CertificateByteArray)
             }
         }
