@@ -56,6 +56,14 @@
     </data>
 
     <begin Name="---------- KeyVaultCertificate ----------" />
+    <data name="KeyVaultCertificateRemove">
+        <Value>Warning this remove the Certificate name '{0}' in KeyVault '{1}'</Value>
+    </data>
+    <data name="KeyVaultExceptionCertificateNotFound">
+        <TypeName>System.InvalidOperationException</TypeName>
+        <Value>Could not find a Certificate with a name of '{0}' in KeyVault '{1}'</Value>
+    </data>
+
     <data name="KeyVaultExceptionCertificateNotInstalled">
         <TypeName>System.NullReferenceException</TypeName>
         <Value>Certificate is not installed in KeyVault</Value>
@@ -65,6 +73,7 @@
         <TypeName>System.InvalidOperationException</TypeName>
         <Value>Certificate is installed in KeyVault.</Value>
     </data>
+
 
     <data name="KeyVaultExceptionResultCount">
         <TypeName>System.InvalidOperationException</TypeName>
