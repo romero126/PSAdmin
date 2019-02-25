@@ -181,7 +181,7 @@ Function Set-PSAdminMachine
         [System.String]             $MACAddress, 
         
         [Parameter(ValueFromPipelineByPropertyName)]
-        [System.String]             $Tags,
+        [System.String[]]             $Tags,
         
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]             $Notes
@@ -207,6 +207,11 @@ Function Set-PSAdminMachine
         #Needs to be dynamically generated for it to work properly
         foreach ($Param in $PSBoundParameters.GetEnumerator())
         {
+            if ($Param.Key -eq 'Tags')
+            {
+                Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name $Param.Key -Value ($Param.Value -join ';')
+                Continue;
+            }
             Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name $Param.Key -Value $Param.Value
         }
         Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Updated" -Value ([DateTime]::UtcNow)
