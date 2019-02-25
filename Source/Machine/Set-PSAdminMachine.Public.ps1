@@ -115,7 +115,7 @@ Function Set-PSAdminMachine
         [System.String]             $Description,
         
         [Parameter(ValueFromPipelineByPropertyName)]
-        [System.DateTime]           $LastOnline = [DateTime]::UTCNow,
+        [Nullable[System.DateTime]] $LastOnline,
         
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]             $AssetNumber,
