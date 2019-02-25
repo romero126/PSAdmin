@@ -105,7 +105,7 @@ Function Set-PSAdminMachine
 
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName, Position=0)]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName, Position=0)]
         [System.String]             $VaultName,
 
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName, Position=1)]
