@@ -37,10 +37,10 @@ function Import-PSAdminKeyVaultCertificate
     {
         $KeyVault = Get-PSAdminKeyVault -VaultName $VaultName -Exact
 
-        if (@($KeyVault).Count -ne 1)
+        if (!$KeyVault)
         {
             Cleanup
-            throw New-PSAdminException -ErrorID KeyVaultExceptionResultCount -ArgumentList "VaultName", $VaultName, 1, $KeyVault.Count
+            throw New-PSAdminException -ErrorID KeyVaultNotFound -ArgumentList $VaultName
         }
 
         $Result = Get-PSAdminKeyVaultCertificate -Name $Name -VaultName $VaultName -Exact
@@ -78,8 +78,8 @@ function Import-PSAdminKeyVaultCertificate
 
         $DBQuery = @{
             Database        = $Database
-            Keys            = ("VaultName", "Name")
-            Table           = "PSAdminKeyVaultCertificate"
+            Keys            = $Script:KeyVaultCertificateConfig.TableKeys
+            Table           = $Script:KeyVaultCertificateConfig.TableName
             InputObject = [PSCustomObject]@{
                 Certificate             = $RawCert
                 KeyId                   = $x509.SerialNumber
