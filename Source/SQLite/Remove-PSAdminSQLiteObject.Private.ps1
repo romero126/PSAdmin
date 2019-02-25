@@ -37,7 +37,7 @@ function Remove-PSAdminSQLiteObject
                 }
                 else
                 {
-                    $ItemValue = $Item.Value.Replace('_', '\_').Replace("*", "%")
+                    $ItemValue = $Item.Value.Replace('\','\\').Replace('_', '\_').Replace("*", "%")
                     $SearchComparator = "LIKE"
                     ("`n ``{0}`` {1} '{2}' ESCAPE '\'" -f $Item.Name, $SearchComparator, $ItemValue)
                 }
