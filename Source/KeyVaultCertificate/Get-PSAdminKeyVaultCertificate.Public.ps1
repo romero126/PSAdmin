@@ -1,4 +1,40 @@
 function Get-PSAdminKeyVaultCertificate {
+    <#
+        .SYNOPSIS
+            Searches KeyVaultCertificate store for a specific Id/Name/Thumbprint and returns its results.
+
+        .DESCRIPTION
+            Searches KeyVaultCertificate store for a specific Id/Name/Thumbprint and returns its results.
+        
+        .PARAMETER Id
+            Unique Identifier for Certificate
+        
+        .Parameter VaultName
+            Unique Name for the KeyVault
+
+        .Parameter Name
+            Unique Name for the Certificate
+        
+        .Parameter Thumbprint
+            Unique Unique for the KeyVault
+
+        .Parameter Exact
+            Specify for Exact Search based on ID/Name
+
+        .EXAMPLE
+            Get-PSAdminKeyVaultCertificate -VaultName "<VaultName>" -Name "<Certificate>"
+
+        .INPUTS
+            PSAdminKeyVaultCertificate, or any specific object that contains Id, Name, VaultName
+
+        .OUTPUTS
+            PSAdminKeyVaultCertificate.
+
+        .NOTES
+
+        .LINK
+
+    #>
     [CmdletBinding()]
     param(
         [Parameter(ValueFromPipelineByPropertyName)]
