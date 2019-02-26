@@ -10,7 +10,7 @@ $NewPSAdminMachine = @{
     SerialNumber            = Get-WmiObject win32_bios | ForEach-Object SerialNumber
     OSVersion               = Get-WmiObject win32_OperatingSystem | ForEach-Object Version
     PublicIP                = Invoke-WebRequest -Uri "http://ifconfig.co/ip" | ForEach-Object Content | ForEach-Object Trim
-    IP                      = Get-NetIPAddress | Where-Object PrefixOrigin -eq Dhcp | Select-Object -first 1 | ForEach-Object IPAddress
+    LocalIP                 = Get-NetIPAddress | Where-Object PrefixOrigin -eq Dhcp | Select-Object -first 1 | ForEach-Object IPAddress
     MacAddress              = Get-NetAdapter | Where-Object Name -eq (Get-NetIPAddress | Where-Object PrefixOrigin -eq Dhcp | Select-Object -first 1 | ForEach-Object InterfaceAlias) | ForEach-Object MacAddress
     Domain                  = Get-WmiObject -Class Win32_ComputerSystem | ForEach-Object Domain
 }
