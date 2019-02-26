@@ -34,12 +34,12 @@ class PSAdminMachine {
     [IPAddress] $LocalIP;
     [String] $MACAddress;
 
-    [String] $Tags;
+    [String[]] $Tags;
     [String] $Notes;
 }
 
 $Script:MachineConfig = @{
     TableName           = "PSAdminMachine"
-    TableKeys           = @("VaultName", "Name", "Id")
+    TableKeys           = @("VaultName", "Name", "Id", "TAGS")
     TableSchema         = [PSAdminMachine]@{}
 }
