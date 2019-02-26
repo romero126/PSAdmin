@@ -42,12 +42,15 @@ function Get-PSAdminMachine
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id          = "*",
 
-        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName, Position=0)]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName, Position=0)]
         [System.String]$VaultName,
 
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName, Position=1)]
         [System.String]$Name        = "*",
         
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [String[]]$Tags = "*",
+
         [Parameter()]
         [Switch]$Exact
     )
@@ -69,12 +72,14 @@ function Get-PSAdminMachine
                 VaultName       = $VaultName
                 Name            = $Name
                 Id              = $Id
+                Tags            = $Tags
             }
         }
 
         $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
         
         foreach ($Result in $Results) {
+            $Result.Tags = $Result.Tags -split ';'
             [PSAdminMachine]$Result
         }
 
