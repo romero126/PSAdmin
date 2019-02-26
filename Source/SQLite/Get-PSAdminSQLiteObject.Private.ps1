@@ -26,6 +26,15 @@ function Get-PSAdminSQLiteObject
         {
             if ($Keys -eq $Item.Name)
             {
+                if ($Item.TypeNameOfValue -eq 'System.String[]')
+                { 
+                    foreach ($i in $Item.Value)
+                    {
+                        "``{0}`` LIKE '%{1}%'" -f $Item.Name, $i
+                    }
+                    continue;
+                }
+
                 if ((!$Match) -and ($Item.Value -eq "*")) {
                     continue;
                 }

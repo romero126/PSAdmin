@@ -25,6 +25,14 @@ function Set-PSAdminSQLiteObject
         $Filter = foreach ($Item in $InputObject.PSObject.Properties)
         {
             if ($Keys -eq $Item.Name) {
+                if ($Item.TypeNameOfValue -eq 'System.String[]')
+                { 
+                    foreach ($i in $Item.Value)
+                    {
+                        "``{0}`` LIKE '%{1}%'" -f $Item.Name, $i
+                    }
+                    continue;
+                }
                 "``{0}`` LIKE '{1}'" -f $Item.Name, $Item.Value
             }
         }
