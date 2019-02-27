@@ -26,16 +26,19 @@ function Get-PSAdminSQLiteObject
         {
             if ($Keys -eq $Item.Name)
             {
-                if ($Item.TypeNameOfValue -eq 'System.String[]')
+                if ((!$Match) -and ($Item.Value -eq "*")) {
+                    continue;
+                }
+                elseif ($Item.TypeNameOfValue -eq 'System.String[]')
                 { 
                     foreach ($i in $Item.Value)
                     {
+                        if ($i -eq "*")
+                        { 
+                            continue;
+                        }
                         "``{0}`` LIKE '%{1}%'" -f $Item.Name, $i
                     }
-                    continue;
-                }
-
-                if ((!$Match) -and ($Item.Value -eq "*")) {
                     continue;
                 }
                 elseif (!$Match)
@@ -60,7 +63,7 @@ function Get-PSAdminSQLiteObject
         #if ($Match) {
         #    $Query = $Query + "`nESCAPE`n '\'"
         #}
-        #Write-host "Query:", $Query.Replace("`n", ' ')
+        Write-host "Query:", $Query.Replace("`n", ' ')
         $Result = Request-PSAdminSQLiteQuery -Database $Database -Query $Query
         $Result
         
