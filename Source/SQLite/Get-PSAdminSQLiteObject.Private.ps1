@@ -63,7 +63,7 @@ function Get-PSAdminSQLiteObject
         #if ($Match) {
         #    $Query = $Query + "`nESCAPE`n '\'"
         #}
-        Write-host "Query:", $Query.Replace("`n", ' ')
+        #Write-host "Query:", $Query.Replace("`n", ' ')
         $Result = Request-PSAdminSQLiteQuery -Database $Database -Query $Query
         $Result
         
