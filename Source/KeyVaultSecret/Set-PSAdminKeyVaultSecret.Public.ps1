@@ -100,8 +100,8 @@ function Set-PSAdminKeyVaultSecret
         $Updated = [DateTime]::UTCNow
         $DBQuery = @{
             Database        = $Database
-            Keys            = ("VaultName", "Name", "Id")
-            Table           = "PSAdminKeyVaultSecret"
+            Keys            = $Script:KeyVaultSecretConfig.TableKeys
+            Table           = $Script:KeyVaultSecretConfig.TableName
             InputObject     = [PSCustomObject]@{}
         }
 

@@ -79,8 +79,8 @@ function Remove-PSAdminKeyVaultSecret
 
             $DBQuery = @{
                 Database        = $Database
-                Keys            = ("VaultName", "Name", "Id")
-                Table           = "PSAdminKeyVaultSecret"
+                Keys            = $Script:KeyVaultSecretConfig.TableKeys
+                Table           = $Script:KeyVaultSecretConfig.TableName
                 InputObject     = [PSCustomObject]@{
                     VaultName       = $Secret.VaultName
                     Name            = $Secret.Name
