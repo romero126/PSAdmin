@@ -51,6 +51,9 @@ function Get-PSAdminKeyVaultSecret
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id = "*",
 
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [String[]]$Tags,
+        
         [Parameter()]
         [Switch]$Decrypt,
 
@@ -70,7 +73,7 @@ function Get-PSAdminKeyVaultSecret
     {
         $DBQuery = @{
             Database        = $Database
-            Keys            = $Script:KeyVaultSecretConfig.TableKeys
+            Keys            = $Script:KeyVaultSecretConfig.TableKeys + $Tags
             Table           = $Script:KeyVaultSecretConfig.TableName
             InputObject     = [PSCustomObject]@{
                 VaultName       = $VaultName
