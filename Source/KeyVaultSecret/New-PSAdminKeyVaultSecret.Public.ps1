@@ -66,10 +66,10 @@ function New-PSAdminKeyVaultSecret
         [System.String]$Enabled,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [DateTime]$Expires,
+        [Nullable[DateTime]]$Expires,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [DateTime]$NotBefore = [DateTime]::UtcNow,
+        [Nullable[DateTime]]$NotBefore,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [ValidateSet("txt", "blob")]
