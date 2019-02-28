@@ -40,6 +40,6 @@ class PSAdminMachine {
 
 $Script:MachineConfig = @{
     TableName           = "PSAdminMachine"
-    TableKeys           = @("VaultName", "Name", "Id", "Tags")
+    TableKeys           = @("VaultName", "Name", "Id")
     TableSchema         = [PSAdminMachine]@{}
 }
