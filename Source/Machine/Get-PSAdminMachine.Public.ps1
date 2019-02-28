@@ -66,7 +66,7 @@ function Get-PSAdminMachine
     {
         $DBQuery = @{
             Database        = $Database
-            Keys            = $Script:MachineConfig.TableKeys
+            Keys            = $Script:MachineConfig.TableKeys + "Tags"
             Table           = $Script:MachineConfig.TableName
             InputObject     = [PSCustomObject]@{
                 VaultName       = $VaultName
