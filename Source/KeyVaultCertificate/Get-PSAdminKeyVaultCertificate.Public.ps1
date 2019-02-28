@@ -49,6 +49,9 @@ function Get-PSAdminKeyVaultCertificate {
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Thumbprint = "*",
 
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [String[]]$Tags,
+
         [Parameter()]
         [Switch]$Exact, 
 
@@ -69,7 +72,7 @@ function Get-PSAdminKeyVaultCertificate {
 
         $DBQuery = @{
             Database        = $Database
-            Keys            = $Script:KeyVaultCertificateConfig.TableKeys
+            Keys            = $Script:KeyVaultCertificateConfig.TableKeys + $Tags
             Table           = $Script:KeyVaultCertificateConfig.TableName
             InputObject = [PSCustomObject]@{
                 Thumbprint              = $Thumbprint
