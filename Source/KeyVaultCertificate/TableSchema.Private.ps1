@@ -30,6 +30,6 @@ class PSAdminKeyVaultCertificate
 
 $Script:KeyVaultCertificateConfig = @{
     TableName           = "PSAdminKeyVaultCertificate"
-    TableKeys           = ("VaultName", "Name", "Id", "Thumbprint", "Tags")
+    TableKeys           = ("VaultName", "Name", "Id", "Thumbprint")
     TableSchema         = [PSAdminKeyVaultCertificate]@{}
 }
