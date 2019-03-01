@@ -23,11 +23,15 @@ function Get-PSAdminKeyVaultSecret
             Specify for Exact Search based on ID/Name
 
         .EXAMPLE
+
+            ``` powershell
             Get-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>"
-
+            ```
         .EXAMPLE
-            Get-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>" -Decrypt
 
+            ``` powershell
+            Get-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>" -Decrypt
+            ```
         .INPUTS
             PSAdminKeyVaultSecret.PSAdmin.Module, or any specific object that contains Id, Name
 

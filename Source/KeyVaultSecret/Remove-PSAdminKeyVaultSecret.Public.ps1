@@ -20,11 +20,15 @@ function Remove-PSAdminKeyVaultSecret
             Specify for Match Search based on ID/Name
 
         .EXAMPLE
+            
+            ``` powershell
             Remove-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>"
-
+            ```
         .EXAMPLE
+            
+            ``` powershell
             Remove-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<SecretName>*"
-
+            ```
         .INPUTS
             PSAdminKeyVaultSecret.PSAdmin.Module, or any specific object that contains Id, Name
 

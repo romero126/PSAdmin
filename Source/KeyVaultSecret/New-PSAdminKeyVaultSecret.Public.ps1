@@ -35,8 +35,10 @@ function New-PSAdminKeyVaultSecret
             Secret Value to lock away in the KeyVault
             
         .EXAMPLE
-            New-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<NameOfSecret>" -Enabled True -ContentType txt -SecretValue "My Secret Value"
 
+            ``` powershell
+            New-PSAdminKeyVaultSecret -VaultName "<VaultName>" -Name "<NameOfSecret>" -Enabled True -ContentType txt -SecretValue "My Secret Value"
+            ```
         .INPUTS
             PSAdminKeyVaultSecret.PSAdmin.Module, or any specific object that contains VaultName, Name, SecretValue
 
