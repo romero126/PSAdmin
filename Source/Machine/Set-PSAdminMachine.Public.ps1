@@ -89,8 +89,10 @@ Function Set-PSAdminMachine
             Specify Notes
 
         .EXAMPLE
-            Set-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -<Parameter> "<Value>"
 
+            ``` powershell
+            Set-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -<Parameter> "<Value>"
+            ```
         .INPUTS
             PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, VaultName, Name
 

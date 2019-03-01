@@ -20,11 +20,15 @@ function Remove-PSAdminMachine
             Specify Match Search Mode
 
         .EXAMPLE
+
+            ``` powershell
             Remove-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" 
-
+            ```
         .EXAMPLE
-            Remove-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -Match
 
+            ``` powershell
+            Remove-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -Match
+            ```
         .INPUTS
             PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, VaultName, Name
 

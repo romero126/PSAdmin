@@ -92,11 +92,14 @@ function New-PSAdminMachine
             Specify Search Mode
 
         .EXAMPLE
+
+            ``` powershell
             New-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>"
-
+            ```
         .EXAMPLE
+            ``` powershell
             New-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -<Parameter> "Value"
-
+            ```
         .INPUTS
             PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, VaultName, Name
 

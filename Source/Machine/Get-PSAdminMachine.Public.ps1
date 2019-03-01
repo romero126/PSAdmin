@@ -20,11 +20,17 @@ function Get-PSAdminMachine
             Specify Exact Search Mode
 
         .EXAMPLE
-            Get-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>"
-
+            Gets the PSAdminMachine from a Vault from WildCard
+            Searches the Vault for a Hostname and retrieves its data
+            ``` powershell
+            Get-PSAdminMachine -VaultName "<VaultName>" -Name "*"
+            ```
         .EXAMPLE
+            Gets a PSAdminMachine from a Vault
+            Searches the Vault for a Hostname and retrieves its data
+            ``` powershell
             Get-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>"
-
+            ```
         .INPUTS
             PSAdminMachine.PSAdmin.Module, or any specific object that contains Id, VaultName, Name
 
