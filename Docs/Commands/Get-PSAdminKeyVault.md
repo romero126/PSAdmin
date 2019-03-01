@@ -1,6 +1,4 @@
-﻿Date Updated: 03/01/2019 11:55:53
-
-# Get-PSAdminKeyVault
+﻿# Get-PSAdminKeyVault
 Module: PSAdmin
 
 Searches KeyVault for an Item with the specified Id/Name and returns results.

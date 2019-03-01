@@ -1,6 +1,4 @@
-﻿Date Updated: 03/01/2019 11:55:53
-
-# Export-PSAdminKeyVaultCertificate
+﻿# Export-PSAdminKeyVaultCertificate
 Module: PSAdmin
 
 

@@ -45,3 +45,14 @@ $Certificate.Export([System.Security.Cryptography.X509Certificates.X509ContentTy
 
 Get-ChildItem $ExportCertificate.FileName
 ```
+
+
+* [Get-PSAdminKeyVaultCertificate][GetCommand] Gets a PSAdmin KeyVault Secret.
+* [Remove-PSAdminKeyVaultCertificate][NewCommand] Creates a PSAdmin KeyVault Secret.
+* [Import-PSAdminKeyVaultCertificate][SetCommand] Sets a Value in PSAdmin KeyVault Secret.
+* [Export-PSAdminKeyVaultCertificate][RemoveCommand] Remove a PSAdmin KeyVault Secret.
+
+[GetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Get-PSAdminKeyVaultSecret.md
+[NewCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/New-PSAdminKeyVaultSecret.md
+[SetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Set-PSAdminKeyVaultSecret.md
+[RemoveCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Remove-PSAdminKeyVaultSecret.md
