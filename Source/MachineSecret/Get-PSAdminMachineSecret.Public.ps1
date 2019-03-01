@@ -25,7 +25,7 @@ function Get-PSAdminMachineSecret
 
     }
 
-    process
+    process 
     {
         $Machine = Get-PSAdminMachine -VaultName $VaultName -Name $Name
         if (!$Machine) {
@@ -43,12 +43,11 @@ function Get-PSAdminMachineSecret
         $Results = Get-PSAdminKeyVaultSecret @GetMachineSecrets -Decrypt | Sort-Object -Property Name
         foreach ($Result in $Results) {
             if ($ExportCred) {
-                
-                $Username,$Password = [regex]::Match($Result.SecretValue, '^USERNAME=([\w\w\S]+)&PASSWORD=([\w\W]+)$').Groups[1,2].Value
+                $Username, $Password = [regex]::Match($Result.SecretValue, '^USERNAME=([\w\w\S]+)&PASSWORD=([\w\W]+)$').Groups[1, 2].Value
                 $Result = $Result | Select *, Credential
                 $Result.Credential = [PSCredential]::New($UserName, ($Password | ConvertTo-SecureString -AsPlainText -Force))
                 $Result.SecretValue = $Result.SecretValue | ConvertTo-SecureString -AsPlainText -Force
-                $UserName,$Password = $Null, $Null
+                $UserName, $Password = $Null, $Null
             }
 
             $Result
