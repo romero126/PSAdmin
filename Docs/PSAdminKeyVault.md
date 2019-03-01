@@ -25,9 +25,9 @@ Ok so it really wasnt that technical.
 5. [Protect-PSAdminKeyVault][ProtectCommand] Protects a PSAdmin KeyVault.
 6. [Unprotect-PSAdminKeyVault][UnprotectCommand] Unprotects PSAdmin KeyVault.
 
-[GetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVault/Get-PSAdminKeyVault.md
-[NewCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVault/New-PSAdminKeyVault.md
-[SetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVault/Set-PSAdminKeyVault.md
-[RemoveCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVault/Remove-PSAdminKeyVault.md
-[ProtectCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVault/Protect-PSAdminKeyVault.md
-[UnprotectCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVault/Unprotect-PSAdminKeyVault.md
+[GetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Get-PSAdminKeyVault.md
+[NewCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/New-PSAdminKeyVault.md
+[SetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Set-PSAdminKeyVault.md
+[RemoveCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Remove-PSAdminKeyVault.md
+[ProtectCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Protect-PSAdminKeyVault.md
+[UnprotectCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Unprotect-PSAdminKeyVault.md

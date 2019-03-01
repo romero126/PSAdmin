@@ -12,7 +12,7 @@ KeyVaultSecret is a Safe and Secure Way to store your passwords / and secret val
 3. [Set-PSAdminKeyVaultSecret][SetCommand] Sets a Value in PSAdmin KeyVault Secret.
 4. [Remove-PSAdminKeyVaultSecret][RemoveCommand] Remove a PSAdmin KeyVault Secret.
 
-[GetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVaultSecret/Get-PSAdminKeyVaultSecret.md
-[NewCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVaultSecret/New-PSAdminKeyVaultSecret.md
-[SetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVaultSecret/Set-PSAdminKeyVaultSecret.md
-[RemoveCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/PSAdminKeyVaultSecret/Remove-PSAdminKeyVaultSecret.md
+[GetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Get-PSAdminKeyVaultSecret.md
+[NewCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/New-PSAdminKeyVaultSecret.md
+[SetCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Set-PSAdminKeyVaultSecret.md
+[RemoveCommand]: https://github.com/romero126/PSAdmin/blob/master/Docs/Commands/Remove-PSAdminKeyVaultSecret.md
