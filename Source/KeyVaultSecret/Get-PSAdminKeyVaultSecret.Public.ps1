@@ -77,7 +77,7 @@ function Get-PSAdminKeyVaultSecret
     {
         $DBQuery = @{
             Database        = $Database
-            Keys            = $Script:KeyVaultSecretConfig.TableKeys + $Tags
+            Keys            = $Script:KeyVaultSecretConfig.TableKeys + "Tags"
             Table           = $Script:KeyVaultSecretConfig.TableName
             InputObject     = [PSCustomObject]@{
                 VaultName       = $VaultName

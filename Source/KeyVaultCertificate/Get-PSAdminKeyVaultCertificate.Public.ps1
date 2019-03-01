@@ -72,7 +72,7 @@ function Get-PSAdminKeyVaultCertificate {
 
         $DBQuery = @{
             Database        = $Database
-            Keys            = $Script:KeyVaultCertificateConfig.TableKeys + $Tags
+            Keys            = $Script:KeyVaultCertificateConfig.TableKeys + "Tags"
             Table           = $Script:KeyVaultCertificateConfig.TableName
             InputObject = [PSCustomObject]@{
                 Thumbprint              = $Thumbprint
