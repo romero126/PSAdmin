@@ -1,5 +1,3 @@
-Write-Warning "Running tests for PSAdminMachine"
-
 describe "PSAdminMachine" {
     BeforeAll {
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
