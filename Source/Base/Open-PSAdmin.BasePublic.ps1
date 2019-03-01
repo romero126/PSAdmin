@@ -11,8 +11,10 @@ function Open-PSAdmin
             Specify path to .xml configuration file
 
         .EXAMPLE
+        
+            ``` powershell
             Open-PSAdmin -Path "C:\MyDatabase\DBConfig.xml"
-
+            ```
         .INPUTS
             None. You cannot pipe objects to Open-PSAdmin
 
