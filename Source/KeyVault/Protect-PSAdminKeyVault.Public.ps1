@@ -14,7 +14,10 @@ function Protect-PSAdminKeyVault
             Thumbprint of the KeyVaultCertificate you wish to protect the KeyVault VaultKey
 
         .EXAMPLE
+
+            ``` powershell
             Protect-PSAdminKeyVault -VaultName "<VaultName>" -Thumbprint "<GuidOfThumbprint>"
+            ```
 
         .INPUTS
             None. Protect-PSAdminKeyVault does not take Pipeline Input.

@@ -23,8 +23,10 @@ function Set-PSAdminKeyVault
             Specify a Tag or Multiple Tags
 
         .EXAMPLE
-            Set-PSAdminKeyVault -VaultName "MyVaultName" -Location "Office"
 
+            ``` powershell
+            Set-PSAdminKeyVault -VaultName "MyVaultName" -Location "Office"
+            ```
         .INPUTS
             PSAdminKeyVault.PSAdmin.Module, or any specific object that contains Id, Name
 

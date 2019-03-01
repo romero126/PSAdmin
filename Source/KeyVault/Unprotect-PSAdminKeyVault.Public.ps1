@@ -11,8 +11,10 @@ function Unprotect-PSAdminKeyVault
             VaultName of Protected KeyVault
         
         .EXAMPLE
-            Unprotect-PSAdminKeyVault -VaultName "<VaultName>"
 
+            ``` powershell
+            Unprotect-PSAdminKeyVault -VaultName "<VaultName>"
+            ```
         .INPUTS
             None. Unprotect-PSAdminKeyVault does not take Pipeline Input.
 

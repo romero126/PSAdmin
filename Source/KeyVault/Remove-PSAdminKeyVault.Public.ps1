@@ -17,13 +17,15 @@ function Remove-PSAdminKeyVault
             Specify for Match Search based on ID/Name
 
         .EXAMPLE
-            #Example: Exact
+            Example: Exact
+            ``` powershell
             Remove-PSAdminKeyVault -VaultName "<VaultName>"
-
+            ```
         .EXAMPLE
-            #Example: Matching
+            Remove Matching
+            ``` powershell
             Remove-PSAdminKeyVault -VaultName "Vault*" -Match
-
+            ```
         .INPUTS
             PSAdminKeyVault.PSAdmin.Module, or any specific object that contains Id, VaultName
 

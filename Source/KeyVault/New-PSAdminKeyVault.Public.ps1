@@ -23,7 +23,10 @@ function New-PSAdminKeyVault
             Specify a Tag or Multiple Tags
 
         .EXAMPLE
+            
+            ``` powershell
             New-PSAdminKeyVault -VaultName "MyVaultName" -Location "Office"
+            ```
 
         .INPUTS
             None. New-PSAdminKeyVault does not take Pipeline Input.

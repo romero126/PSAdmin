@@ -16,10 +16,13 @@ function Get-PSAdminKeyVault {
             Specify for Exact Search based on ID/Name
 
         .EXAMPLE
+            Retrieves a KeyVault
+            Retrieves a KeyVault using the specified VaultName
+            ``` powershell
             Get-PSAdminKeyVault -VaultName "<VaultName>"
-
+            ```
         .INPUTS
-            PSAdminKeyVault.PSAdmin.Module, or any specific object that contains Id, Name
+            PSAdminKeyVault, or any specific object that contains Id, Name
 
         .OUTPUTS
             PSAdminKeyVault.PSAdmin.Module.
