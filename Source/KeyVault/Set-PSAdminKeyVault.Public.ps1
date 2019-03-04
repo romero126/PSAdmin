@@ -46,20 +46,20 @@ function Set-PSAdminKeyVault
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [System.String]$VaultName,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]$Location,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]$VaultURI,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]$SKU,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [ValidateSet("True", "False")]
         [System.String]$SoftDeleteEnabled,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String[]]$Tags
 
     )
