@@ -107,85 +107,88 @@ Function Set-PSAdminMachine
 
     [CmdletBinding()]
     param(
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [System.String]             $Id,
+
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, Position=0)]
         [System.String]             $VaultName,
 
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName, Position=1)]
         [System.String]             $Name,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Description,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [Nullable[System.DateTime]] $LastOnline,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $AssetNumber,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $SerialNumber,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $DeviceSKU,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $OSVersion,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Location,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Building,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Room,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Rack,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Slot,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $VMHost,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $MachineDefinition,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $ProvisioningState,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $DesiredVersion,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $ActualVersion,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Domain,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Forest,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $PublicFQDN,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $LoadBalancer,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [IPAddress]                 $PublicIP,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [IPAddress]                 $LocalIP,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $MACAddress, 
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String[]]             $Tags,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]             $Notes
 
     )
