@@ -66,27 +66,27 @@ function Set-PSAdminKeyVaultSecret
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.String]$Id,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [System.String]$Version,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [ValidateSet("True", "False")]
         [System.String]$Enabled,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [Nullable[DateTime]]$Expires,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [Nullable[DateTime]]$NotBefore,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [ValidateSet("txt", "blob")]
         [System.String]$ContentType,
 
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [String[]]$Tags,
         
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter()]
         [PSObject]$SecretValue
         
     )
