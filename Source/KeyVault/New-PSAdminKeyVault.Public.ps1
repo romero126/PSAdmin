@@ -73,8 +73,8 @@ function New-PSAdminKeyVault
 
         $DBQuery = @{
             Database        = $Database
-            Keys            = ("VaultName")
-            Table           = "PSAdminKeyVault"
+            Keys            = $Script:KeyVaultConfig.TableKeys
+            Table           = $Script:KeyVaultConfig.TableName
             InputObject     = [PSCustomObject]@{
                 Id                              = [Guid]::NewGuid().ToString().Replace('-', '')
                 VaultName                       = $VaultName

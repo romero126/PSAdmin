@@ -57,8 +57,8 @@ function Get-PSAdminKeyVault {
     {
         $DBQuery = @{
             Database        = $Database
-            Keys            = ("VaultName", "Id")
-            Table           = "PSAdminKeyVault"
+            Keys            = $Script:KeyVaultConfig.TableKeys
+            Table           = $Script:KeyVaultConfig.TableName
             InputObject = [PSCustomObject]@{
                 Id                      = $Id
                 VaultName               = $VaultName
@@ -67,8 +67,7 @@ function Get-PSAdminKeyVault {
         $Results = Get-PSAdminSQliteObject @DBQuery -Match:(!$Exact)
         
         foreach ($Result in $Results) {
-            $Result.PSObject.TypeNames.Insert(0, "PSAdminKeyVault.PSAdmin.Module")            
-            $Result
+            [PSAdminKeyVault]$Result
         }
     }
 

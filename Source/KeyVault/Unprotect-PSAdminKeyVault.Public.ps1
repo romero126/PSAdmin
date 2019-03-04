@@ -75,8 +75,8 @@ function Unprotect-PSAdminKeyVault
             $Database = Connect-PSAdminSQLite @Script:PSAdminDBConfig
             $DBQuery = @{
                 Database        = $Database
-                Keys            = ("VaultName", "Id")
-                Table           = "PSAdminKeyVault"
+                Keys            = $Script:KeyVaultConfig.TableKeys
+                Table           = $Script:KeyVaultConfig.TableName
                 InputObject = [PSCustomObject]@{
                     VaultName               = $VaultName
                     Id                      = $KeyVault.Id
