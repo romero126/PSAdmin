@@ -7,6 +7,7 @@ function Connect-PSAdminRDP
         [System.String]$VaultName,
 
         [Parameter(Mandatory)]
+        [Alias("Name")]
         [System.String]$ComputerName,
 
         [Switch]$UsePublicIP
