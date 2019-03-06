@@ -35,9 +35,9 @@ function Connect-PSAdminRDP
             $TargetIP = $Computer.PublicIP
         }
 
-        $Credential = Get-PSAdminComputerSecret -VaultName $Computer.VaultName -Name $Computer.Name -Tag "RemoteAdmin" -ExportCred | ForEach-Object Credential
+        $Credential = Get-PSAdminComputerSecret -VaultName $Computer.VaultName -ComputerName $Computer.ComputerName -Tag "RemoteAdmin" -ExportCred | ForEach-Object Credential
         if (!$Credential) {
-            Write-Error ("Secret for '{0}' with the name of '{1}' not found" -f $Computer.Name, $ComputerName)
+            Write-Error ("Secret for '{0}' with the name of '{1}' not found" -f $Computer.ComputerName, $ComputerName)
             return
         }
         $Username, $Password = $Credential.UserName, $Credential.GetNetworkCredential().Password
@@ -46,7 +46,7 @@ function Connect-PSAdminRDP
         $PassStr = $null
         $UserName, $Password = $null, $null
 
-        Write-Host "* Connecting Remotely to $($Computer.Name) *"  -ForegroundColor Yellow
+        Write-Host "* Connecting Remotely to $($Computer.ComputerName) *"  -ForegroundColor Yellow
         mstsc -v $TargetIP
 
     }

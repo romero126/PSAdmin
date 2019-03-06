@@ -59,12 +59,12 @@ function Invoke-PSAdminCommand
 
         $Credential = Get-PSAdminComputerSecret -VaultName $Computer.VaultName -ComputerName $Computer.ComputerName -Tag "RemoteAdmin" -ExportCred | ForEach-Object Credential
         if (!$Credential) {
-            Write-Error ("Secret for '{0}' with the name of '{1}' not found" -f $Computer.Name, $Name)
+            Write-Error ("Secret for '{0}' with the name of '{1}' not found" -f $Computer.ComputerName, $ComputerName)
             return
         }
 
         if (!$HideComputerName) {
-            Write-Host "* Executing Remote Command on $($Computer.Name) *"  -ForegroundColor Yellow
+            Write-Host "* Executing Remote Command on $($Computer.ComputerName) *"  -ForegroundColor Yellow
         }
 
         $Session = New-PSSession -ComputerName $TargetIP -Credential $Credential
@@ -76,7 +76,7 @@ function Invoke-PSAdminCommand
         Remove-PSSession -ComputerName $TargetIP | Out-Null
         
         if (!$HideComputerName) {
-            Write-Host "* Finished Executing Remote Command on $($Computer.Name) *" -ForegroundColor Yellow
+            Write-Host "* Finished Executing Remote Command on $($Computer.ComputerName) *" -ForegroundColor Yellow
         }
     }
     end
