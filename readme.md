@@ -23,10 +23,10 @@ Note this is always changing and will change as features get added.
 [PSAdminKeyVaultSecret]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVaultSecret.md
 
 ## My Wishlist with this project
-* [X] KeyVault Storage (Main Storage)
+* [X] [KeyVault Storage][KeyVaultStorage] (Main Storage)
 * [X] Certificate Storage
-* [X] Secret Storage
-* [X] Computer Database  
+* [X] [Secret Storage][KeyVaultSecret]
+* [X] [Computer Database][Computer]
     * [X] Store Credentials
     * [X] Remote Invoke / PSSession
     * [X] MSTSC / RDP
@@ -41,4 +41,8 @@ Note this is always changing and will change as features get added.
     * [ ] Ingestion
 * [ ] Automated Dashboard 
 * [ ] Automated Ingestion of Log Files to Tools like Kibana/Elstisearch
-* [X] This is just brainstorming
+* [ ] This is brainstorming
+
+[KeyVaultStorage]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVault.md
+[KeyVaultSecret]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVaultSecret.md
+[Computer]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminComputer.md
