@@ -114,9 +114,7 @@ $Menu = @(
 
 if (!$Action) {
     Write-Warning "Cannot Determine Desired Action"
-    Write-Warning "Opening a Window"
-
-    $Action = $Menu | Select Name, Description | Out-GridView -Title "Select an Option" -PassThru | ForEach-Object Name
+    Write-host "Possible Options", $MenuItem.Name
 }
 
 $MenuItem = $Menu | Where-Object Name -eq $Action
