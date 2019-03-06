@@ -1,17 +1,25 @@
 Write-Log "SQLite.init.ps1" -Status Debug -Offset 2
 
+
+
 #Throw "KevinException NotImplemented"
-if ([System.Environment]::OSVersion.Platform -eq "Unix")
-{
-    $Libraries = Get-ChildItem -Path "$PSScriptRoot/mac/*.dll"
+
+if (($PSEdition -eq "Desktop") -or ($IsWindows)) {
+    if ([System.Environment]::Is64BitProcess)
+    {
+        $Libraries = Get-ChildItem -Path "$PSScriptRoot/x64/*.dll"
+    }
+    else 
+    {
+        $Libraries = Get-ChildItem -Path "$PSScriptRoot/x86/*.dll"
+    }
 }
-elseif ([System.Environment]::Is64BitProcess)
-{
-    $Libraries = Get-ChildItem -Path "$PSScriptRoot/x64/*.dll"
+elseif ($IsOSX) {
+    $Libraries = Get-ChildItem -Path "$PSScriptRoot/mac/*.dll"
 }
 else 
 {
-    $Libraries = Get-ChildItem -Path "$PSScriptRoot/x86/*.dll"
+    throw "Your version not supported  yet"
 }
 
 Write-Log "Loading Dependencies" -Status Debug -Offset 3
