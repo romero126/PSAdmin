@@ -14,8 +14,9 @@ class PSAdminKeyVaultSecret
     [PSObject]              $SecretValue
 }
 
-$Script:KeyVaultSecretConfig = @{
+$Script:Config["PSAdminKeyVaultSecret"] = @{
     TableName           = "PSAdminKeyVaultSecret"
     TableKeys           = @("VaultName", "Name", "Id")
     TableSchema         = [PSAdminKeyVaultSecret]@{}
 }
+$Script:KeyVaultSecretConfig = $Script:Config["PSAdminKeyVaultSecret"]

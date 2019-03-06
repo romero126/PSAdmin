@@ -12,9 +12,9 @@ class PSAdminKeyVault
     [System.String]         $ResourceID
     [System.String[]]       $Tags    
 }
-
-$Script:KeyVaultConfig = @{
+$Script:Config["PSAdminKeyVault"] = @{
     TableName           = "PSAdminKeyVault"
     TableKeys           = @("VaultName", "Id")
     TableSchema         = [PSAdminKeyVault]@{}
 }
+$Script:KeyVaultConfig = $Script:Config["PSAdminKeyVault"]
