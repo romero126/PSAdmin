@@ -90,7 +90,7 @@ function Get-PSAdminKeyVaultSecret
         
         foreach ($Result in $Results) {
             $Result = [PSAdminKeyVaultSecret]$Result
-            $Result.SecretValue = ConvertFrom-PSAdminKeyVaultSecretValue -VaultName $Result.VaultName -InputData $Result.SecretValue -Decrypt:$Decrypt
+            $Result.SecretValue = ConvertFrom-PSAdminKeyVaultSecretValue -VaultName $Result.VaultName -InputData ([System.Text.Encoding]::UTF8.GetString($Result.SecretValue)) -Decrypt:$Decrypt
             $Result
         }
 
