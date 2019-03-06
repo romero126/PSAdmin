@@ -49,8 +49,16 @@ function Open-PSAdmin
         Write-Debug "Storing DB Connection String"
         $Script:PSAdminDBConfig = @{}
         $Script:PSAdminDBConfig["Path"] = Get-Item -Path $Path | ForEach-Object Directory
+
         $Script:PSAdminConfig.CONFIG.Database.ChildNodes | ForEach-Object { $Script:PSAdminDBConfig[$_.Name] = $_.'#Text' }
 
+        $Database = Connect-PSAdminSQlite @Script:PSAdminDBConfig
+        foreach ($cfg in $Script:Config.GetEnumerator() )
+        {
+            $Null = New-PSAdminSQLiteTable -Database $Database -Table $cfg.Value.TableName -PSCustomObject $cfg.Value.TableSchema
+        }
+        Disconnect-PSAdminSQLite -Database $Database
+        #Todo: Remove ScriptBlock for cleaner building
         !_ScriptBlock_
     }
 
