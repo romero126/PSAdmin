@@ -17,7 +17,7 @@ $Menu = @(
             Remove-Item -Path $PSScriptRoot/Module -Recurse -ErrorAction SilentlyContinue -Force -Confirm:$false | Out-Null
             New-Item -Path $PSScriptRoot/Module/PSAdmin -ItemType Directory -ErrorAction SilentlyContinue -Force | Out-Null
             Copy-Item -Path $PSScriptRoot/Source/Bin/* -Destination $PSScriptRoot/Module/PSAdmin -Recurse
-
+            
             function Local:Build {
                 [CmdletBinding()]
                 param(
@@ -70,11 +70,6 @@ $Menu = @(
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Init"
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Private"
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Public"
-
-            $DBPub = Get-ChildItem $PSScriptRoot/Source/*.BasePublic.ps1 -Recurse | Get-Content -Raw
-            $Data = Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "OnLoad" -PassThru
-
-            $DBPub.Replace("!_ScriptBlock_", ($Data -join "`r`n`t")) | Out-File -FilePath $ModulePath -Append
 
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "End"
 
