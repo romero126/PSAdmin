@@ -12,26 +12,33 @@ By far this is no where a complete project as it should evolve since the ambitio
 Note this is always changing and will change as features get added.
 
 0. [PSAdmin][PSAdmin]
-1. [PSAdminMachine][PSAdminMachine]
+1. [PSAdminComputer][PSAdminComputer]
 2. [PSAdminKeyVault][PSAdminKeyVault]
 3. [PSAdminKeyVaultSecret][PSAdminKeyVaultSecret]
 4. PSAdminKeyVaultCertificate (Documentation is coming)
 
 [PSAdmin]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdmin.md
-[PSAdminMachine]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminMachine.md
+[PSAdminComputer]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminComputer.md
 [PSAdminKeyVault]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVault.md
 [PSAdminKeyVaultSecret]: https://github.com/romero126/PSAdmin/blob/master/Docs/PSAdminKeyVaultSecret.md
 
 ## My Wishlist with this project
- 1. [X] Machine Database
- 2. [X] KeyVault Storage (Main Storage)
- 3. [X] Certificate Storage
- 4. [ ] Blob Storage
- 5. [ ] Key Storage
- 6. [X] Secret Storage
- 7. [ ] Store/Roll Credentials
- 8. [ ] Remote Invoke/PSSession
- 9. [ ] Create and Automate Workflows
-10. [ ] Ability to quickly Audit Environment for machines and Assets
-11. [ ] Automated Ingestion of Log Files to Tools like Kibana/Elstisearch
-12. [X] This is just brainstorming
+* [X] KeyVault Storage (Main Storage)
+* [X] Certificate Storage
+* [X] Secret Storage
+* [X] Computer Database  
+    * [X] Store Credentials
+    * [X] Remote Invoke / PSSession
+    * [X] MSTSC / RDP
+* [ ] Blob Storage
+    * [ ] Should Storage be a thing?
+* [ ] Key Storage
+    * [ ] Store Environment Variables
+* [ ] Workflow Execution for Automated Workflows
+    * [ ] Ability to Quickly Audit Environment
+    * [ ] Validate Service Health
+    * [ ] Ingestion Tools for Loging
+    * [ ] Ingestion
+* [ ] Automated Dashboard 
+* [ ] Automated Ingestion of Log Files to Tools like Kibana/Elstisearch
+* [X] This is just brainstorming
