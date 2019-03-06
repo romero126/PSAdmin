@@ -59,7 +59,7 @@ function Open-PSAdmin
         }
         Disconnect-PSAdminSQLite -Database $Database
         #Todo: Remove ScriptBlock for cleaner building
-        !_ScriptBlock_
+        #!_ScriptBlock_
     }
 
     end
