@@ -25,6 +25,7 @@
     </data>
 
     <data name="KeyVaultNotFound">
+        <TypeName>System.NullReferenceException</TypeName>
         <Value>Could not find a KeyVault with a name of '{0}'</Value>
     </data>
     
