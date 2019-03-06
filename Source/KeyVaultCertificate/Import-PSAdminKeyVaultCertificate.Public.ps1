@@ -53,7 +53,7 @@ function Import-PSAdminKeyVaultCertificate
         switch ($PSCmdlet.ParameterSetName)
         {
             "ImportFromFile" {
-                $CertificateByteArray = Get-Content -Path $FilePath -Encoding Byte
+                $CertificateByteArray = [System.Text.Encoding]::Default.GetBytes( (Get-Content -Path $FilePath -Raw) )
             }
             "ImportFromString" {
                 $CertificateByteArray = [System.Convert]::FromBase64String($CertificateString)
