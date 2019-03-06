@@ -21,6 +21,7 @@ if ($ArgumentList)
 $Script:PSAdminConfig   = $null
 $Script:PSAdminDB       = $null
 $Script:PSAdminDBConfig = $null
+$Script:Config = @{}
 
 $Script:PSAdminLocale =  & {
     $Path = "{0}/Locale/{1}/globalization.xml" -f $PSScriptRoot, [System.Globalization.CultureInfo]::CurrentCulture.Name
