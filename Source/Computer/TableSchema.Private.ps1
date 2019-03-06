@@ -38,8 +38,6 @@ class PSAdminComputer {
     [String] $Notes;
 }
 
-$Script:Config = @{}
-
 $Script:Config["PSAdminComputer"] = @{
     TableName           = "PSAdminComputer"
     TableKeys           = @("VaultName", "ComputerName", "Id")
