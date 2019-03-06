@@ -19,7 +19,7 @@ function Connect-PSAdminSession
     }
     process
     {
-        $Computer = Get-PSAdminMachine -VaultName $VaultName -Name $ComputerName
+        $Computer = Get-PSAdminComputer -VaultName $VaultName -Name $ComputerName
 
         if ((Get-PSSession -Name $Computer.Name -ErrorAction SilentlyContinue) -ne $null) {
             Write-Host "* Session already exists *" -ForegroundColor Yellow
@@ -38,7 +38,7 @@ function Connect-PSAdminSession
             $TargetIP = $Computer.PublicIP
         }
 
-        $Credential = Get-PSAdminMachineSecret -VaultName $Computer.VaultName -Name $Computer.Name -Tag "RemoteAdmin" -ExportCred | ForEach-Object Credential
+        $Credential = Get-PSAdminComputerSecret -VaultName $Computer.VaultName -Name $Computer.Name -Tag "RemoteAdmin" -ExportCred | ForEach-Object Credential
         if (!$Credential) {
             Write-Error ("Secret for '{0}' with the name of '{1}' not found" -f $Computer.Name, $Name)
             return

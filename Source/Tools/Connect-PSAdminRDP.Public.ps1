@@ -20,7 +20,7 @@ function Connect-PSAdminRDP
     }
     process
     {
-        $Computer = Get-PSAdminMachine -VaultName $VaultName -Name $ComputerName
+        $Computer = Get-PSAdminComputer -VaultName $VaultName -Name $ComputerName
 
         if ($Computer.Tags -NotContains "RemoteAdmin") {
             throw "Remote Admin not Installed on machine"
@@ -35,7 +35,7 @@ function Connect-PSAdminRDP
             $TargetIP = $Computer.PublicIP
         }
 
-        $Credential = Get-PSAdminMachineSecret -VaultName $Computer.VaultName -Name $Computer.Name -Tag "RemoteAdmin" -ExportCred | ForEach-Object Credential
+        $Credential = Get-PSAdminComputerSecret -VaultName $Computer.VaultName -Name $Computer.Name -Tag "RemoteAdmin" -ExportCred | ForEach-Object Credential
         if (!$Credential) {
             Write-Error ("Secret for '{0}' with the name of '{1}' not found" -f $Computer.Name, $ComputerName)
             return
