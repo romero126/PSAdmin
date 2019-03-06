@@ -20,7 +20,7 @@ function Connect-PSAdminRDP
     }
     process
     {
-        $Computer = Get-PSAdminComputer -VaultName $VaultName -Name $ComputerName
+        $Computer = Get-PSAdminComputer -VaultName $VaultName -ComputerName $ComputerName
 
         if ($Computer.Tags -NotContains "RemoteAdmin") {
             throw "Remote Admin not Installed on machine"

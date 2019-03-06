@@ -19,7 +19,7 @@ function Connect-PSAdminSession
     }
     process
     {
-        $Computer = Get-PSAdminComputer -VaultName $VaultName -Name $ComputerName
+        $Computer = Get-PSAdminComputer -VaultName $VaultName -ComputerName $ComputerName
 
         if ((Get-PSSession -Name $Computer.Name -ErrorAction SilentlyContinue) -ne $null) {
             Write-Host "* Session already exists *" -ForegroundColor Yellow

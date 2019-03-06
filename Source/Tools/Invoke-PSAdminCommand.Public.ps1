@@ -39,7 +39,7 @@ function Invoke-PSAdminCommand
     {
 
 
-        $Computer = Get-PSAdminMachine -VaultName $VaultName -Name $ComputerName
+        $Computer = Get-PSAdminComputer -VaultName $VaultName -ComputerName $ComputerName
 
         if ($Computer.Tags -NotContains "RemoteAdmin") {
 
