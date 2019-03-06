@@ -1,13 +1,13 @@
-﻿# Set-PSAdminMachine
+﻿# Set-PSAdminComputer
 Module: PSAdmin
 
-Sets a value for PSAdminMachine with Specified Matching Name.
+Sets a value for PSAdminComputer with Specified Matching Name.
 
 ``` powershell
-Set-PSAdminMachine
+Set-PSAdminComputer
         [-Id <String>]
         -VaultName <String>
-        -Name <String>
+        -ComputerName <String>
         [-Description <String>]
         [-LastOnline <Nullable`1>]
         [-AssetNumber <String>]
@@ -20,9 +20,9 @@ Set-PSAdminMachine
         [-Rack <String>]
         [-Slot <String>]
         [-VMHost <String>]
-        [-MachineDefinition <String>]
-        [-ProvisioningState <String>]
-        [-DesiredVersion <String>]
+        [-BuildDefinition <String>]
+        [-BuildState <String>]
+        [-BuildDesiredVersion <String>]
         [-ActualVersion <String>]
         [-Domain <String>]
         [-Forest <String>]
@@ -36,14 +36,14 @@ Set-PSAdminMachine
 ```
 
 ## Description
-Sets a value for PSAdminMachine with Specified Matching Name.
+Sets a value for PSAdminComputer with Specified Matching Name.
 
 ## Examples
 ### Example 1:   
 ***
 
 ``` powershell
-Set-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -<Parameter> "<Value>"
+Set-PSAdminComputer -VaultName "<VaultName>" -Name "<HostName>" -<Parameter> "<Value>"
 ```
 
 ## Parameters
@@ -67,9 +67,8 @@ Default Value:
 Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
-### \-Name
+### \-ComputerName
 
-Specify Name
 ```
 Type:                       String  
 Position:                   2  
@@ -197,9 +196,9 @@ Default Value:
 Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
-### \-MachineDefinition
+### \-BuildDefinition
 
-Specify MachineDefinition
+Specify BuildDefinition
 ```
 Type:                       String  
 Position:                   named  
@@ -207,9 +206,9 @@ Default Value:
 Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
-### \-ProvisioningState
+### \-BuildState
 
-Specify ProvisioningState
+Specify BuildState
 ```
 Type:                       String  
 Position:                   named  
@@ -217,9 +216,9 @@ Default Value:
 Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
-### \-DesiredVersion
+### \-BuildDesiredVersion
 
-Specify DesiredVersion
+Specify BuildDesiredVersion
 ```
 Type:                       String  
 Position:                   named  

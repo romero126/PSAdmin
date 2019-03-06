@@ -53,7 +53,7 @@ Specify a Location
 Type:                       String  
 Position:                   3  
 Default Value:                
-Accept pipeline input:      true (ByPropertyName)  
+Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
 ### \-VaultURI
@@ -63,7 +63,7 @@ Specify a URI for Reference
 Type:                       String  
 Position:                   4  
 Default Value:                
-Accept pipeline input:      true (ByPropertyName)  
+Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
 ### \-SKU
@@ -72,7 +72,7 @@ Accept wildcard characters: Unknown
 Type:                       String  
 Position:                   5  
 Default Value:                
-Accept pipeline input:      true (ByPropertyName)  
+Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
 ### \-SoftDeleteEnabled
@@ -82,7 +82,7 @@ Specify Soft Delete Enabled (Note: This feature is not enabled)
 Type:                       String  
 Position:                   6  
 Default Value:                
-Accept pipeline input:      true (ByPropertyName)  
+Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
 ### \-Tags
@@ -92,6 +92,6 @@ Specify a Tag or Multiple Tags
 Type:                       String[]  
 Position:                   7  
 Default Value:                
-Accept pipeline input:      true (ByPropertyName)  
+Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```

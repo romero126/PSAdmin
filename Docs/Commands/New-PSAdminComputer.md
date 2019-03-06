@@ -1,13 +1,12 @@
-﻿# Set-PSAdminMachine
+﻿# New-PSAdminComputer
 Module: PSAdmin
 
-Sets a value for PSAdminMachine with Specified Matching Name.
+Searches PSAdminComputer for a Computer with Specified Matching Name.
 
 ``` powershell
-Set-PSAdminMachine
-        [-Id <String>]
+New-PSAdminComputer
         -VaultName <String>
-        -Name <String>
+        -ComputerName <String>
         [-Description <String>]
         [-LastOnline <Nullable`1>]
         [-AssetNumber <String>]
@@ -20,10 +19,10 @@ Set-PSAdminMachine
         [-Rack <String>]
         [-Slot <String>]
         [-VMHost <String>]
-        [-MachineDefinition <String>]
-        [-ProvisioningState <String>]
-        [-DesiredVersion <String>]
-        [-ActualVersion <String>]
+        [-BuildDefinition <String>]
+        [-BuildState <String>]
+        [-BuildDesiredVersion <String>]
+        [-BuildActualVersion <String>]
         [-Domain <String>]
         [-Forest <String>]
         [-PublicFQDN <String>]
@@ -31,32 +30,31 @@ Set-PSAdminMachine
         [-PublicIP <IPAddress>]
         [-LocalIP <IPAddress>]
         [-MACAddress <String>]
-        [-Tags <String[]>]
+        [-Tags <String>]
         [-Notes <String>]
+        [-Exact]
 ```
 
 ## Description
-Sets a value for PSAdminMachine with Specified Matching Name.
+Searches PSAdminComputer for a Computer with Specified Matching Name.
 
 ## Examples
 ### Example 1:   
 ***
 
 ``` powershell
-Set-PSAdminMachine -VaultName "<VaultName>" -Name "<HostName>" -<Parameter> "<Value>"
+New-PSAdminComputer -VaultName "<VaultName>" -Name "<HostName>"
+```
+
+### Example 2:   
+***
+
+``` powershell
+New-PSAdminComputer -VaultName "<VaultName>" -Name "<HostName>" -<Parameter> "Value"
 ```
 
 ## Parameters
 
-### \-Id
-
-```
-Type:                       String  
-Position:                   named  
-Default Value:                
-Accept pipeline input:      true (ByPropertyName)  
-Accept wildcard characters: Unknown  
-```
 ### \-VaultName
 
 Specify VaultName
@@ -64,12 +62,12 @@ Specify VaultName
 Type:                       String  
 Position:                   1  
 Default Value:                
-Accept pipeline input:      true (ByPropertyName)  
+Accept pipeline input:      true (ByValue, ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
-### \-Name
+### \-ComputerName
 
-Specify Name
+Specify ComputerName
 ```
 Type:                       String  
 Position:                   2  
@@ -84,7 +82,7 @@ Specify Description
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-LastOnline
@@ -94,7 +92,7 @@ Specify LastOnline
 Type:                       Nullable`1  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-AssetNumber
@@ -104,7 +102,7 @@ Specify AssetNumber
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-SerialNumber
@@ -114,7 +112,7 @@ Specify SerialNumber
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-DeviceSKU
@@ -124,7 +122,7 @@ Specify DeviceSKU
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-OSVersion
@@ -134,7 +132,7 @@ Specify OSVersion
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Location
@@ -144,7 +142,7 @@ Specify Location
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Building
@@ -154,7 +152,7 @@ Specify Building
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Room
@@ -164,7 +162,7 @@ Specify Room
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Rack
@@ -174,7 +172,7 @@ Specify Rack
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Slot
@@ -184,7 +182,7 @@ Specify Slot
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-VMHost
@@ -194,47 +192,47 @@ Specify VMHost
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
-### \-MachineDefinition
+### \-BuildDefinition
 
-Specify MachineDefinition
+Specify BuildDefinition
 ```
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
-### \-ProvisioningState
+### \-BuildState
 
-Specify ProvisioningState
+Specify BuildState
 ```
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
-### \-DesiredVersion
+### \-BuildDesiredVersion
 
-Specify DesiredVersion
+Specify BuildDesiredVersion
 ```
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
-### \-ActualVersion
+### \-BuildActualVersion
 
-Specify ActualVersion
+Specify BuildActualVersion
 ```
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Domain
@@ -244,7 +242,7 @@ Specify Domain
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Forest
@@ -254,7 +252,7 @@ Specify Forest
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-PublicFQDN
@@ -264,7 +262,7 @@ Specify PublicFQDN
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-LoadBalancer
@@ -274,7 +272,7 @@ Specify LoadBalancer
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-PublicIP
@@ -284,7 +282,7 @@ Specify PublicIP
 Type:                       IPAddress  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-LocalIP
@@ -294,7 +292,7 @@ Specify LocalIP
 Type:                       IPAddress  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-MACAddress
@@ -304,17 +302,17 @@ Specify MACAddress
 Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Tags
 
 Specify Tags
 ```
-Type:                       String[]  
+Type:                       String  
 Position:                   named  
 Default Value:                
-Accept pipeline input:      false  
+Accept pipeline input:      true (ByPropertyName)  
 Accept wildcard characters: Unknown  
 ```
 ### \-Notes
@@ -324,6 +322,16 @@ Specify Notes
 Type:                       String  
 Position:                   named  
 Default Value:                
+Accept pipeline input:      true (ByPropertyName)  
+Accept wildcard characters: Unknown  
+```
+### \-Exact
+
+Specify Search Mode
+```
+Type:                       SwitchParameter  
+Position:                   named  
+Default Value:              False  
 Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
