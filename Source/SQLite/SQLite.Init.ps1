@@ -1,8 +1,11 @@
 Write-Log "SQLite.init.ps1" -Status Debug -Offset 2
 
 #Throw "KevinException NotImplemented"
-
-if ([System.Environment]::Is64BitProcess)
+if ([System.Environment]::OSVersion.Platform -eq "Unix")
+{
+    $Libraries = Get-ChildItem -Path "$PSScriptRoot/mac/*.dll"
+}
+elseif ([System.Environment]::Is64BitProcess)
 {
     $Libraries = Get-ChildItem -Path "$PSScriptRoot/x64/*.dll"
 }
