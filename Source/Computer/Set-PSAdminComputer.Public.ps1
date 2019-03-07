@@ -230,7 +230,7 @@ Function Set-PSAdminComputer
         }
 
         if ($PassThru) {
-            $Result = Get-PSAdminComputer -VaultName $VaultName -Name $Name -Exact
+            $Result = Get-PSAdminComputer -VaultName $VaultName -ComputerName $ComputerName -Exact
             [PSAdminComputer]$Result
         }
 
