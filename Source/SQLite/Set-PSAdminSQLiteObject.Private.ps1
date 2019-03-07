@@ -9,7 +9,9 @@ function Set-PSAdminSQLiteObject
         [Parameter(Mandatory)]
         [System.String[]]$Keys,
         [Parameter(Mandatory)]
-        [PSCustomObject]$InputObject
+        [PSCustomObject]$InputObject,
+        [Parameter()]
+        [Switch]$Match
     )
 
     begin
@@ -24,20 +26,36 @@ function Set-PSAdminSQLiteObject
 
         $Filter = foreach ($Item in $InputObject.PSObject.Properties)
         {
-            if ($Keys -eq $Item.Name) {
-                if ($Item.TypeNameOfValue -eq 'System.String[]')
-                {
-                    if ($i -eq "*")
-                    { 
-                        continue;
-                    }
+            if ($Keys -eq $Item.Name)
+            {
+                if ((!$Match) -and ($Item.Value -eq "*")) {
+                    continue;
+                }
+                elseif ($Item.TypeNameOfValue -eq 'System.String[]')
+                { 
                     foreach ($i in $Item.Value)
                     {
+                        if ($i -eq "*")
+                        { 
+                            continue;
+                        }
                         "``{0}`` LIKE '%{1}%'" -f $Item.Name, $i
                     }
                     continue;
                 }
-                "``{0}`` LIKE '{1}'" -f $Item.Name, $Item.Value
+                elseif (!$Match)
+                {
+                    $ItemValue = $Item.Value
+                    $SearchComparator = "="
+                    ("`n ``{0}`` {1} '{2}'" -f $Item.Name, $SearchComparator, $ItemValue)
+                }
+                else
+                {
+                    $ItemValue = $Item.Value.Replace('\','\\').Replace('_', '\_').Replace("*", "%")
+                    $SearchComparator = "LIKE"
+                    ("`n ``{0}`` {1} '{2}' ESCAPE '\'" -f $Item.Name, $SearchComparator, $ItemValue)
+                }
+
             }
         }
 
