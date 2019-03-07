@@ -221,7 +221,7 @@ Function Set-PSAdminComputer
         }
         Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name "Updated" -Value ([DateTime]::UtcNow)
 
-        $Result = Set-PSAdminSQliteObject @DBQuery
+        $Result = Set-PSAdminSQliteObject @DBQuery -Match
 
         if ($Result -eq -1)
         {
