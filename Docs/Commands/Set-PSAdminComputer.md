@@ -33,6 +33,7 @@ Set-PSAdminComputer
         [-MACAddress <String>]
         [-Tags <String[]>]
         [-Notes <String>]
+        [-PassThru]
 ```
 
 ## Description
@@ -323,6 +324,15 @@ Specify Notes
 Type:                       String  
 Position:                   named  
 Default Value:                
+Accept pipeline input:      false  
+Accept wildcard characters: Unknown  
+```
+### \-PassThru
+
+```
+Type:                       SwitchParameter  
+Position:                   named  
+Default Value:              False  
 Accept pipeline input:      false  
 Accept wildcard characters: Unknown  
 ```
