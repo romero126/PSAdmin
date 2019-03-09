@@ -41,12 +41,47 @@ describe "PSAdminComputer" {
     }
 
     Context "Set-PSAdminComputer" {
-        #Set Item should be wildcard only.
+        #Set Manifesto
+        #Validate [POS] Set Value
+        #Validate [POS] Pipeline Input
+        #Validate [POS] Take WildCard Input
+        #Validate [POS] not throw Terminating Errors
+        #Validate [POS] Take Positional Values
+        #Validate [POS] Passthru
+        #Validate [POS] Exact
+        #Validate [POS] Wildcard
+#        #Validate [POS] NonExistant
+#        #Validate [NEG] 
+
         it "Validate [POS] Set Value" {
             New-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set"
             Set-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set" -Description "Computer_Set"
             Get-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set" | ForEach-Object Description | Should -Be "Computer_Set"
         }
+
+        it "Validate [POS] Take Wildcard Input" {
+            New-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Wildcard"
+            Set-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Wild*" -Description "Computer_Set_WildCard"
+            Get-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Wildcard" | ForEach-Object Description | Should -Be "Computer_Set_WildCard"
+        }
+
+        it "Validate [POS] Pipeline Input" {
+            New-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Pipeline"
+            Get-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Pipeline" | Set-PSAdminComputer -Description "Computer_Set_Pipeline"
+            Get-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Pipeline" | ForEach-Object Description | Should -Be "Computer_Set_Pipeline"
+        }
+
+        it "Validate [POS] Positional Values" {
+            New-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Positional"
+            Set-PSAdminComputer $VaultName "Computer_Set_Positional" -Description "Computer_Set_Positional"
+            Get-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_Positional" | ForEach-Object Description | Should -Be "Computer_Set_Positional"
+        }
+
+        it "Validate [POS] Passthru" {
+            New-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_PassThru"
+            Set-PSAdminComputer -VaultName $VaultName -ComputerName "Computer_Set_PassThru" -Description "Computer_Set_PassThru" -PassThru | ForEach-Object Description | Should -Be "Computer_Set_PassThru"
+        }
+        
     }
 
     Context "Remove-PSAdminComputer" {
