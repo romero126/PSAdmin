@@ -186,11 +186,13 @@ Function Set-PSAdminComputer
         [System.String]             $MACAddress, 
         
         [Parameter()]
-        [System.String[]]             $Tags,
+        [System.String[]]           $Tags,
         
         [Parameter()]
-        [System.String]             $Notes
+        [System.String]             $Notes,
 
+        [Parameter()]
+        [Switch]                    $PassThru
     )
     begin
     {
@@ -212,6 +214,10 @@ Function Set-PSAdminComputer
         #Needs to be dynamically generated for it to work properly
         foreach ($Param in $PSBoundParameters.GetEnumerator())
         {
+            if ($Param.Key -eq 'PassThru')
+            {
+                Continue;
+            }
             if ($Param.Key -eq 'Tags')
             {
                 Add-Member -InputObject $DBQuery.InputObject -MemberType NoteProperty -Name $Param.Key -Value ($Param.Value -join ';')
