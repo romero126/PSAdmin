@@ -14,7 +14,7 @@ if (($PSEdition -eq "Desktop") -or ($IsWindows)) {
         $Libraries = Get-ChildItem -Path "$PSScriptRoot/x86/*.dll"
     }
 }
-elseif ($IsMacOS) {
+elseif (($IsMacOS) -or ($IsOSX)) {
     $Libraries = Get-ChildItem -Path "$PSScriptRoot/mac/*.dll"
 }
 else 
