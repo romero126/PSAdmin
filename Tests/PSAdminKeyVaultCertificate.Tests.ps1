@@ -6,8 +6,8 @@ Describe "PSAdminKeyVaultCertificate" {
         $CertPath       = "$PSScriptRoot/PSAdminKeyVaultCertificate.Tests.pfx"
         $CertThumb      = "B86837D68B56856BC0C2E79361954E63E0A98A6F"
         $CertPass       = $CertThumb | ConvertTo-SecureString -AsPlainText -Force
-        $CertRaw = Get-Content -Path $CertPath -Encoding Byte
-        $CertBase64 = [Convert]::ToBase64String($CertRaw)
+        $CertRaw        = [System.Text.Encoding]::Default.GetBytes( (Get-Content -Path $CertPath -Raw) )
+        $CertBase64     = [Convert]::ToBase64String($CertRaw)
         New-PSAdminKeyVault -VaultName $VaultName
     }
 
