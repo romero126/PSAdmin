@@ -58,6 +58,11 @@ function Open-PSAdmin
             $Null = New-PSAdminSQLiteTable -Database $Database -Table $cfg.Value.TableName -PSCustomObject $cfg.Value.TableSchema
         }
         Disconnect-PSAdminSQLite -Database $Database
+
+        $ConnectionString = $Script:PSAdminDBConfig.ConnectionString -f ($Script:PSAdminDBConfig.Path, $Script:PSAdminDBConfig.DataSource -join "\"), $Script:PSAdminDBConfig.Pooling, $Script:PSAdminDBConfig.FailIfMissing, $Script:PSAdminDBConfig.Synchronous
+        
+        & (get-command Open-PSAdmin -CommandType Cmdlet) -SQLConnectionString $ConnectionString
+
         #Todo: Remove ScriptBlock for cleaner building
         #!_ScriptBlock_
     }

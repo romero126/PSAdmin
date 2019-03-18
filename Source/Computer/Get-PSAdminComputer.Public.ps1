@@ -1,5 +1,3 @@
-function Get-PSAdminComputer
-{
     <#
         .SYNOPSIS
             Searches PSAdminComputer for an machine with Specified Matching Name
@@ -41,6 +39,10 @@ function Get-PSAdminComputer
 
         .LINK
     #>
+<#
+function Get-PSAdminComputer
+{
+
     
     [OutputType([PSCustomObject[]])]
     [CmdletBinding()]
@@ -95,3 +97,4 @@ function Get-PSAdminComputer
         Cleanup
     }
 }
+#>
