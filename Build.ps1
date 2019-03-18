@@ -18,6 +18,31 @@ $Menu = @(
             New-Item -Path $PSScriptRoot/Module/PSAdmin -ItemType Directory -ErrorAction SilentlyContinue -Force | Out-Null
             Copy-Item -Path $PSScriptRoot/Source/Bin/* -Destination $PSScriptRoot/Module/PSAdmin -Recurse
             
+            function Local:Compile {
+                [CmdletBinding()]
+                param (
+                    [Parameter(Mandatory)]
+                    [System.String]$Path,
+                    [Parameter(Mandatory)]
+                    [System.String]$Module,
+                    [Parameter(Mandatory)]
+                    [System.String]$Build
+                )
+
+                $ReferenceAssemblyManifest = @(
+                    "System.Data"
+                    "System.Data.Common"
+                    "System.ComponentModel.Primitives"
+                    "System.Management.Automation"
+                    "System.Text.RegularExpressions"
+                    "System.Collections"
+                )
+                
+                $ObjectList = Get-ChildItem -Path $Path/*.cs -Recurse
+                $ReferencedAssemblies = $ReferenceAssemblyManifest + (get-childitem -Path $Path/bin/$Build/*.dll -Recurse)
+                Write-Host "Compiling DLL for $Build" -ForegroundColor Cyan
+                Add-Type -Path $ObjectList -OutputAssembly $PSScriptRoot/Module/$Module/$Build/$Module.dll -ReferencedAssemblies $ReferencedAssemblies
+            }
             function Local:Build {
                 [CmdletBinding()]
                 param(
@@ -70,11 +95,16 @@ $Menu = @(
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Init"
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Private"
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Public"
-
             Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "End"
 
             $Children = Get-ChildItem -Path $PSScriptRoot/Source/*.Public.ps1 -Recurse | ForEach-Object { "'{0}'" -f $_.BaseName.Replace('.Public', '') }
-            "Export-ModuleMember -Function 'Open-PSAdmin',{0}" -f ($Children -Join ',') | Out-File -FilePath $ModulePath -Append
+
+            $Cmdlets =  "Get-PSAdminComputer", "Open-PSAdmin"
+            "Export-ModuleMember -Function {0} -Cmdlet {1}" -f ($Children -Join ','), ($cmdlets -join ',') | Out-File -FilePath $ModulePath -Append
+
+            Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build x64
+            Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build x86
+            Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build mac
         }
     },
     
