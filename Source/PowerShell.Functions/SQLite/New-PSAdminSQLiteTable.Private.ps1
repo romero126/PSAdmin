@@ -37,7 +37,7 @@ function New-PSAdminSQLiteTable
             }
 
             $Properties.Add( ("``{0}`` {1}" -f $i.Name, $NameType)) | out-null
-    
+            
         }
 
         Invoke-PSAdminSQLiteQuery -Database $Database -Query ("CREATE TABLE IF NOT EXISTS ``{0}`` ({1})" -f $Table, ($Properties -join ", "))
