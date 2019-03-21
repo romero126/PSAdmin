@@ -68,7 +68,8 @@
         'PSAdminKeyVaultCertificate.Format.ps1xml',
         'PSAdminKeyVaultSecret.Format.ps1xml',
         'PSAdminComputer.Format.ps1xml',
-        'PSAdmin.Data.Computer.Format.ps1xml'
+        'PSAdmin.Data.Computer.Format.ps1xml',
+        'PSAdmin.Data.KeyVault.Format.ps1xml'
     )
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
