@@ -99,7 +99,29 @@ $Menu = @(
 
             $Children = Get-ChildItem -Path $PSScriptRoot/Source/*.Public.ps1 -Recurse | ForEach-Object { "'{0}'" -f $_.BaseName.Replace('.Public', '') }
 
-            $Cmdlets =  "Get-PSAdminComputer", "Open-PSAdmin"
+            $Cmdlets =  "Open-PSAdmin"                  ,
+                "New-PSAdminKeyVault"                   ,
+                "Get-PSAdminKeyVault"                   ,
+                "Set-PSAdminKeyVault"                   ,
+                "Remove-PSAdminKeyVault"                ,
+                #"Protect-PSAdminKeyVault"               ,
+                #"UnProtect-PSAdminKeyVault"             ,
+                #"Import-PSAdminKeyVaultCertificate"     ,
+                #"Export-PSAdminKeyVaultCertificate"     ,
+                #"Get-PSAdminKeyVaultCertificate"        ,
+                #"Remove-PSAdminKeyVaultCertificate"     ,
+                #"New-PSAdminKeyVaultSecret"             ,
+                #"Get-PSAdminKeyVaultSecret"             ,
+                #"Set-PSAdminKeyVaultSecret"             ,
+                #"Remove-PSAdminKeyVaultSecret"          ,
+                #"ConvertFrom-PSAdminKeyVaultSecret"     ,
+                #"ConvertTo-PSAdminKeyVaultSecret"       ,
+                #"New-PSAdminComputer"                   ,
+                "Get-PSAdminComputer"                   
+                #"Set-PSAdminComputer"                   ,
+                #"Remove-PSAdminComputer"
+
+                
             "Export-ModuleMember -Function {0} -Cmdlet {1}" -f ($Children -Join ','), ($cmdlets -join ',') | Out-File -FilePath $ModulePath -Append
 
             Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build x64
