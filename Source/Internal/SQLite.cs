@@ -76,6 +76,128 @@ namespace PSAdmin.Internal {
             return Results;
         }
 
+        public static List<Hashtable> GetRow(string tablename, string filter)
+        {
+            
+            String query = String.Format("SELECT * FROM `{0}`", tablename);
+            if (!String.IsNullOrEmpty(filter))
+            {
+                query = String.Format("{0} WHERE {1}", query, filter);
+            }
+            return Query(query);
+        }
+
+        public static List<Hashtable> GetRow(string tablename, Hashtable filter, bool isexact)
+        {
+            String query = String.Format("SELECT * FROM `{0}` WHERE {1}", tablename, Filter(filter, isexact));
+            return Query(query);
+        }
+        public static bool CreateRow(string TableName, Hashtable InputItem)
+        {
+
+            bool result = false;
+            using (
+                SQLiteConnection Database = new SQLiteConnection(Config.SQLConnectionString)
+            )
+            {
+                Database.Open();
+                using ( SQLiteCommand Command = new SQLiteCommand(Database))
+                {
+                    List<String> TableColumns = new List<String>();
+                    List<String> TableParameters = new List<String>();
+
+                    foreach (DictionaryEntry item in InputItem)
+                    {
+                        String itemname = String.Format("{0}", item.Key);
+                        String itemparam = String.Format("@{0}", item.Key);
+
+                        TableColumns.Add( itemname );
+                        TableParameters.Add( itemparam );
+
+                        Command.Parameters.AddWithValue(itemparam, item.Value);
+                    }
+
+                    Command.CommandText = String.Format(
+                        "INSERT INTO {0} ({1}) VALUES ({2})",
+                        TableName,
+                        String.Join(",", TableColumns),
+                        String.Join(",", TableParameters)
+                    );
+
+                    int ItemsChanged = 0;
+                    try {
+                        ItemsChanged = Command.ExecuteNonQuery();                        
+                    }
+                    catch (SQLiteException  error) {
+                        throw new SQLiteException( String.Format("{0} from query: {1}", error.Message, Command.CommandText), error);
+                    }
+                    if (ItemsChanged > -1) {
+                        result = true;
+                    }
+                }
+                Database.Close();
+            }
+            return result;
+        }
+
+        public static bool UpdateRow(string TableName, Hashtable InputItem, Hashtable filter, bool Exact)
+        {
+            return UpdateRow(TableName, InputItem, Filter(filter, Exact), Exact);
+        }
+        public static bool UpdateRow(string TableName, Hashtable InputItem, string filter, bool Exact)
+        {
+            bool result = false;
+
+            using (
+                SQLiteConnection Database = new SQLiteConnection(Config.SQLConnectionString)
+            )
+            {
+                Database.Open();
+                using ( SQLiteCommand Command = new SQLiteCommand(Database))
+                {
+                    List<String> TableParameters = new List<String>();
+
+                    foreach (DictionaryEntry item in InputItem)
+                    {
+                        if (item.Value == null)
+                            continue;
+                        String itemparam = String.Format("{0} = @{0}", item.Key);
+                        TableParameters.Add( itemparam );
+                        Command.Parameters.AddWithValue(item.Key.ToString(), item.Value);
+                    }
+
+                    Command.CommandText = String.Format(
+                        "UPDATE {0} SET {1} WHERE {2}",
+                        TableName,
+                        String.Join(",", TableParameters),
+                        filter
+                    );
+
+                    int ItemsChanged = 0;
+                    try {
+                        ItemsChanged = Command.ExecuteNonQuery();                        
+                    }
+                    catch (SQLiteException  error) {
+                        throw new SQLiteException( String.Format("{0} from query: {1}", error.Message, Command.CommandText), error);
+                    }
+                    if (ItemsChanged > -1) {
+                        result = true;
+                    }
+                }
+                Database.Close();
+            }
+            return result;
+        }
+
+        public static bool RemoveRow(string tablename, Hashtable filter, bool isexact)
+        {
+            return RemoveRow(tablename, Filter(filter, isexact) );
+        }
+        public static bool RemoveRow(string tablename, string filter)
+        {
+            String query = String.Format("DELETE FROM `{0}` WHERE {1}", tablename, filter);
+            return NonQuery(query);
+        }
         public static DbType ConvertToDbType(Type type)
         {
             var typeMap = new Dictionary<Type, DbType>();
@@ -149,6 +271,7 @@ namespace PSAdmin.Internal {
         public static String Filter(string Key, string Value, bool IsExact)
         {
             if (IsExact) {
+                
                 if ((String.IsNullOrEmpty(Value)) || (Value == "%"))
                 {
                     return null;
@@ -166,8 +289,7 @@ namespace PSAdmin.Internal {
 
         public static String Filter(string Key, string[] Values, bool IsExact)
         {
-            if (Values == null)
-            {
+            if (Values == null) {
                 return null;
             }
             List<String> outlist = new List<String>();
@@ -212,17 +334,6 @@ namespace PSAdmin.Internal {
                 );
             }
             return String.Join(" AND ", outlist.ToArray());
-        }
-        public static List<Hashtable> QueryObject(string tablename, string filter)
-        {
-            String query = String.Format("SELECT * FROM `{0}` WHERE {1}", tablename, filter);
-            return Query(query);
-        }
-
-        public static List<Hashtable> QueryObject(string tablename, Hashtable filter, bool isexact)
-        {
-            String query = String.Format("SELECT * FROM `{0}` WHERE {1}", tablename, Filter(filter, isexact));
-            return Query(query);
         }
 
         public static bool CreateTable(string tablename, Type T, bool ifnotexists)
