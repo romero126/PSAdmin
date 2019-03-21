@@ -1,6 +1,9 @@
 using System;
 using PSAdmin.Internal;
 using System.Management.Automation;
+using System.Collections;
+using System.Collections.Generic;
+
 
 namespace PSAdmin.PowerShell.Commands {
 
@@ -48,10 +51,14 @@ namespace PSAdmin.PowerShell.Commands {
                     Config.SQLConnectionString = SQLConnectionString;
                     Config.IsLocalDatabase = IsLocalDatabase;
                     break;
-                    
+                
             }
-
+            foreach (KeyValuePair<String, Type> item in Config.SQLTables)
+            {
+                SQLiteDB.CreateTable(item.Key, item.Value, true);
+            }
         }
 
     }
+    
 }
