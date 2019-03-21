@@ -4,18 +4,22 @@ using System.Management.Automation;
 /// Need to be in SQLite
 using System.Data;
 using System.Data.SQLite;
+using PSAdmin;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace PSAdmin.Internal {
 
     public static class Config {
         public static string SQLConnectionString { get; set; }
         public static bool IsLocalDatabase { get;set; }
-        /*
-        internal static Dictionary<String, String> TableList = new Dictionary<string, string>()
+
+        internal static Dictionary<String, Type> SQLTables = new Dictionary<string, Type>()
         {
-            { "Computer", "PSAdminComputer" }
-        }
-        */
+            { "PSAdminKeyVault", typeof(Data.KeyVault) },
+            { "PSAdminComputer", typeof(Data.Computer) }
+        };
+
     }
     
 }
