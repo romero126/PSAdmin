@@ -16,7 +16,7 @@ namespace PSAdmin.PowerShell.Commands {
     [OutputType(typeof(System.String))]
     public sealed class GetPSAdminComputer : PSCmdlet
     {
-
+        
         /// <summary>
         /// Specify Id
         /// </summary>
@@ -48,7 +48,7 @@ namespace PSAdmin.PowerShell.Commands {
         public SwitchParameter Exact { get; set; }
 
         /// <summary>
-        /// Begin output
+        /// Searches PSAdminComputer for an machine with Specified Matching Name
         /// </summary>
         protected override void BeginProcessing()
         {
@@ -69,13 +69,11 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void ProcessRecord()
         {
             Data.Computer[] results = GetPSAdminComputer.Query(Id, VaultName, ComputerName, Tags, Exact);
+
             // Unroll the object
             foreach (Data.Computer result in results)
-            {
-                WriteObject(
-                    result
-                );
-            }
+                WriteObject( result );
+
         }
 
         /// <summary>
@@ -96,14 +94,14 @@ namespace PSAdmin.PowerShell.Commands {
             filterTable.Add("ComputerName", ComputerName);
 
             filter = SQLiteDB.Filter(filterTable, Exact);
-
+            
             string filterTags = SQLiteDB.Filter("Tags", Tags, false);
             if (!String.IsNullOrEmpty(filterTags)) {
                 filter = String.Format("{0} AND {1}", filter, filterTags);
             }
 
             Data.Computer[] result = SQLiteDB.ConvertToType<Data.Computer[]>(
-                SQLiteDB.QueryObject("PSAdminComputer", filter)
+                SQLiteDB.GetRow("PSAdminComputer", filter)
             );
 
             return result;
