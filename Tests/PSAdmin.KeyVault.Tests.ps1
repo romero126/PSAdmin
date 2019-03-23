@@ -11,7 +11,7 @@ describe -Name "PSAdminKeyVault" {
             Get-PSAdminKeyVault -VaultName "Vault_New" | Should -HaveCount 1
         }
         it "Validate [NEG] New Duplicate" { 
-            { New-PSAdminKeyVault -VaultName "Vault_New" } | Should -Throw
+            { New-PSAdminKeyVault -VaultName "Vault_New" -ErrorAction Stop } | Should -Throw
         }
         it "Validate [POS] New Pipeline" {
             "Vault_New_Pipeline1", "Vault_New_Pipeline2" | New-PSAdminKeyVault -Location "Value"
@@ -29,16 +29,16 @@ describe -Name "PSAdminKeyVault" {
     Context "Get-PSAdminKeyVault" {
         it "Validate [POS] Get" {
             New-PSAdminKeyVault -VaultName "Vault_Get"
-            Get-PSAdminKeyVault "Vault_Get" | Should -HaveCount 1
+            Get-PSAdminKeyVault -VaultName "Vault_Get" | Should -HaveCount 1
         }
 
         it "Validate [POS] Get Null" {
-            Get-PSAdminKeyVault "Vault_Get_Null" | Should -HaveCount 0
+            Get-PSAdminKeyVault -VaultName "Vault_Get_Null" | Should -HaveCount 0
         }
 
         it "Validate [POS] Get Exact" {
             New-PSAdminKeyVault -VaultName "Vault_Get_Exact"
-            Get-PSAdminKeyVault "Vault_Get_Exact" | Should -HaveCount 1
+            Get-PSAdminKeyVault -VaultName "Vault_Get_Exact" | Should -HaveCount 1
         }
 
         it "Validate [POS] Get Wildcard" {
