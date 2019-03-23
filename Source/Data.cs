@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Management.Automation;
 
 namespace PSAdmin.Data
 {
@@ -18,6 +19,26 @@ namespace PSAdmin.Data
         public System.String[]          Tags;
     }
 
+    public sealed class KeyVaultCertificate
+    {
+        public String                   Id;
+        public String                   VaultName;
+        public String                   Name;
+        public String                   Version;
+        public String                   Enabled;
+        public String                   DeletedDate;
+        public String                   RecoveryLevel;
+        public Nullable<DateTime>       Created;
+        public Nullable<DateTime>       Updated;
+        public Nullable<DateTime>       NotBefore;
+        public Nullable<DateTime>       Expires;
+        public Nullable<DateTime>       ScheduledPurgeDate;
+        public String                   SecretId;
+        public String                   KeyId;
+        public Object                   Certificate;
+        public String                   Thumbprint;   
+        public String                   Tags;
+    }
 
     public sealed class Computer
     {
@@ -53,4 +74,4 @@ namespace PSAdmin.Data
         public String                   Notes;
     }
 
-}
+}   
