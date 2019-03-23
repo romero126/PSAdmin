@@ -108,7 +108,7 @@ $Menu = @(
                 #"UnProtect-PSAdminKeyVault"             ,
                 #"Import-PSAdminKeyVaultCertificate"     ,
                 #"Export-PSAdminKeyVaultCertificate"     ,
-                #"Get-PSAdminKeyVaultCertificate"        ,
+                "Get-PSAdminKeyVaultCertificate"        ,
                 #"Remove-PSAdminKeyVaultCertificate"     ,
                 #"New-PSAdminKeyVaultSecret"             ,
                 #"Get-PSAdminKeyVaultSecret"             ,
@@ -116,10 +116,10 @@ $Menu = @(
                 #"Remove-PSAdminKeyVaultSecret"          ,
                 #"ConvertFrom-PSAdminKeyVaultSecret"     ,
                 #"ConvertTo-PSAdminKeyVaultSecret"       ,
-                #"New-PSAdminComputer"                   ,
-                "Get-PSAdminComputer"                   
-                #"Set-PSAdminComputer"                   ,
-                #"Remove-PSAdminComputer"
+                "New-PSAdminComputer"                   ,
+                "Get-PSAdminComputer"                   ,
+                "Set-PSAdminComputer"                   ,
+                "Remove-PSAdminComputer"
 
                 
             "Export-ModuleMember -Function {0} -Cmdlet {1}" -f ($Children -Join ','), ($cmdlets -join ',') | Out-File -FilePath $ModulePath -Append
