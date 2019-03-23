@@ -56,12 +56,9 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void BeginProcessing()
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
-                    
-                    ArgumentException exception = new System.ArgumentException(
-                        "Open-PSAdmin must be called first", "Any"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    ThrowTerminatingError(errorRecord);
+                ThrowTerminatingError(
+                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                );
             }
         }
 
@@ -75,11 +72,10 @@ namespace PSAdmin.PowerShell.Commands {
 
             if (searchvaults.Length > 0)
             {
-                    ArgumentException exception = new System.ArgumentException(
-                        "Item already exists.", "VaultName"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    ThrowTerminatingError(errorRecord);
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemExists, ComputerName, "ComputerName")
+                );
+                return;
             }
 
             String Id = Guid.NewGuid().ToString().Replace("-", "");
@@ -88,11 +84,9 @@ namespace PSAdmin.PowerShell.Commands {
             
             if (!issuccessful)
             {
-                    ArgumentException exception = new System.ArgumentException(
-                        "Could not create Item", "Any"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    ThrowTerminatingError(errorRecord);
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.RowCreate)
+                );
             }
             if (Passthru)
             {
@@ -166,12 +160,9 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void BeginProcessing()
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
-                    
-                    ArgumentException exception = new System.ArgumentException(
-                        "Open-PSAdmin must be called first", "Any"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    ThrowTerminatingError(errorRecord);
+                ThrowTerminatingError(
+                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                );
             }
 
         }
@@ -274,12 +265,9 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void BeginProcessing()
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
-                    
-                    ArgumentException exception = new System.ArgumentException(
-                        "Open-PSAdmin must be called first", "Any"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    ThrowTerminatingError(errorRecord);
+                ThrowTerminatingError(
+                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                );
             }
         }
 
@@ -292,11 +280,10 @@ namespace PSAdmin.PowerShell.Commands {
             
             if (!issuccessful)
             {
-                    ArgumentException exception = new System.ArgumentException(
-                        "Could not update Item", "Any"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    ThrowTerminatingError(errorRecord);
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.RowUpdate)
+                );
+                return;
             }
             if (Passthru)
             {
@@ -368,11 +355,9 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void BeginProcessing()
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {                    
-                    ArgumentException exception = new System.ArgumentException(
-                        "Open-PSAdmin must be called first", "Any"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    ThrowTerminatingError(errorRecord);
+                ThrowTerminatingError(
+                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                );
             }
 
         }
@@ -385,11 +370,10 @@ namespace PSAdmin.PowerShell.Commands {
             Data.KeyVault[] vaults = GetPSAdminKeyVault.Call(Id, VaultName, !Match);
 
             if ((Match == false) && (vaults.Length < 1)) {
-                ArgumentException exception = new System.ArgumentException(
-                    "No matches found", "Any"
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
                 );
-                ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                WriteError(errorRecord);
+                return;
             }
 
             // Unroll the object
@@ -400,14 +384,12 @@ namespace PSAdmin.PowerShell.Commands {
                     continue;
                 }
 
-                bool IsSuccessful = Call(Id, VaultName, !Match);
+                bool IsSuccessful = Call(vault.Id, vault.VaultName, !Match);
                 if (!IsSuccessful)
                 {
-                    ArgumentException exception = new System.ArgumentException(
-                        "Could not remove item", "Any"
+                    WriteError(
+                        KevinBlumenfeldException.Create(KevinExceptions.RowDelete)
                     );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    WriteError(errorRecord);
                 }
 
             }
