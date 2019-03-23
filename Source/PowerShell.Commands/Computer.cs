@@ -222,17 +222,17 @@ namespace PSAdmin.PowerShell.Commands {
             {
                 WriteError(
                     KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
-                ); 
+                );
                 return;
             }
 
             Data.Computer[] searchcomputer = GetPSAdminComputer.Call(null, VaultName, ComputerName, null, true);
             if (searchcomputer.Length > 0)
             {
-                    WriteError(
-                        KevinBlumenfeldException.Create(KevinExceptions.ItemExists, ComputerName, "ComputerName")
-                    ); 
-                    return;
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemExists, ComputerName, "ComputerName")
+                );
+                return;
             }
             
             Hashtable item = new Hashtable {
@@ -377,10 +377,11 @@ namespace PSAdmin.PowerShell.Commands {
         {
             string filter;
 
-            Hashtable filterTable = new Hashtable();
-            filterTable.Add("Id", Id);
-            filterTable.Add("VaultName", VaultName);
-            filterTable.Add("ComputerName", ComputerName);
+            Hashtable filterTable = new Hashtable {
+                { "Id",         Id },
+                { "VaultName",  VaultName },
+                { "ComputerName", ComputerName }
+            };
 
             filter = SQLiteDB.Filter(filterTable, Exact);
             
@@ -606,23 +607,19 @@ namespace PSAdmin.PowerShell.Commands {
             Data.KeyVault[] searchvaults = GetPSAdminKeyVault.Call(null, VaultName, true);
             if (searchvaults.Length == 0)
             {
-                    ArgumentException exception = new System.ArgumentException(
-                        "Vault not found", "VaultName"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    WriteError(errorRecord);
-                    return;
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
+                );
+                return;
             }
 
             Data.Computer[] searchcomputer = GetPSAdminComputer.Call(null, VaultName, ComputerName, null, Exact);
             if (searchcomputer.Length == 0)
             {
-                    ArgumentException exception = new System.ArgumentException(
-                        "ComputerName does not exist in valut", "ComputerName"
-                    );
-                    ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                    WriteError(errorRecord);
-                    return;
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, ComputerName, "ComputerName")
+                );
+                return;
             }
 
             Hashtable filter = new Hashtable {
@@ -659,7 +656,7 @@ namespace PSAdmin.PowerShell.Commands {
                 { "Notes",                  Notes }
             };
             if (Tags != null)
-                item.Add("Tags",                 String.Join(";", Tags));
+                item.Add("Tags",            String.Join(";", Tags));
 
             bool issuccessful = Call(item, filter, Exact);
             
@@ -746,21 +743,19 @@ namespace PSAdmin.PowerShell.Commands {
             Data.KeyVault[] vaults = GetPSAdminKeyVault.Call(null, VaultName, !Match);
 
             if ((Match == false) && (vaults.Length < 1)) {
-                ArgumentException exception = new System.ArgumentException(
-                    "No matches found", "Any"
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
                 );
-                ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                WriteError(errorRecord);
+                return;
             }
 
             Data.Computer[] computers = GetPSAdminComputer.Call(Id, VaultName, ComputerName, null, !Match);
 
             if ((Match == false) && (computers.Length < 1)) {
-                ArgumentException exception = new System.ArgumentException(
-                    "Computer not found", "Any"
+                WriteError(
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, ComputerName, "ComputerName")
                 );
-                ErrorRecord errorRecord = new ErrorRecord(exception, "ErrorId", ErrorCategory.InvalidArgument, null);
-                WriteError(errorRecord);
+                return;
             }   
 
             // Unroll the object
