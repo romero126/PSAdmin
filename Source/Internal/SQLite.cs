@@ -201,6 +201,7 @@ namespace PSAdmin.Internal {
         public static DbType ConvertToDbType(Type type)
         {
             var typeMap = new Dictionary<Type, DbType>();
+            typeMap[typeof(object)]                                 = DbType.Byte;
             typeMap[typeof(string)]                                 = DbType.String;
             typeMap[typeof(string[])]                               = DbType.String;
             typeMap[typeof(int)]                                    = DbType.Int32;

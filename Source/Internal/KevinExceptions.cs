@@ -7,6 +7,7 @@ namespace PSAdmin.Internal
 {
     public enum KevinExceptions {
         DatabaseNotOpen,
+        ParameterSetNotFound,
         RowCreate,
         RowUpdate,
         RowDelete,
@@ -20,7 +21,8 @@ namespace PSAdmin.Internal
         
 
         private static Dictionary<KevinExceptions, String> errorStrings = new Dictionary<KevinExceptions, string> {
-            { KevinExceptions.DatabaseNotOpen,          "Database not selected"},
+            { KevinExceptions.DatabaseNotOpen,          "Database not selected" },
+            { KevinExceptions.ParameterSetNotFound,     "A Valid ParameterSetName could not be found" },
             { KevinExceptions.RowCreate,                "Unable to create item" },
             { KevinExceptions.RowUpdate,                "Unable to update item" },
             { KevinExceptions.RowDelete,                "Unable to delete item" },
@@ -30,6 +32,7 @@ namespace PSAdmin.Internal
         };
         private static Dictionary<KevinExceptions, ErrorCategory> errorCategory = new Dictionary<KevinExceptions, ErrorCategory> {
             { KevinExceptions.DatabaseNotOpen,          ErrorCategory.ResourceUnavailable },
+            { KevinExceptions.ParameterSetNotFound,     ErrorCategory.InvalidOperation },
             { KevinExceptions.RowCreate,                ErrorCategory.WriteError },
             { KevinExceptions.RowUpdate,                ErrorCategory.WriteError },
             { KevinExceptions.RowDelete,                ErrorCategory.WriteError },

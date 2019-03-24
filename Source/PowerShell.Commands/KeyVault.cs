@@ -73,7 +73,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (searchvaults.Length > 0)
             {
                 WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemExists, ComputerName, "ComputerName")
+                    KevinBlumenfeldException.Create(KevinExceptions.ItemExists, VaultName, "VaultName")
                 );
                 return;
             }

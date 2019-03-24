@@ -1,7 +1,9 @@
 Describe "PSAdminKeyVaultCertificate" {
     BeforeAll {
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
+
         Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
+
         $VaultName      = "Vault_Certificate_Test"
         $CertPath       = "$PSScriptRoot/PSAdminKeyVaultCertificate.Tests.pfx"
         $CertThumb      = "B86837D68B56856BC0C2E79361954E63E0A98A6F"
@@ -22,7 +24,7 @@ Describe "PSAdminKeyVaultCertificate" {
         }
         it "Validate [NEG] Duplicate" {
             $CertPass = $CertThumb | ConvertTo-SecureString -AsPlainText -Force
-            { Import-PSAdminKeyVaultCertificate -VaultName $VaultName -Password $CertPass -FilePath $CertPath -Name "Import-FilePath" } | Should -Throw
+            { Import-PSAdminKeyVaultCertificate -VaultName $VaultName -Password $CertPass -FilePath $CertPath -Name "Import-FilePath" -ErrorAction Stop } | Should -Throw
         }
     }
 
@@ -56,7 +58,7 @@ Describe "PSAdminKeyVaultCertificate" {
             Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "REMOVE" | Should -HaveCount 0
         }
         it "Validate [POS] NonExistant" {
-            { Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "REMOVE_NULL" -Confirm:$false } | Should -Throw
+            { Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "REMOVE_NULL" -Confirm:$false -ErrorAction Stop } | Should -Throw
         }
     }
 
