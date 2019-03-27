@@ -756,7 +756,7 @@ namespace PSAdmin.PowerShell.Commands {
                     KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, ComputerName, "ComputerName")
                 );
                 return;
-            }   
+            }
 
             // Unroll the object
             foreach (Data.Computer computer in computers)

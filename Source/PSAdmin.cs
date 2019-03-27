@@ -16,8 +16,9 @@ namespace PSAdmin.Internal {
 
         internal static Dictionary<String, Type> SQLTables = new Dictionary<string, Type>()
         {
-            { "PSAdminKeyVault", typeof(Data.KeyVault) },
-            { "PSAdminComputer", typeof(Data.Computer) }
+            { "PSAdminKeyVault",                typeof(Data.KeyVault) },
+            { "PSAdminKeyVaultCertificate",     typeof(Data.KeyVaultCertificate) },
+            { "PSAdminComputer",                typeof(Data.Computer) }
         };
 
     }
