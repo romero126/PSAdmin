@@ -198,8 +198,7 @@ namespace PSAdmin.PowerShell.Commands {
                     ThrowTerminatingError(
                         KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
                     );
-            }
-            
+            }   
         }
 
         /// <summary>
