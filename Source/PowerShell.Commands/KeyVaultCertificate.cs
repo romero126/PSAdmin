@@ -7,10 +7,7 @@ using PSAdmin.Internal;
 using System.Security;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-<<<<<<< HEAD
 
-=======
->>>>>>> cc0f283bb2776702df29d0869f26fae244989913
 namespace PSAdmin.PowerShell.Commands {
 
     /// <summary>
