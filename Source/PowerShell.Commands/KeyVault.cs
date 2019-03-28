@@ -321,6 +321,10 @@ namespace PSAdmin.PowerShell.Commands {
 
             return SQLiteDB.UpdateRow("PSAdminKeyVault", table, filter, Exact);
         }
+        public static bool Call(Hashtable row, Hashtable filter, bool Exact)
+        {
+            return SQLiteDB.UpdateRow("PSAdminKeyVault", row, filter, Exact);
+        }
     }
 
     /// <summary>
