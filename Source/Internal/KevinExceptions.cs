@@ -14,7 +14,11 @@ namespace PSAdmin.Internal
         ItemExists,
         ItemNotFound,
         ItemNotFoundLookup,
-        QuotaExceeded
+        QuotaExceeded,
+        CertificatePrivateKey,
+        ParameterNotSet,
+        ParameterDefined
+        
     }
 
     public static class KevinBlumenfeldException {
@@ -28,7 +32,10 @@ namespace PSAdmin.Internal
             { KevinExceptions.RowDelete,                "Unable to delete item" },
             { KevinExceptions.ItemExists,               "The item already exists '{0}' with property name '{1}'" },
             { KevinExceptions.QuotaExceeded,            "Too many items found matching '{0}' in '{1}'" },
-            { KevinExceptions.ItemNotFoundLookup,       "No item found matching '{0}' in '{1}'"}
+            { KevinExceptions.ItemNotFoundLookup,       "No item found matching '{0}' in '{1}'"},
+            { KevinExceptions.ParameterNotSet,          "Parameter '{0}' expected but not defined"},
+            { KevinExceptions.ParameterDefined,         "Parameter '{0}' was expected to not be defined"},
+            { KevinExceptions.CertificatePrivateKey,    "The Certificate with the Thumbprint of '{0}' does not contain a PrivateKey" }
         };
         private static Dictionary<KevinExceptions, ErrorCategory> errorCategory = new Dictionary<KevinExceptions, ErrorCategory> {
             { KevinExceptions.DatabaseNotOpen,          ErrorCategory.ResourceUnavailable },
@@ -38,7 +45,10 @@ namespace PSAdmin.Internal
             { KevinExceptions.RowDelete,                ErrorCategory.WriteError },
             { KevinExceptions.ItemExists,               ErrorCategory.ResourceExists },
             { KevinExceptions.QuotaExceeded,            ErrorCategory.QuotaExceeded },
-            { KevinExceptions.ItemNotFoundLookup,       ErrorCategory.ObjectNotFound }
+            { KevinExceptions.ItemNotFoundLookup,       ErrorCategory.ObjectNotFound },
+            { KevinExceptions.ParameterNotSet,          ErrorCategory.InvalidResult },
+            { KevinExceptions.ParameterDefined,         ErrorCategory.InvalidResult },
+            { KevinExceptions.CertificatePrivateKey,    ErrorCategory.NotEnabled }
         };
 
         public static ErrorRecord Create(KevinExceptions exceptionType) {
