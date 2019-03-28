@@ -104,8 +104,13 @@ $Menu = @(
                 "Get-PSAdminKeyVault"                   ,
                 "Set-PSAdminKeyVault"                   ,
                 "Remove-PSAdminKeyVault"                ,
+<<<<<<< HEAD
                 "Protect-PSAdminKeyVault"               ,
                 "UnProtect-PSAdminKeyVault"             ,
+=======
+                #"Protect-PSAdminKeyVault"               ,
+                #"UnProtect-PSAdminKeyVault"             ,
+>>>>>>> cc0f283bb2776702df29d0869f26fae244989913
                 "Import-PSAdminKeyVaultCertificate"     ,
                 "Export-PSAdminKeyVaultCertificate"     ,
                 "Get-PSAdminKeyVaultCertificate"        ,
