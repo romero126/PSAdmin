@@ -1,6 +1,7 @@
 using System;
 using PSAdmin;
 using PSAdmin.Internal;
+
 using System.Management.Automation;
 using System.Collections;
 using System.Collections.Generic;
@@ -196,7 +197,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     ThrowTerminatingError(
-                        KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                        (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                     );
             }   
         }
@@ -207,29 +208,13 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void ProcessRecord()
         {
 
-            Data.KeyVault[] searchvaults = GetPSAdminKeyVault.Call(null, VaultName, true);
-
-            if (searchvaults.Length > 1)
-            {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.QuotaExceeded , VaultName, "VaultName")
-                );
-                return;
-            }
-
-            if (searchvaults.Length == 0)
-            {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
-                );
-                return;
-            }
+            Data.KeyVault KeyVault = KeyVaultHelper.GetItem(null, VaultName, true);
 
             Data.Computer[] searchcomputer = GetPSAdminComputer.Call(null, VaultName, ComputerName, null, true);
             if (searchcomputer.Length > 0)
             {
                 WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemExists, ComputerName, "ComputerName")
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, ComputerName, "ComputerName")).GetErrorRecord()
                 );
                 return;
             }
@@ -273,7 +258,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (!issuccessful)
             {
                 WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.RowCreate)
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowCreate)).GetErrorRecord()
                 );
             }
             if (Passthru)
@@ -344,11 +329,10 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void BeginProcessing()
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
-                    ThrowTerminatingError(
-                        KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
-                    );
+                ThrowTerminatingError(
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                );
             }
-
         }
 
         /// <summary>
@@ -593,7 +577,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     
                 ThrowTerminatingError(
-                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen)).GetErrorRecord()
                 );
             }
         }
@@ -603,20 +587,13 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
-            Data.KeyVault[] searchvaults = GetPSAdminKeyVault.Call(null, VaultName, true);
-            if (searchvaults.Length == 0)
-            {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
-                );
-                return;
-            }
+            Data.KeyVault[] searchvaults = KeyVaultHelper.GetItemsThrow(null, VaultName, true);
 
             Data.Computer[] searchcomputer = GetPSAdminComputer.Call(null, VaultName, ComputerName, null, Exact);
             if (searchcomputer.Length == 0)
             {
                 WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, ComputerName, "ComputerName")
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, ComputerName, "ComputerName")).GetErrorRecord()
                 );
                 return;
             }
@@ -662,7 +639,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (!issuccessful)
             {
                 WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.RowUpdate)
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowUpdate)).GetErrorRecord()
                 );
             }
             if (Passthru)
@@ -728,7 +705,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                 ThrowTerminatingError(
-                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                 );
             }
 
@@ -739,20 +716,13 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
-            Data.KeyVault[] vaults = GetPSAdminKeyVault.Call(null, VaultName, !Match);
-
-            if ((Match == false) && (vaults.Length < 1)) {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
-                );
-                return;
-            }
-
+            Data.KeyVault[] vaults = KeyVaultHelper.GetItemsThrow(null, VaultName, !Match);
+            
             Data.Computer[] computers = GetPSAdminComputer.Call(Id, VaultName, ComputerName, null, !Match);
 
             if ((Match == false) && (computers.Length < 1)) {
                 WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, ComputerName, "ComputerName")
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, ComputerName, "ComputerName") ).GetErrorRecord()
                 );
                 return;
             }
@@ -769,7 +739,7 @@ namespace PSAdmin.PowerShell.Commands {
                 if (!IsSuccessful)
                 {
                     WriteError(
-                      KevinBlumenfeldException.Create(KevinExceptions.RowDelete)
+                      (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowDelete) ).GetErrorRecord()
                     );
                 }
 

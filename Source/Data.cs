@@ -40,6 +40,22 @@ namespace PSAdmin.Data
         public String                   Tags;
     }
 
+    public sealed class KeyVaultSecret
+    {
+        public String                   VaultName;
+        public String                   Name;
+        public String                   Version;
+        public String                   Id;
+        public String                   Enabled;
+        public Nullable<DateTime>       Expires;
+        public Nullable<DateTime>       NotBefore;
+        public Nullable<DateTime>       Created;
+        public Nullable<DateTime>       Updated;
+        public String                   ContentType;
+        public String[]                 Tags;
+        public Object                   SecretValue;
+    }
+
     public sealed class Computer
     {
         public String                   Id;

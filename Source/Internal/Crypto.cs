@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace PSAdmin.Internal
 {
@@ -39,9 +40,9 @@ namespace PSAdmin.Internal
         public static byte[] ConvertToKeyVaultSecret( string plainText, Byte[] Key)
         {
             // Check arguments.
-            if (plainText == null || plainText.Length <= 0)
+            if (plainText == null || plainText.Length == 0)
                 throw new ArgumentNullException("plainText");
-            if (Key == null || Key.Length <= 0)
+            if (Key == null || Key.Length == 0)
                 throw new ArgumentNullException("Key");
             byte[] encrypted;
 
@@ -51,7 +52,7 @@ namespace PSAdmin.Internal
             {
                 aesAlg.Key = Key;
                 aesAlg.GenerateIV();
-                
+
                 //aesAlg.BlockSize = 128;
 
                 // Create an encryptor to perform the stream transform.
@@ -78,14 +79,13 @@ namespace PSAdmin.Internal
         public static string ConvertFromKeyVaultSecret(byte[] encText, byte[] Key)
         {
             // Check arguments.
-            if (encText == null || encText.Length <= 0)
+            if (encText == null || encText.Length == 0)
                 throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
+            if (Key == null || Key.Length == 0)
                 throw new ArgumentNullException("Key");
 
             byte[] IV = SplitAt(encText, 0, 16);
             byte[] cipherText = SplitAt(encText, 16, -1);
-
 
             // Declare the string used to hold
             // the decrypted text.
@@ -97,8 +97,6 @@ namespace PSAdmin.Internal
             {
                 aesAlg.Key = Key;
                 aesAlg.IV = IV;
-
-                //aesAlg.BlockSize = 128;
 
                 // Create a decryptor to perform the stream transform.
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
@@ -121,6 +119,11 @@ namespace PSAdmin.Internal
             }
 
             return plaintext;            
+        }
+        public static byte[] ConvertFromKeyVaultSecretAsBytes(byte[] encText, byte[] Key)
+        {
+            string text = ConvertFromKeyVaultSecret(encText, Key);
+            return Encoding.Default.GetBytes(text);
         }
     }
 }

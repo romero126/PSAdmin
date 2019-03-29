@@ -5,7 +5,7 @@ Describe "PSAdminKeyVaultCertificate" {
         Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
 
         $VaultName      = "Vault_Certificate_Test"
-        $CertPath       = "$PSScriptRoot/PSAdminKeyVaultCertificate.Tests.pfx"
+        $CertPath       = "$PSScriptRoot/PSAdmin.KeyVaultCertificate.Tests.pfx"
         $CertThumb      = "B86837D68B56856BC0C2E79361954E63E0A98A6F"
         $CertPass       = $CertThumb | ConvertTo-SecureString -AsPlainText -Force
         $CertRaw        = [System.Text.Encoding]::Default.GetBytes( (Get-Content -Path $CertPath -Raw) )

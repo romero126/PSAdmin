@@ -4,9 +4,12 @@ using PSAdmin.Internal;
 using System.Management.Automation;
 using System.Collections;
 using System.Collections.Generic;
+
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PSAdmin.PowerShell.Commands {
+    #region New
     /// <summary>
     /// Creates a PSAdmin KeyVault.
     /// </summary>
@@ -57,7 +60,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                 ThrowTerminatingError(
-                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen)).GetErrorRecord()
                 );
             }
         }
@@ -67,33 +70,13 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
-
-            Data.KeyVault[] searchvaults = GetPSAdminKeyVault.Call(null, VaultName, true);
-
-            if (searchvaults.Length > 0)
-            {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemExists, VaultName, "VaultName")
-                );
-                return;
-            }
-
             String Id = Guid.NewGuid().ToString().Replace("-", "");
-
-            bool issuccessful = NewPSAdminKeyVault.Call(Id, VaultName, Location, VaultURI, SoftDeleteEnabled, Tags);
+            KeyVaultHelper.NewItemThrow(Id, VaultName, Location, VaultURI, SoftDeleteEnabled, Tags);
             
-            if (!issuccessful)
-            {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.RowCreate)
-                );
-            }
             if (Passthru)
             {
-                Data.KeyVault[] results = GetPSAdminKeyVault.Call(null, VaultName, true);
-                // Unroll the object
-                foreach (Data.KeyVault result in results)
-                    WriteObject( result );
+                Data.KeyVault result = KeyVaultHelper.GetItem(null, VaultName, true);
+                WriteObject( result );
             }
         }
 
@@ -104,30 +87,11 @@ namespace PSAdmin.PowerShell.Commands {
         {
 
         }
-        
-        public static bool Call(string Id, string VaultName, string Location, string VaultURI, bool SoftDeleteEnabled, string[] Tags)
-        {
-            // Generate Vault Key
-            byte[] VaultKey = new byte[32];
-            RNGCryptoServiceProvider.Create().GetBytes(VaultKey);
 
-            Hashtable table = new Hashtable {
-                {"Id",                  Id},
-                {"VaultName",           VaultName },
-                {"Location",            Location },
-                {"VaultURI",            VaultURI },
-                {"SoftDeleteEnabled",   SoftDeleteEnabled },
-                {"VaultKey",            VaultKey}
-
-            };
-
-            if (Tags != null)
-                table.Add("Tags",                 String.Join(";", Tags));
-
-            return SQLiteDB.CreateRow("PSAdminKeyVault", table);
-        }
     }
+    #endregion
 
+    #region Get
     /// <summary>
     /// Returns a PSAdmin KeyVault from the database.
     /// </summary>
@@ -161,7 +125,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                 ThrowTerminatingError(
-                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen)).GetErrorRecord()
                 );
             }
 
@@ -172,7 +136,7 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
-            Data.KeyVault[] results = GetPSAdminKeyVault.Call(Id, VaultName, Exact);
+            Data.KeyVault[] results = KeyVaultHelper.GetItems(Id, VaultName, Exact);
             // Unroll the object
             foreach (Data.KeyVault result in results)
                 WriteObject( result );
@@ -185,25 +149,34 @@ namespace PSAdmin.PowerShell.Commands {
         {
 
         }
-        
-        public static Data.KeyVault[] Call(string Id, string VaultName, bool Exact)
+
+        public static byte[] GetVaultKey(string VaultName)
         {
-            string filter;
+            Data.KeyVault KeyVault = KeyVaultHelper.GetItemThrow(null, VaultName, true);
 
-            Hashtable filterTable = new Hashtable {
-                {"Id",                  Id},
-                {"VaultName",           VaultName },
-            };
+            if ( String.IsNullOrEmpty(KeyVault.Thumbprint) )
+                return KeyVault.VaultKey;
+            
+            Data.KeyVaultCertificate[] Certificates = GetPSAdminKeyVaultCertificate.Call(null, VaultName, null, KeyVault.Thumbprint, null, true, true);
+            if (Certificates.Length != 1)
+            {
+                throw new ArgumentOutOfRangeException("Certificate", "Search returned too many results");
+            }
+            Data.KeyVaultCertificate Certificate = Certificates[0];
 
-            filter = SQLiteDB.Filter(filterTable, Exact);
-            Data.KeyVault[] result = SQLiteDB.ConvertToType<Data.KeyVault[]>(
-                SQLiteDB.GetRow("PSAdminKeyVault", filter)
-            );
+            // Decrypt the Key
+            X509Certificate2 x509 = (X509Certificate2)Certificate.Certificate;
 
-            return result;
+            if ((x509.HasPrivateKey == false) || (x509.PrivateKey == null))
+			{
+                throw new InvalidOperationException("Certificate does not contain PrivateKey");
+			}
+            return ((RSACryptoServiceProvider)x509.PrivateKey).Decrypt(KeyVault.VaultKey, true);
         }
     }
+    #endregion
 
+    #region Set
     /// <summary>
     /// Creates a PSAdmin KeyVault.
     /// </summary>
@@ -266,7 +239,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                 ThrowTerminatingError(
-                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                    ( new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                 );
             }
         }
@@ -276,18 +249,11 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
-            bool issuccessful = SetPSAdminKeyVault.Call(Id, VaultName, Location, VaultURI, SoftDeleteEnabled, Tags, Exact);
+            bool Successful = KeyVaultHelper.SetItemsThrow(Id, VaultName, Location, VaultURI, SoftDeleteEnabled, Tags, Exact);
             
-            if (!issuccessful)
-            {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.RowUpdate)
-                );
-                return;
-            }
             if (Passthru)
             {
-                Data.KeyVault[] results = GetPSAdminKeyVault.Call(null, VaultName, true);
+                Data.KeyVault[] results = KeyVaultHelper.GetItems(null, VaultName, true);
 
                 // Unroll the object
                 foreach (Data.KeyVault result in results)
@@ -302,31 +268,10 @@ namespace PSAdmin.PowerShell.Commands {
         {
 
         }
-        
-        public static bool Call(string Id, string VaultName, string Location, string VaultURI, bool SoftDeleteEnabled, string[] Tags, bool Exact)
-        {
-            Hashtable filter = new Hashtable {
-                {"Id",                  Id },
-                {"VaultName",           VaultName }
-            };
-
-            Hashtable table = new Hashtable {
-                {"Location",            Location },
-                {"VaultURI",            VaultURI },
-                {"SoftDeleteEnabled",   SoftDeleteEnabled}
-            };
-
-            if (Tags != null)
-                table.Add("Tags",                 String.Join(";", Tags));
-
-            return SQLiteDB.UpdateRow("PSAdminKeyVault", table, filter, Exact);
-        }
-        public static bool Call(Hashtable row, Hashtable filter, bool Exact)
-        {
-            return SQLiteDB.UpdateRow("PSAdminKeyVault", row, filter, Exact);
-        }
     }
+    #endregion
 
+    #region Remove
     /// <summary>
     /// Returns a PSAdmin KeyVault from the database.
     /// </summary>
@@ -360,7 +305,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {                    
                 ThrowTerminatingError(
-                    KevinBlumenfeldException.Create(KevinExceptions.DatabaseNotOpen)
+                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                 );
             }
 
@@ -371,31 +316,17 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
-            Data.KeyVault[] vaults = GetPSAdminKeyVault.Call(Id, VaultName, !Match);
+            
+            Data.KeyVault[] vaults = KeyVaultHelper.GetItemsThrow(Id, VaultName, !Match);
 
-            if ((Match == false) && (vaults.Length < 1)) {
-                WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.ItemNotFoundLookup, VaultName, "VaultName")
-                );
-                return;
-            }
-
-            // Unroll the object
+            // This should always remove item as exact values.
             foreach (Data.KeyVault vault in vaults)
             {
                 if (!ShouldProcess(vault.VaultName, "Remove"))
                 {
                     continue;
                 }
-
-                bool IsSuccessful = Call(vault.Id, vault.VaultName, !Match);
-                if (!IsSuccessful)
-                {
-                    WriteError(
-                        KevinBlumenfeldException.Create(KevinExceptions.RowDelete)
-                    );
-                }
-
+                KeyVaultHelper.RemoveItems(vault.Id, vault.VaultName, true);
             }
         }
 
@@ -406,19 +337,6 @@ namespace PSAdmin.PowerShell.Commands {
         {
 
         }
-        
-        public static bool Call(string Id, string VaultName, bool Exact)
-        {
-            string filter;
-
-            Hashtable filterTable = new Hashtable {
-                {"Id",                  Id},
-                {"VaultName",           VaultName },
-            };
-
-            filter = SQLiteDB.Filter(filterTable, Exact);
-
-            return SQLiteDB.RemoveRow("PSAdminKeyVault", filter);
-        }
     }
+    #endregion
 }
