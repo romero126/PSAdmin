@@ -10,14 +10,11 @@ $Menu = @(
         Name            = "Build"
         Description     = "*** Nothing to do here ***"
         ScriptBlock     = {
-            Write-Warning 'Build action not created yet.'
-
             $ModulePath = "$PSScriptRoot/Module/PSAdmin/PSAdmin.psm1"
 
             Remove-Item -Path $PSScriptRoot/Module -Recurse -ErrorAction SilentlyContinue -Force -Confirm:$false | Out-Null
-            New-Item -Path $PSScriptRoot/Module/PSAdmin -ItemType Directory -ErrorAction SilentlyContinue -Force | Out-Null
-            Copy-Item -Path $PSScriptRoot/Source/Bin/* -Destination $PSScriptRoot/Module/PSAdmin -Recurse
-            
+            New-Item -Path $PSScriptRoot/Module/PSAdmin -ItemType Directory -ErrorAction SilentlyContinue -Force | Out-Null            
+            Copy-Item "$PSScriptRoot/Source/*" -Exclude *.cs, "src" -Recurse -Destination "$PSScriptRoot/Module/PSAdmin/" -Force
             function Local:Compile {
                 [CmdletBinding()]
                 param (
@@ -39,90 +36,11 @@ $Menu = @(
                 )
                 
                 $ObjectList = Get-ChildItem -Path $Path/*.cs -Recurse
-                $ReferencedAssemblies = $ReferenceAssemblyManifest + (get-childitem -Path $Path/bin/$Build/*.dll -Recurse)
+                $ReferencedAssemblies = $ReferenceAssemblyManifest + (get-childitem -Path $PSScriptRoot/Module/$Module/$Build/*.dll)
                 Write-Host "Compiling DLL for $Build" -ForegroundColor Cyan
                 Add-Type -Path $ObjectList -OutputAssembly $PSScriptRoot/Module/$Module/$Build/$Module.dll -ReferencedAssemblies $ReferencedAssemblies
             }
-            function Local:Build {
-                [CmdletBinding()]
-                param(
-                    [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
-                    [System.String]$FullName,
-                    [Parameter(Mandatory, ValueFromPipelineByPropertyName)] 
-                    [System.String]$BaseName,
-                    [Parameter(Mandatory)]
-                    [System.String]$ModulePath,
-                    [Parameter(Mandatory)]
-                    [System.String]$Type,
-                    [Parameter()]
-                    [Switch]$Passthru
-                )
 
-                begin
-                {
-
-                }
-
-                process
-                {
-                    $Content = Get-ChildItem -Path ("{0}\*.{1}.ps1" -f $FullName, $Type) -Recurse | Get-Content
-                    if ($Content)
-                    {
-                        $Data = & {
-                            $BaseInfo = "{0}\{1}" -f $Type.ToUpper(),$BaseName
-                            ("#---------------------------------------------------------[{0,-30}]--------------------------------------------------------" -f $BaseInfo)
-                            $Content
-                        }
-                        if ($Passthru) {
-                            ". {"
-                            $Data | ForEach-Object { "`t" + $_ }
-                            "}"
-                        }
-                        else {
-                            $Data | Out-File -FilePath $ModulePath -Append                            
-                        }
-
-                    }
-
-                }
-
-                end
-                {
-
-                }
-            }
-            Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Begin"
-            Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Init"
-            Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Private"
-            Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "Public"
-            Get-ChildItem $PSScriptRoot/Source -Directory | Local:Build -ModulePath $ModulePath -Type "End"
-
-            $Children = Get-ChildItem -Path $PSScriptRoot/Source/*.Public.ps1 -Recurse | ForEach-Object { "'{0}'" -f $_.BaseName.Replace('.Public', '') }
-
-            $Cmdlets =  "Open-PSAdmin"                  ,
-                "New-PSAdminKeyVault"                   ,
-                "Get-PSAdminKeyVault"                   ,
-                "Set-PSAdminKeyVault"                   ,
-                "Remove-PSAdminKeyVault"                ,
-                "Protect-PSAdminKeyVault"               ,
-                "UnProtect-PSAdminKeyVault"             ,
-                "Import-PSAdminKeyVaultCertificate"     ,
-                "Export-PSAdminKeyVaultCertificate"     ,
-                "Get-PSAdminKeyVaultCertificate"        ,
-                "Remove-PSAdminKeyVaultCertificate"     ,
-                "New-PSAdminKeyVaultSecret"             ,
-                "Get-PSAdminKeyVaultSecret"             ,
-                "Set-PSAdminKeyVaultSecret"             ,
-                "Remove-PSAdminKeyVaultSecret"          ,
-                #"ConvertFrom-PSAdminKeyVaultSecret"     ,
-                #"ConvertTo-PSAdminKeyVaultSecret"       ,
-                "New-PSAdminComputer"                   ,
-                "Get-PSAdminComputer"                   ,
-                "Set-PSAdminComputer"                   ,
-                "Remove-PSAdminComputer"
-
-                
-            "Export-ModuleMember -Function {0} -Cmdlet {1}" -f ($Children -Join ','), ($cmdlets -join ',') | Out-File -FilePath $ModulePath -Append
 
             Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build x64
             Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build x86
