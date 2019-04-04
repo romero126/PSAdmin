@@ -1,3 +1,5 @@
+
+
 $OS = if (($PSEdition -eq "Desktop") -or ($IsWindows))
 {
     if (([System.Environment]::Is64BitProcess))
@@ -23,4 +25,4 @@ else
 Write-Verbose "Loading ${OS}"
 Import-Module $PSScriptRoot/$OS/PSAdmin.dll
 
-#Get-Command -Module PSAdmin | Out-Host
+

@@ -149,30 +149,6 @@ namespace PSAdmin.PowerShell.Commands {
         {
 
         }
-
-        public static byte[] GetVaultKey(string VaultName)
-        {
-            Data.KeyVault KeyVault = KeyVaultHelper.GetItemThrow(null, VaultName, true);
-
-            if ( String.IsNullOrEmpty(KeyVault.Thumbprint) )
-                return KeyVault.VaultKey;
-            
-            Data.KeyVaultCertificate[] Certificates = GetPSAdminKeyVaultCertificate.Call(null, VaultName, null, KeyVault.Thumbprint, null, true, true);
-            if (Certificates.Length != 1)
-            {
-                throw new ArgumentOutOfRangeException("Certificate", "Search returned too many results");
-            }
-            Data.KeyVaultCertificate Certificate = Certificates[0];
-
-            // Decrypt the Key
-            X509Certificate2 x509 = (X509Certificate2)Certificate.Certificate;
-
-            if ((x509.HasPrivateKey == false) || (x509.PrivateKey == null))
-			{
-                throw new InvalidOperationException("Certificate does not contain PrivateKey");
-			}
-            return ((RSACryptoServiceProvider)x509.PrivateKey).Decrypt(KeyVault.VaultKey, true);
-        }
     }
     #endregion
 

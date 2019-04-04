@@ -74,7 +74,9 @@ describe -Name "PSAdminKeyVault" {
     Context "Cleanup" {
         it "Cleanup" {
             Remove-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" -Match -Confirm:$false
+            
             Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "*" | Should -HaveCount 0
+            write-host "Cleanup"
 
             Remove-PSAdminKeyVault -VaultName $VaultName -Confirm:$false
             Get-PSAdminKeyVault -VaultName $VaultName | Should -HaveCount 0

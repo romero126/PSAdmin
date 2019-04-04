@@ -18,6 +18,7 @@ namespace PSAdmin.Internal {
         {
             { "PSAdminKeyVault",                typeof(Data.KeyVault) },
             { "PSAdminKeyVaultCertificate",     typeof(Data.KeyVaultCertificate) },
+            { "PSAdminKeyVaultSecret",          typeof(Data.KeyVaultSecret) },
             { "PSAdminComputer",                typeof(Data.Computer) }
         };
 

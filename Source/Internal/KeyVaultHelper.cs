@@ -42,7 +42,7 @@ namespace PSAdmin.Internal
         }
         internal static bool NewItemThrow(string Id, string VaultName, string Location, string VaultURI, bool SoftDeleteEnabled, string[] Tags)
         {
-            KeyVaultHelper.ItemExistsThrow(null, VaultName, true);
+            KeyVaultHelper.ThrowIfItemExists(null, VaultName, true);
 
             bool IsSuccessful = NewItem(Id, VaultName, Location, VaultURI, SoftDeleteEnabled, Tags);
             if (!IsSuccessful)
@@ -116,21 +116,20 @@ namespace PSAdmin.Internal
             }
             return true;
         }
-        internal static bool ItemExistsThrow(string Id, string VaultName, bool Exact)
+        
+        internal static void ThrowIfItemExists(string Id, string VaultName, bool Exact)
         {
             if (ItemExists(Id, VaultName, Exact))
             {
                 throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, VaultName, "VaultName");
             }
-            return false;
         }
-        internal static bool ItemNotExistsThrow(string Id, string VaultName, bool Exact)
+        internal static void ThrowIfItemNotExists(string Id, string VaultName, bool Exact)
         {
-            if (ItemExists(Id, VaultName, Exact))
+            if (!ItemExists(Id, VaultName, Exact))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, VaultName, "VaultName");
+                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, VaultName, "VaultName");
             }
-            return false;
         }
 
         #endregion GetItem
@@ -199,7 +198,7 @@ namespace PSAdmin.Internal
         #region RemoveItem
         public static bool RemoveItem(string Id, string VaultName, bool Exact)
         {
-            Data.KeyVault result = GetItemThrow(Id, VaultName, Exact);
+            Data.KeyVault result = GetItem(Id, VaultName, Exact);
             if (result == null) {
                 return false;
             }
@@ -239,6 +238,28 @@ namespace PSAdmin.Internal
 
         #endregion
 
+        #region Other
+
+        internal static byte[] GetVaultKey(string VaultName)
+        {
+            Data.KeyVault KeyVault = KeyVaultHelper.GetItemThrow(null, VaultName, true);
+
+            if ( String.IsNullOrEmpty(KeyVault.Thumbprint) )
+                return KeyVault.VaultKey;
+            
+            Data.KeyVaultCertificate Certificate = KeyVaultCertificateHelper.GetItemThrow(null, VaultName, null, KeyVault.Thumbprint, null, true, true);
+
+            // Decrypt the Key
+            X509Certificate2 x509 = (X509Certificate2)Certificate.Certificate;
+
+            if ((x509.HasPrivateKey == false) || (x509.PrivateKey == null))
+			{
+                throw new InvalidOperationException("Certificate does not contain PrivateKey");
+			}
+            return ((RSACryptoServiceProvider)x509.PrivateKey).Decrypt(KeyVault.VaultKey, true);
+        }
+
+        #endregion
     }
 
 }

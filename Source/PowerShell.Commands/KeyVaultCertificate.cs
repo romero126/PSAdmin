@@ -10,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace PSAdmin.PowerShell.Commands {
 
+    #region Import
     /// <summary>
     /// Creates a PSAdmin KeyVault.
     /// </summary>
@@ -103,17 +104,8 @@ namespace PSAdmin.PowerShell.Commands {
         protected override void ProcessRecord()
         {
 
-            Data.KeyVault searchvaults = KeyVaultHelper.GetItemThrow(null, VaultName, true);
-
-            
-            Data.KeyVaultCertificate[] SearchCertificate = GetPSAdminKeyVaultCertificate.Call(null, VaultName, Name, null, null, false, true);
-            if (SearchCertificate.Length > 0)
-            {
-                WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists , Name, "Name") ).GetErrorRecord()
-                );
-                return;
-            }
+            KeyVaultHelper.GetItemThrow(null, VaultName, true);
+            KeyVaultCertificateHelper.ItemExistsThrow(null, VaultName, Name, null, null, false, true);
 
             byte[] CertificateByteArray;
             switch (ParameterSetName)
@@ -132,6 +124,7 @@ namespace PSAdmin.PowerShell.Commands {
             }
 
             X509Certificate2 x509 = new X509Certificate2(CertificateByteArray, Password, X509KeyStorageFlags.Exportable);
+
             /*
             // Certificate should NOT throw if Private Key is not available.
             if (x509.HasPrivateKey)
@@ -167,7 +160,7 @@ namespace PSAdmin.PowerShell.Commands {
             x509.Dispose();
             
             bool issuccessful = Call(item);
-            
+
             if (!issuccessful)
             {
                 WriteError(
@@ -176,7 +169,7 @@ namespace PSAdmin.PowerShell.Commands {
             }
             if (Passthru)
             {
-                Data.KeyVaultCertificate[] results = GetPSAdminKeyVaultCertificate.Call(null, VaultName, Name, null, null, false, true);
+                Data.KeyVaultCertificate[] results = KeyVaultCertificateHelper.GetItems(null, VaultName, Name, null, null, false, true);
 
                 // Unroll the object
                 foreach (Data.KeyVaultCertificate result in results)
@@ -198,6 +191,10 @@ namespace PSAdmin.PowerShell.Commands {
         }
     }
 
+    #endregion
+
+    #region Export
+    
     /// <summary>
     /// Exports a PSAdmin KeyVault Certificate.
     /// </summary>
@@ -292,16 +289,7 @@ namespace PSAdmin.PowerShell.Commands {
 
             Data.KeyVault KeyVault = KeyVaultHelper.GetItemThrow(null, VaultName, true);
 
-            
-            Data.KeyVaultCertificate[] SearchCertificate = GetPSAdminKeyVaultCertificate.Call(null, VaultName, Name, null, null, false, true);
-            if (SearchCertificate.Length == 0)
-            {
-                WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, Name, "Name") ).GetErrorRecord()
-                );
-                return;
-            }
-
+            Data.KeyVaultCertificate[] SearchCertificate = KeyVaultCertificateHelper.GetItemsThrow(null, VaultName, Name, null, null, false, true);
 
             // Note: This will only ever return one item
             foreach (Data.KeyVaultCertificate Certificate in SearchCertificate)
@@ -340,6 +328,11 @@ namespace PSAdmin.PowerShell.Commands {
             return true;
         }
     }
+
+    #endregion
+
+    #region Get
+
     /// <summary>
     /// Returns a PSAdmin Computer from the database.
     /// </summary>
@@ -409,7 +402,7 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
-            Data.KeyVaultCertificate[] results = Call(Id, VaultName, Name, Thumbprint, Tags, Export, Exact);
+            Data.KeyVaultCertificate[] results = KeyVaultCertificateHelper.GetItems(Id, VaultName, Name, Thumbprint, Tags, Export, Exact);
 
             // Unroll the object
             foreach (Data.KeyVaultCertificate result in results)
@@ -426,43 +419,12 @@ namespace PSAdmin.PowerShell.Commands {
 
         }
         
-        public static Data.KeyVaultCertificate[] Call(string Id, string VaultName, string Name, string Thumbprint, string[] Tags, bool Export, bool Exact)
-        {
-            string filter;
 
-            Hashtable filterTable = new Hashtable {
-                { "Id",             Id },
-                { "VaultName",      VaultName },
-                { "Name",           Name },
-                { "Thumbprint",     Thumbprint }
-            };
-
-            filter = SQLiteDB.Filter(filterTable, Exact);
-            
-            string filterTags = SQLiteDB.Filter("Tags", Tags, false);
-            if (!String.IsNullOrEmpty(filterTags)) {
-                filter = String.Format("{0} AND {1}", filter, filterTags);
-            }
-
-            Data.KeyVaultCertificate[] results = SQLiteDB.ConvertToType<Data.KeyVaultCertificate[]>(
-                SQLiteDB.GetRow("PSAdminKeyVaultCertificate", filter)
-            );
-
-            foreach (Data.KeyVaultCertificate result in results)
-            {
-                if (Export)
-                {
-                    result.Certificate = new X509Certificate2((byte[])result.Certificate, result.Thumbprint, X509KeyStorageFlags.Exportable);
-                }
-                else
-                {
-                    result.Certificate = new X509Certificate2((byte[])result.Certificate, result.Thumbprint);
-                }
-            }
-            return results;
-        }
     }
 
+    #endregion
+
+    #region Remove 
     /// <summary>
     /// Returns a PSAdmin Computer from the database.
     /// </summary>
@@ -519,17 +481,9 @@ namespace PSAdmin.PowerShell.Commands {
         /// </summary>
         protected override void ProcessRecord()
         {
+            KeyVaultHelper.GetItemsThrow(null, VaultName, !Match);
 
-            Data.KeyVault[] vaults = KeyVaultHelper.GetItemsThrow(null, VaultName, !Match);
-
-
-            Data.KeyVaultCertificate[] certificates = GetPSAdminKeyVaultCertificate.Call(Id, VaultName, Name, Thumbprint, null, false, !Match);
-            if ((Match == false) && (certificates.Length < 1)) {
-                WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, Name, "Name") ).GetErrorRecord()
-                );
-                return;
-            }
+            Data.KeyVaultCertificate[] certificates = KeyVaultCertificateHelper.GetItemsThrow(Id, VaultName, Name, Thumbprint, null, false, !Match);
 
             // Unroll the object
             foreach (Data.KeyVaultCertificate certificate in certificates)
@@ -538,15 +492,7 @@ namespace PSAdmin.PowerShell.Commands {
                 {
                     continue;
                 }
-
-                bool IsSuccessful = Call(certificate.Id, certificate.VaultName, certificate.Name, !Match);
-                if (!IsSuccessful)
-                {
-                    WriteError(
-                      (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowDelete) ).GetErrorRecord()
-                    );
-                }
-
+                KeyVaultCertificateHelper.RemoveItemThrow(certificate.Id, certificate.VaultName, certificate.Name, !Match);
             }
 
         }
@@ -558,20 +504,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
 
         }
-        
-        public static bool Call(string Id, string VaultName, string Name, bool Exact)
-        {
-            string filter;
-
-            Hashtable filterTable = new Hashtable {
-                {"Id",                  Id },
-                {"VaultName",           VaultName },
-                {"Name",                Name }
-            };
-
-            filter = SQLiteDB.Filter(filterTable, Exact);
-
-            return SQLiteDB.RemoveRow("PSAdminKeyVaultCertificate", filter);
-        }
     }
+    #endregion
+
 }

@@ -125,5 +125,16 @@ namespace PSAdmin.Internal
             string text = ConvertFromKeyVaultSecret(encText, Key);
             return Encoding.Default.GetBytes(text);
         }
+        public static SecureString ConvertFromKeyVaultSecretAsSecureString(byte[] encText, byte[] Key)
+        {
+            SecureString result = new SecureString();
+            string text = ConvertFromKeyVaultSecret(encText, Key);
+            foreach (byte b in Encoding.Default.GetBytes(text))
+            {
+                result.AppendChar( (char)b );
+            }
+            text = null;
+            return result;
+        }
     }
 }

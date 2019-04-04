@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Net;
 
 namespace PSAdmin.PowerShell.Commands {
-     /// <summary>
+
+    #region New
+    /// <summary>
     /// Creates a PSAdmin KeyVault.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "PSAdminComputer")]
@@ -283,8 +285,9 @@ namespace PSAdmin.PowerShell.Commands {
             return SQLiteDB.CreateRow("PSAdminComputer", Properties);
         }
     }
+    #endregion
 
-
+    #region Get
     /// <summary>
     /// Returns a PSAdmin Computer from the database.
     /// </summary>
@@ -380,7 +383,9 @@ namespace PSAdmin.PowerShell.Commands {
             return result;
         }
     }
+    #endregion
 
+    #region Set
     /// <summary>
     /// Creates a PSAdmin KeyVault.
     /// </summary>
@@ -665,8 +670,10 @@ namespace PSAdmin.PowerShell.Commands {
             return SQLiteDB.UpdateRow("PSAdminComputer", table, filter, Exact);
         }
     }
+    #endregion
 
-        /// <summary>
+    #region Remove
+    /// <summary>
     /// Returns a PSAdmin KeyVault from the database.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "PSAdminComputer", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
@@ -769,4 +776,5 @@ namespace PSAdmin.PowerShell.Commands {
             return SQLiteDB.RemoveRow("PSAdminComputer", filter);
         }
     }
+    #endregion
 }
