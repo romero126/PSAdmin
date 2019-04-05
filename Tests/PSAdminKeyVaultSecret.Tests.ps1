@@ -2,7 +2,8 @@ describe -Name "PSAdminKeyVault" {
     
     BeforeAll {
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
-        Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
+#        Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
+        Open-PSAdmin -SQLConnectionString "Data Source=$PSScriptRoot/PSAdmin.DB;Pooling=True;FailIfMissing=False;Synchronous=Full;"
         $VaultName      = "Vault_Secret_Test"
         #$SecretValue    = (1..25 | ForEach-Object { [char]( (65..90), (97..122) | Get-Random ) } ) -join ""
         $SecretValue = [Guid]::NewGuid().ToString().Replace('-', '')

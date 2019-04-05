@@ -2,7 +2,7 @@ Describe "PSAdminKeyVaultCertificate" {
     BeforeAll {
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
 
-        Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
+        Open-PSAdmin -SQLConnectionString "Data Source=$PSScriptRoot/PSAdmin.DB;Pooling=True;FailIfMissing=False;Synchronous=Full;"
 
         $VaultName      = "Vault_Certificate_Test"
         $CertPath       = "$PSScriptRoot/PSAdmin.KeyVaultCertificate.Tests.pfx"

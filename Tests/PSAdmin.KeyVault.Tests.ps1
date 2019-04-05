@@ -2,7 +2,7 @@ describe -Name "PSAdminKeyVault" {
 
     BeforeAll {
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psm1 -Force
-        Open-PSAdmin -Path "$PSScriptRoot/TestDatabase/DBConfig.xml"
+        Open-PSAdmin -SQLConnectionString "Data Source=$PSScriptRoot/PSAdmin.DB;Pooling=True;FailIfMissing=False;Synchronous=Full;"
     }
 
     Context "New-PSAdminKeyVault" {
