@@ -123,23 +123,23 @@ namespace PSAdmin.PowerShell.Commands
 	{
 	
 		/// <summary>
+		/// Sets value for Id
+		/// </summary>
+		[Parameter(ValueFromPipelineByPropertyName = true)]
+		public String Id { get; set; }
+
+		/// <summary>
 		/// Sets value for VaultName
 		/// </summary>
-		[Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true)]
+		[Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, Position = 0)]
 		public String VaultName { get; set; }
 		
 		/// <summary>
 		/// Sets value for Name
 		/// </summary>
-		[Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
+		[Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, Position = 1)]
 		public String Name { get; set; }
-		
-		/// <summary>
-		/// Sets value for Id
-		/// </summary>
-		[Parameter(ValueFromPipelineByPropertyName = true)]
-		public String Id { get; set; }
-		
+				
 		/// <summary>
 		/// Sets value for Tags
 		/// </summary>
