@@ -64,10 +64,10 @@
 
     # Format files (.ps1xml) to be loaded when importing this module
     FormatsToProcess = @(
-        'PSAdmin.Data.KeyVault.Format.ps1xml',
-        'PSAdmin.Data.KeyVaultCertificate.Format.ps1xml',
-        'PSAdmin.Data.KeyVaultSecret.Format.ps1xml',
-        'PSAdmin.Data.Computer.Format.ps1xml'
+        'Resources/PSAdmin.Data.KeyVault.Format.ps1xml',
+        'Resources/PSAdmin.Data.KeyVaultCertificate.Format.ps1xml',
+        'Resources/PSAdmin.Data.KeyVaultSecret.Format.ps1xml',
+        'Resources/PSAdmin.Data.Computer.Format.ps1xml'
     )
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
