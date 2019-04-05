@@ -106,22 +106,22 @@ namespace PSAdmin.Internal
             return true;
         }
 
-        internal static bool ItemExistsThrow(string Id, string VaultName, string Name, string Thumbprint, string[] Tags, bool Export, bool Exact)
+        internal static bool ThrowIfItemExists(string Id, string VaultName, string Name, string Thumbprint, string[] Tags, bool Export, bool Exact)
         {
-            if (!ItemExists(Id, VaultName, Name, Thumbprint, Tags, Export, Exact))
+            if (ItemExists(Id, VaultName, Name, Thumbprint, Tags, Export, Exact))
             {
                 throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, Name, "Name");
             }
             return true;
         }
 
-        internal static bool ItemNotExistsThrow(string Id, string VaultName, string Name, string Thumbprint, string[] Tags, bool Export, bool Exact)
+        internal static bool ThrowIfItemNotExists(string Id, string VaultName, string Name, string Thumbprint, string[] Tags, bool Export, bool Exact)
         {
-            if (ItemExists(Id, VaultName, Name, Thumbprint, Tags, Export, Exact))
+            if (!ItemExists(Id, VaultName, Name, Thumbprint, Tags, Export, Exact))
             {
                 throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, Name, "Name");
             }
-            return false;
+            return true;
         }
         #endregion
 

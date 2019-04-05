@@ -105,7 +105,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
 
             KeyVaultHelper.GetItemThrow(null, VaultName, true);
-            KeyVaultCertificateHelper.ItemExistsThrow(null, VaultName, Name, null, null, false, true);
+            KeyVaultCertificateHelper.ThrowIfItemExists(null, VaultName, Name, null, null, false, true);
 
             byte[] CertificateByteArray;
             switch (ParameterSetName)
