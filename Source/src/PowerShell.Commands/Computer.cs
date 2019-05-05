@@ -199,7 +199,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     ThrowTerminatingError(
-                        (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                        (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                     );
             }   
         }
@@ -216,7 +216,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (searchcomputer.Length > 0)
             {
                 WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, ComputerName, "ComputerName")).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.ItemExists, ComputerName, "ComputerName")).GetErrorRecord()
                 );
                 return;
             }
@@ -260,7 +260,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (!issuccessful)
             {
                 WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowCreate)).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.RowCreate)).GetErrorRecord()
                 );
             }
             if (Passthru)
@@ -333,7 +333,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                 ThrowTerminatingError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                 );
             }
         }
@@ -582,7 +582,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     
                 ThrowTerminatingError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen)).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen)).GetErrorRecord()
                 );
             }
         }
@@ -598,7 +598,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (searchcomputer.Length == 0)
             {
                 WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, ComputerName, "ComputerName")).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, ComputerName, "ComputerName")).GetErrorRecord()
                 );
                 return;
             }
@@ -644,7 +644,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (!issuccessful)
             {
                 WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowUpdate)).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.RowUpdate)).GetErrorRecord()
                 );
             }
             if (Passthru)
@@ -712,7 +712,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                 ThrowTerminatingError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                 );
             }
 
@@ -729,7 +729,7 @@ namespace PSAdmin.PowerShell.Commands {
 
             if ((Match == false) && (computers.Length < 1)) {
                 WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, ComputerName, "ComputerName") ).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, ComputerName, "ComputerName") ).GetErrorRecord()
                 );
                 return;
             }
@@ -746,7 +746,7 @@ namespace PSAdmin.PowerShell.Commands {
                 if (!IsSuccessful)
                 {
                     WriteError(
-                      (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowDelete) ).GetErrorRecord()
+                      (new PSAdminException(PSAdminExceptionType.RowDelete) ).GetErrorRecord()
                     );
                 }
 

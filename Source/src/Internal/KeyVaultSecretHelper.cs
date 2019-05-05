@@ -52,7 +52,7 @@ namespace PSAdmin.Internal
             bool IsSuccessful = NewItem(Id, VaultName, Name, Version, Enabled, Expires, NotBefore, ContentType, Tags, SecretValue);
             if (!IsSuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowCreate);
+                throw new PSAdminException(PSAdminExceptionType.RowCreate);
             }
             return true;
         }
@@ -74,12 +74,12 @@ namespace PSAdmin.Internal
 
             if (result.Length > 1)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.QuotaExceeded, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.QuotaExceeded, Name, "Name");
             }
 
             if (result.Length == 0)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, Name, "Name");
             }
 
             return result[0];
@@ -141,7 +141,7 @@ namespace PSAdmin.Internal
 
             if ((Exact) && (result.Length == 0))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, Name, "Name");
             }
 
             return result;
@@ -160,14 +160,14 @@ namespace PSAdmin.Internal
         {
             if (ItemExists(Id, VaultName, Name, Tags, Decrypt, Exact))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemExists, Name, "Name");
             }
         }
         internal static void ThrowIfItemNotExists(string Id, string VaultName, string Name, string[] Tags, bool Decrypt, bool Exact)
         {
             if (!ItemExists(Id, VaultName, Name, Tags, Decrypt, Exact))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, Name, "Name");
             }
 
         }
@@ -235,7 +235,7 @@ namespace PSAdmin.Internal
             bool issuccessful = SetItems(Id, VaultName, Name, Version, Enabled, Expires, NotBefore, ContentType, Tags, SecretValue, Exact);
             if (!issuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowUpdate);
+                throw new PSAdminException(PSAdminExceptionType.RowUpdate);
             }
             return true;
         }
@@ -283,7 +283,7 @@ namespace PSAdmin.Internal
             bool IsSuccessful = RemoveItems(Id, VaultName, Name, Exact);
             if (!IsSuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowDelete);
+                throw new PSAdminException(PSAdminExceptionType.RowDelete);
             }
             return true;
         }

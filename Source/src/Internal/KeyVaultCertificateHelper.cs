@@ -37,12 +37,12 @@ namespace PSAdmin.Internal
             Data.KeyVaultCertificate[] result = GetItems(Id, VaultName, Name, Thumbprint, Tags, Export, Exact);
             if (result.Length > 1)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.QuotaExceeded, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.QuotaExceeded, Name, "Name");
             }
 
             if (result.Length == 0)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, Name, "Name");
             }
 
             return result[0];
@@ -90,7 +90,7 @@ namespace PSAdmin.Internal
 
             if ((Exact) && (result.Length == 0))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, Name, "Name");
             }
 
             return result;
@@ -110,7 +110,7 @@ namespace PSAdmin.Internal
         {
             if (ItemExists(Id, VaultName, Name, Thumbprint, Tags, Export, Exact))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemExists, Name, "Name");
             }
             return true;
         }
@@ -119,7 +119,7 @@ namespace PSAdmin.Internal
         {
             if (!ItemExists(Id, VaultName, Name, Thumbprint, Tags, Export, Exact))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, Name, "Name");
+                throw new PSAdminException(PSAdminExceptionType.ItemExists, Name, "Name");
             }
             return true;
         }
@@ -169,7 +169,7 @@ namespace PSAdmin.Internal
             bool IsSuccessful = RemoveItems(Id, VaultName, Name, Exact);
             if (!IsSuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowDelete);
+                throw new PSAdminException(PSAdminExceptionType.RowDelete);
             }
             return true;
         }

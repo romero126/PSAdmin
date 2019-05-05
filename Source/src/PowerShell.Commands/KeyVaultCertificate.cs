@@ -92,7 +92,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     ThrowTerminatingError(
-                        (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                        (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                     );
             }
             
@@ -118,7 +118,7 @@ namespace PSAdmin.PowerShell.Commands {
                     break;
                 default:
                     WriteError(
-                        (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ParameterSetNotFound, Name, "Name") ).GetErrorRecord()
+                        (new PSAdminException(PSAdminExceptionType.ParameterSetNotFound, Name, "Name") ).GetErrorRecord()
                     );
                     return;
             }
@@ -131,7 +131,7 @@ namespace PSAdmin.PowerShell.Commands {
             {
                 x509.Dispose();
                 WriteError(
-                    KevinBlumenfeldException.Create(KevinExceptions.CertificateRequiresPrivateKey)
+                    PSAdminException.Create(KevinExceptions.CertificateRequiresPrivateKey)
                 );
             }
             */
@@ -164,7 +164,7 @@ namespace PSAdmin.PowerShell.Commands {
             if (!issuccessful)
             {
                 WriteError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowCreate) ).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.RowCreate) ).GetErrorRecord()
                 );
             }
             if (Passthru)
@@ -275,7 +275,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     ThrowTerminatingError(
-                        (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                        (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                     );
             }
             
@@ -309,7 +309,7 @@ namespace PSAdmin.PowerShell.Commands {
                         break;
                     default:
                         WriteError(
-                            (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ParameterSetNotFound, Name, "Name") ).GetErrorRecord()
+                            (new PSAdminException(PSAdminExceptionType.ParameterSetNotFound, Name, "Name") ).GetErrorRecord()
                         );
                         return;
                 }
@@ -391,7 +391,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     ThrowTerminatingError(
-                        (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                        (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                     );
             }
 
@@ -470,7 +470,7 @@ namespace PSAdmin.PowerShell.Commands {
         {
             if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                     ThrowTerminatingError(
-                        (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+                        (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
                     );
             }
 

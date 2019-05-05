@@ -80,7 +80,7 @@ namespace PSAdmin.PowerShell.Commands
 		{
 			if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
 				ThrowTerminatingError(
-					(new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+					(new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
 				);
 			}
 		}
@@ -274,7 +274,7 @@ namespace PSAdmin.PowerShell.Commands
 		{
 			if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
 				ThrowTerminatingError(
-					(new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen) ).GetErrorRecord()
+					(new PSAdminException(PSAdminExceptionType.DatabaseNotOpen) ).GetErrorRecord()
 				);
 			}
 		}
@@ -338,7 +338,7 @@ namespace PSAdmin.PowerShell.Commands
 		{
 			if (String.IsNullOrEmpty(Config.SQLConnectionString)) {
                 ThrowTerminatingError(
-                    (new KevinBlumenfeldException(KevinBlumenfeldExceptionType.DatabaseNotOpen)).GetErrorRecord()
+                    (new PSAdminException(PSAdminExceptionType.DatabaseNotOpen)).GetErrorRecord()
                 );
             }
 		}

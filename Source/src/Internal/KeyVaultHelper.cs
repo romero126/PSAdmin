@@ -47,7 +47,7 @@ namespace PSAdmin.Internal
             bool IsSuccessful = NewItem(Id, VaultName, Location, VaultURI, SoftDeleteEnabled, Tags);
             if (!IsSuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowCreate);
+                throw new PSAdminException(PSAdminExceptionType.RowCreate);
             }
             return true;
         }
@@ -68,12 +68,12 @@ namespace PSAdmin.Internal
             Data.KeyVault[] result = GetItems(Id, VaultName, Exact);
             if (result.Length > 1)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.QuotaExceeded, VaultName, "VaultName");
+                throw new PSAdminException(PSAdminExceptionType.QuotaExceeded, VaultName, "VaultName");
             }
 
             if (result.Length == 0)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, VaultName, "VaultName");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, VaultName, "VaultName");
             }
 
             return result[0];
@@ -101,7 +101,7 @@ namespace PSAdmin.Internal
 
             if ((Exact) && (result.Length == 0))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, VaultName, "VaultName");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, VaultName, "VaultName");
             }
 
             return result;
@@ -121,14 +121,14 @@ namespace PSAdmin.Internal
         {
             if (ItemExists(Id, VaultName, Exact))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemExists, VaultName, "VaultName");
+                throw new PSAdminException(PSAdminExceptionType.ItemExists, VaultName, "VaultName");
             }
         }
         internal static void ThrowIfItemNotExists(string Id, string VaultName, bool Exact)
         {
             if (!ItemExists(Id, VaultName, Exact))
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.ItemNotFoundLookup, VaultName, "VaultName");
+                throw new PSAdminException(PSAdminExceptionType.ItemNotFoundLookup, VaultName, "VaultName");
             }
         }
 
@@ -180,7 +180,7 @@ namespace PSAdmin.Internal
             bool issuccessful = SetItems(Id, VaultName, Location, VaultURI, SoftDeleteEnabled, Tags, Exact);
             if (!issuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowUpdate);
+                throw new PSAdminException(PSAdminExceptionType.RowUpdate);
             }
             return true;
         }
@@ -189,7 +189,7 @@ namespace PSAdmin.Internal
             bool issuccessful = SQLiteDB.UpdateRow(TableName, row, filter, Exact);
             if (!issuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowUpdate);
+                throw new PSAdminException(PSAdminExceptionType.RowUpdate);
             }
             return true;
         }
@@ -231,7 +231,7 @@ namespace PSAdmin.Internal
             bool IsSuccessful = RemoveItems(Id, VaultName, Exact);
             if (!IsSuccessful)
             {
-                throw new KevinBlumenfeldException(KevinBlumenfeldExceptionType.RowDelete);
+                throw new PSAdminException(PSAdminExceptionType.RowDelete);
             }
             return true;
         }
