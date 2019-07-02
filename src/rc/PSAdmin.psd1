@@ -54,7 +54,9 @@
     # RequiredModules = @()
 
     # Assemblies that must be loaded prior to importing this module
-    #RequiredAssemblies = @(    )
+    RequiredAssemblies = @(
+        "System.Management.Automation, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    )
 
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
     # ScriptsToProcess = @()

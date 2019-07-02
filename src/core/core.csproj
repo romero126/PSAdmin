@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>win_desktop_2._1</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\src\*.cs" />
+    <Compile Include="..\src\internal\*.cs" />
+    <Compile Include="..\src\PowerShell.Commands\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Runtime" Version="4.3.0.0"/>
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.110" />
+    <PackageReference Include="System.Management.Automation" Version="6.0.4"/>
+  </ItemGroup>
+</Project>

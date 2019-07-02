@@ -1,96 +1,84 @@
-[CmdletBinding()]
-param(
-    [ValidateSet("Build", "Test", "Execute", "Example","Example.Interactive")]
-    [String]$Action,
-    [String]$TestName = "*"
-)
+$ActionType = Split-Path -Path $MyInvocation.MyCommand.Path -Leaf
+Split-Path -Path $MyInvocation.MyCommand.Path -Leaf
 
-$Menu = @(
-    [PSCustomObject]@{
-        Name            = "Build"
-        Description     = "*** Nothing to do here ***"
-        ScriptBlock     = {
-            $ModulePath = "$PSScriptRoot/Module/PSAdmin/PSAdmin.psm1"
+#$Config = Get-Content $PSScriptRoot/config.json | ConvertFrom-Json
 
-            Remove-Item -Path $PSScriptRoot/Module -Recurse -ErrorAction SilentlyContinue -Force -Confirm:$false | Out-Null
-            New-Item -Path $PSScriptRoot/Module/PSAdmin -ItemType Directory -ErrorAction SilentlyContinue -Force | Out-Null            
-            Copy-Item "$PSScriptRoot/Source/*" -Exclude *.cs, "src" -Recurse -Destination "$PSScriptRoot/Module/PSAdmin/" -Force
-            function Local:Compile {
-                [CmdletBinding()]
-                param (
-                    [Parameter(Mandatory)]
-                    [System.String]$Path,
-                    [Parameter(Mandatory)]
-                    [System.String]$Module,
-                    [Parameter(Mandatory)]
-                    [System.String]$Build
-                )
-
-                $ReferenceAssemblyManifest = @(
-                    "System.Data"
-                    "System.Data.Common"
-                    "System.ComponentModel.Primitives"
-                    "System.Management.Automation"
-                    "System.Text.RegularExpressions"
-                    "System.Collections"
-                )
-                
-                $ObjectList = Get-ChildItem -Path $Path/*.cs -Recurse
-                $ReferencedAssemblies = $ReferenceAssemblyManifest + (get-childitem -Path $PSScriptRoot/Module/$Module/$Build/*.dll)
-                Write-Host "Compiling DLL for $Build" -ForegroundColor Cyan
-                Add-Type -Path $ObjectList -OutputAssembly $PSScriptRoot/Module/$Module/$Build/$Module.dll -ReferencedAssemblies $ReferencedAssemblies
-            }
+#$DrawLine = ("-" * 50)
 
 
-            Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build x64
-            Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build x86
-            Compile -Path $PSScriptRoot/Source/ -Module "PSAdmin" -Build mac
-        }
-    },
-    
-    [PSCustomObject]@{
-        Name            = "Test"
-        Description     = "Pester Tests"
-        ScriptBlock     = {
-            Write-Warning "Beginning Unit Tests for PSAdmin"
-            $PesterItems = Get-ChildItem ("{0}/Tests/{1}.Tests.ps1" -f $PSScriptRoot, $TestName)
-            #$PesterItems = Get-ChildItem $PSScriptRoot/Tests/*.Tests.ps1
-            Invoke-Pester $PesterItems
-        }
-    },
-    [PSCustomObject]@{
-        Name            = "Execute"
-        Description     = "*** Nothing to do here ***"
-        ScriptBlock     = {
-            Write-Warning "Nothing to Execute"
-        }
-    },
-    [PSCustomObject]@{
-        Name            = "Example"
-        Description     = "Adds your computer to the database."
-        ScriptBlock     = {
-            Write-Warning "Starting Example"
-            . "$PSScriptRoot\Examples\Example.ps1"
-        }
-    },
-    [PSCustomObject]@{
-        Name            = "Example.Interactive"
-        Description     = "Ineractive Powershell Window to interact with the database."
-        ScriptBlock     = {
-            $null = Start-Process powershell ("-noexit -command . $PSScriptRoot/Examples/Example.Interactive.ps1") -PassThru
-        }       
+function Private:WriteAction
+{
+    param(
+        [String]$Action,
+        [String]$Message,
+        [bool]$DrawLine = $false
+    )
+
+    if ($DrawLine)
+    {
+        $Line = ("-" * 50)
     }
-)
+    Write-Host "`nExecuting Action: ${Action}\${Message}`n${Line}`n" -ForegroundColor Green
+    
 
-if (!$Action) {
-    Write-Warning "Cannot Determine Desired Action"
-    Write-host "Possible Options", $MenuItem.Name
 }
 
-$MenuItem = $Menu | Where-Object Name -eq $Action
+#WriteAction("Build", "Cleanup-Files")
+#WriteAction "Build" "Cleanup-Files" $true
 
-Write-Host "Calling Action", $MenuItem.Action
 
-if ($MenuItem.ScriptBlock) {
-    . $MenuItem.ScriptBlock
-}
+#
+#Action: Build\Cleanup-Files
+#--------------------------------------------------
+WriteAction "Build" "Cleanup-Files"
+#Remove-Item $PSScriptRoot\Source\PSAdmin\obj -Recurse -ErrorAction 'SilentlyContinue' -Verbose
+
+#
+#Action: Build\Install-Dependencies
+#--------------------------------------------------
+WriteAction "Build" "Install-Dependencies"
+
+#dotnet add $PSScriptRoot\Source\PSAdmin package System.Management.Automation --version 6.2.0
+#dotnet add $PSScriptRoot\Source\PSAdmin package System.Management.Automation --version 6.1.0
+#dotnet add $PSScriptRoot\Source\PSAdmin package System.Management.Automation --version 6.0.0
+#dotnet add $PSScriptRoot\Source\PSAdmin package System.Data.SQLite --version 1.0.110
+#dotnet add $PSScriptRoot\Source\PSAdmin package System.Data.SQLite.Core --version 1.0.110
+#dotnet add package SQLite.Interop --version 1.0.0
+
+
+
+#
+#Action: Build\Build-Project
+#--------------------------------------------------
+WriteAction "Build" "Build-Project"
+#Write-Host ("`nExecuting Action: {0}\{1}`n{2}`n" -f "Build", "Build-Project", $DrawLine) -ForeGroundColor Green
+#dotnet build $PSScriptRoot\Source\PSAdmin
+
+#
+#Action: Build\Build-Module
+#--------------------------------------------------
+WriteAction "Build" "Build-Module"
+Remove-Item -Path $PSScriptRoot/Module -Recurse -ErrorAction SilentlyContinue -Force
+New-Item -Path $PSScriptRoot/Module/PSAdmin -ItemType Directory -ErrorAction SilentlyContinue -Force | Out-Null
+Copy-Item "$PSScriptRoot/src/rc/*" -Recurse -Destination "$PSScriptRoot/Module/PSAdmin/" -Force
+
+dotnet publish -o "$PSScriptRoot\Module\PSAdmin\" --self-contained
+#start pwsh -Args "-noexit -command . { invoke-pester .\tests\PSAdmin.KeyVaultCertificate.Tests.ps1 }"
+start powershell -Args "-noexit -command . { invoke-pester .\tests\PSAdmin.KeyVaultCertificate.Tests.ps1 }"
+return
+
+
+
+
+
+
+
+
+
+
+
+#
+#Action: Build\Invoke-Pester
+#--------------------------------------------------
+WriteAction "Build" "Invoke-Pester"
+#Invoke-Pester $PSScriptRoot\

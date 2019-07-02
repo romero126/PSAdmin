@@ -122,7 +122,6 @@ namespace PSAdmin.PowerShell.Commands {
                     );
                     return;
             }
-
             X509Certificate2 x509 = new X509Certificate2(CertificateByteArray, Password, X509KeyStorageFlags.Exportable);
 
             /*
