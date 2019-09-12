@@ -1,74 +1,78 @@
+function New-TempCert {
+    param(
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [ipaddress[]]$IP = [IPAddress]::Parse([String] (Get-Random) ).IPAddressToString,
+
+        [Parameter()]
+        [String[]]$DnsName = (-join ((65..90) + (97..122) | Get-Random -Count 10 | ForEach-Object {[char]$_})),
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [String]$DistinguishedName = "CN=TestCert",
+
+        [Parameter()]
+        [String]$PFXPass = 'TestPass'
+    )
+
+    $sanBuilder = [System.Security.Cryptography.X509Certificates.SubjectAlternativeNameBuilder]::new()
+
+    $IP.ForEach{
+        $sanBuilder.AddIpAddress($_.IPAddressToString)
+    }
+
+    $DnsName.ForEach{
+        $sanBuilder.AddDnsName($_)
+    }
+
+    $distinguishedNameObj = [System.Security.Cryptography.X509Certificates.X500DistinguishedName]::new("$DistinguishedName")
+    
+    $rsa = [System.Security.Cryptography.RSA]::Create(2048)
+    
+    $request = [System.Security.Cryptography.X509Certificates.CertificateRequest]::new($distinguishedNameObj, $rsa, [System.Security.Cryptography.HashAlgorithmName]::SHA256, [System.Security.Cryptography.RSASignaturePadding]::Pkcs1)
+    
+    $request.CertificateExtensions.Add(
+        [System.Security.Cryptography.X509Certificates.X509KeyUsageExtension]::new(
+            (
+                [System.Security.Cryptography.X509Certificates.X509KeyUsageFlags]::DataEncipherment -bor 
+                [System.Security.Cryptography.X509Certificates.X509KeyUsageFlags]::KeyEncipherment -bor
+                [System.Security.Cryptography.X509Certificates.X509KeyUsageFlags]::DigitalSignature
+            ), $false)
+    )
+    
+    $oid = [System.Security.Cryptography.Oid]::new("1.3.6.1.5.5.7.3.1")
+    $oidCollection = [System.Security.Cryptography.OidCollection]::new()
+    $null = $oidCollection.Add($oid)
+    
+    $extension = [System.Security.Cryptography.X509Certificates.X509EnhancedKeyUsageExtension]::new($oidCollection, $true)
+    
+    $request.CertificateExtensions.Add(
+        $extension
+    )
+    
+    $request.CertificateExtensions.Add($sanBuilder.Build())
+    
+    $certificate = $request.CreateSelfSigned(
+        [System.DateTimeOffset]::new(([datetime]::UtcNow).AddDays(-1)),
+        [System.DateTimeOffset]::new(([datetime]::UtcNow).AddDays(3650))
+    )
+
+    $certificate
+}
+
+
 Describe "PSAdminKeyVaultCertificate" {
     BeforeAll {
-        function New-TempCert {
-            param(
-                [Parameter()]
-                [ValidateNotNullOrEmpty()]
-                [ipaddress[]]$IP = [IPAddress]::Parse([String] (Get-Random) ).IPAddressToString,
-
-                [Parameter()]
-                [String[]]$DnsName = (-join ((65..90) + (97..122) | Get-Random -Count 10 | ForEach-Object {[char]$_})),
-
-                [Parameter()]
-                [ValidateNotNullOrEmpty()]
-                [String]$DistinguishedName = "CN=TestCert",
-
-                [Parameter()]
-                [String]$PFXPass = 'TestPass'
-            )
-
-            $sanBuilder = [System.Security.Cryptography.X509Certificates.SubjectAlternativeNameBuilder]::new()
-
-            $IP.ForEach{
-                $sanBuilder.AddIpAddress($_.IPAddressToString)
-            }
-
-            $DnsName.ForEach{
-                $sanBuilder.AddDnsName($_)
-            }
-
-            $distinguishedNameObj = [System.Security.Cryptography.X509Certificates.X500DistinguishedName]::new("$DistinguishedName")
-            
-            $rsa = [System.Security.Cryptography.RSA]::Create(2048)
-            
-            $request = [System.Security.Cryptography.X509Certificates.CertificateRequest]::new($distinguishedNameObj, $rsa, [System.Security.Cryptography.HashAlgorithmName]::SHA256, [System.Security.Cryptography.RSASignaturePadding]::Pkcs1)
-            
-            $request.CertificateExtensions.Add(
-                [System.Security.Cryptography.X509Certificates.X509KeyUsageExtension]::new(
-                    (
-                        [System.Security.Cryptography.X509Certificates.X509KeyUsageFlags]::DataEncipherment -bor 
-                        [System.Security.Cryptography.X509Certificates.X509KeyUsageFlags]::KeyEncipherment -bor
-                        [System.Security.Cryptography.X509Certificates.X509KeyUsageFlags]::DigitalSignature
-                    ), $false)
-            )
-            
-            $oid = [System.Security.Cryptography.Oid]::new("1.3.6.1.5.5.7.3.1")
-            $oidCollection = [System.Security.Cryptography.OidCollection]::new()
-            $null = $oidCollection.Add($oid)
-            
-            $extension = [System.Security.Cryptography.X509Certificates.X509EnhancedKeyUsageExtension]::new($oidCollection, $true)
-            
-            $request.CertificateExtensions.Add(
-                $extension
-            )
-            
-            $request.CertificateExtensions.Add($sanBuilder.Build())
-            
-            $certificate = $request.CreateSelfSigned(
-                [System.DateTimeOffset]::new(([datetime]::UtcNow).AddDays(-1)),
-                [System.DateTimeOffset]::new(([datetime]::UtcNow).AddDays(3650))
-            )
-        
-            $certificate
-        }
-
+        Write-Host "BEFORE ALL"
         $CertPassStr = ( -join ((33..126) | Get-Random -Count 32 | ForEach-Object { [char]$_ }))
 
         $certificate = New-TempCert -PFXPass $CertPassStr
 
         $CertPath = Join-Path -Path $(Get-Location) -ChildPath "PSAdmin.KeyVaultCertificate.Tests-dyanmic.pfx"
 
-        Remove-Item $CertPath -Force
+        try {
+            Remove-Item $CertPath -Force
+        } catch {}
 
         [io.file]::WriteAllBytes($CertPath, $certificate.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, "$CertPassStr"))
 
