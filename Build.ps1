@@ -42,6 +42,6 @@ dotnet publish -o "$PSScriptRoot\Module\PSAdmin\" --self-contained
 #--------------------------------------------------
 WriteAction "Build" "Invoke-Pester"
 WriteAction "Invoke-Pester" "Powershell"
-start powershell -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+Start-Process powershell -Args "-command . .\Test.ps1" -NoNewWindow -Wait
 WriteAction "Invoke-Pester" "PWSH"
-start pwsh -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+Start-Process pwsh -Args "-command . .\Test.ps1" -NoNewWindow -Wait
