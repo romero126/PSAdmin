@@ -1,5 +1,6 @@
 param (
-    [switch]$NoTest
+    [switch]$NoTest,
+    [switch]$ResolveDependency
 )
 
 $ActionType = Split-Path -Path $MyInvocation.MyCommand.Path -Leaf
@@ -21,6 +22,19 @@ function Private:WriteAction
 }
 
 
+if ($PSBoundParameters.Keys -contains 'ResolveDependency') {
+	$Script:Modules = @(
+		'Pester'
+	)
+	
+	$Script:ModuleInstallScope = 'CurrentUser'
+	
+	'Installing module dependencies...'
+	
+	Get-PackageProvider -Name 'NuGet' -ForceBootstrap | Out-Null
+	
+	Install-Module -Name $Script:Modules -Scope $Script:ModuleInstallScope -Force -SkipPublisherCheck
+}
 
 #
 #Action: Build\Cleanup-Files
