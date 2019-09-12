@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Compile Include="..\src\*.cs" />
-    <Compile Include="..\src\internal\*.cs" />
+    <Compile Include="..\src\Internal\*.cs" />
     <Compile Include="..\src\PowerShell.Commands\*.cs" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.110" />
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.0" />
