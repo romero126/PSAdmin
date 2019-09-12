@@ -46,5 +46,4 @@ foreach ($File in $Files) {
 
 }
 
-$PSEdition = $PSVersionTable.PSEdition
 Import-Module "$PSScriptRoot/module.dll"
