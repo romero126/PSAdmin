@@ -1,3 +1,7 @@
+param (
+    [switch]$NoTest
+)
+
 $ActionType = Split-Path -Path $MyInvocation.MyCommand.Path -Leaf
 Split-Path -Path $MyInvocation.MyCommand.Path -Leaf
 
@@ -40,8 +44,11 @@ dotnet publish -o "$PSScriptRoot\Module\PSAdmin\" --self-contained
 #
 #Action: Build\Invoke-Pester
 #--------------------------------------------------
-WriteAction "Build" "Invoke-Pester"
-WriteAction "Invoke-Pester" "Powershell"
-Start-Process powershell -Args "-command . .\Test.ps1" -NoNewWindow -Wait
-WriteAction "Invoke-Pester" "PWSH"
-Start-Process pwsh -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+if(-not $NoTest) {
+    WriteAction "Build" "Invoke-Pester"
+    WriteAction "Invoke-Pester" "Powershell"
+    Start-Process powershell -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+    WriteAction "Invoke-Pester" "PWSH"
+    Start-Process pwsh -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+    
+}
