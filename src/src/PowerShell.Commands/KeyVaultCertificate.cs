@@ -288,7 +288,7 @@ namespace PSAdmin.PowerShell.Commands {
 
             Data.KeyVault KeyVault = KeyVaultHelper.GetItemThrow(null, VaultName, true);
 
-            Data.KeyVaultCertificate[] SearchCertificate = KeyVaultCertificateHelper.GetItemsThrow(null, VaultName, Name, null, null, false, true);
+            Data.KeyVaultCertificate[] SearchCertificate = KeyVaultCertificateHelper.GetItemsThrow(null, VaultName, Name, null, null, true, true);
 
             // Note: This will only ever return one item
             foreach (Data.KeyVaultCertificate Certificate in SearchCertificate)
