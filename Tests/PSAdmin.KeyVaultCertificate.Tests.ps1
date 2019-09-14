@@ -67,12 +67,13 @@ Describe "PSAdminKeyVaultCertificate" {
         $CertPassStr = ( -join ((33..126) | Get-Random -Count 32 | ForEach-Object { [char]$_ }))
 
         $certificate = New-TempCert -PFXPass $CertPassStr
-        
-        $CertPath = Join-Path -Path $(Get-Location) -ChildPath "PSAdmin.KeyVaultCertificate.Tests-dyanmic.pfx"
+        $CertThumb = $certificate.Thumbprint
 
-        try {
-            Remove-Item $CertPath -Force
-        } catch {}
+        $CertPath = Join-Path -Path $PSScriptRoot -ChildPath "PSAdmin.KeyVaultCertificate.Tests-dynamic.pfx"
+        $CertPath_ExportFileName = Join-Path $PSScriptRoot -ChildPath "Import-FileName_Export.pfx"
+        $CertPath_Export_String = Join-Path $PSScriptRoot -ChildPath "Import-CertificateString_Export.pfx"
+        
+        Remove-Item $CertPath -Force -ErrorAction SilentlyContinue
 
         [io.file]::WriteAllBytes($CertPath, $certificate.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, "$CertPassStr"))
         $certificateHash = Get-FileHash -Path $CertPath
@@ -97,10 +98,12 @@ Describe "PSAdminKeyVaultCertificate" {
         }
         $CertBase64 = [Convert]::ToBase64String($CertRaw)
         New-PSAdminKeyVault -VaultName $VaultName
+
     }
 
     AfterAll {
-
+        Remove-Item $CertPath_ExportFileName
+        Remove-Item $CertPath_Export_String
     }
     Context "Import-PSAdminKeyVaultCertificate" {
         it "Validate [POS] Import -FileName" {
@@ -120,8 +123,15 @@ Describe "PSAdminKeyVaultCertificate" {
 
     Context "Export-PSAdminKeyVaultCertificate" {
         it "Validate [POS] Export" {
-            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-FileName" -FileName "Import-FileName_Export.pfx" -Password $CertPassSecStr
-            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-CertificateString" -FileName "Import-CertificateString_Export.pfx" -Password $CertPassSecStr
+
+            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-FileName" -FileName $CertPath_ExportFileName -Password $CertPassSecStr
+            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-CertificateString" -FileName $CertPath_Export_String -Password $CertPassSecStr
+        }
+
+        it "Validate [POS] Cert Thumbprint Match" {
+            $certObj = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 -ArgumentList $CertPath_ExportFileName, $CertPassSecStr, ([System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::Exportable)
+            #$certObj.Import($CertPath_ExportFileName, $CertPassSecStr, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::DefaultKeySet)
+            $certObj.Thumbprint | Should -Be $CertThumb
         }
     }
 
