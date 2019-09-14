@@ -202,8 +202,8 @@ namespace PSAdmin.PowerShell.Commands {
     public sealed class ExportPSAdminKeyVaultCertificate : PSCmdlet
     {
 
-        private const string ImportFromStringParameterSetName = "ImportFromStringParameterSetName";
-        private const string ImportFromFileParameterSetName = "ImportFromFileParameterSetName";
+        private const string ExportToStringParameterSetName = "ExportToStringParameterSetName";
+        private const string ExportToFileParameterSetName = "ExportToFileParameterSetName";
 
         /// <summary>
         /// Specify VaultName
@@ -219,15 +219,15 @@ namespace PSAdmin.PowerShell.Commands {
 
 
         /// <summary>
-        /// ImportFromFile
+        /// ExportToFile
         /// </summary>
-        [Parameter(Mandatory = true, ParameterSetName = ImportFromFileParameterSetName, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = true, ParameterSetName = ExportToFileParameterSetName, ValueFromPipelineByPropertyName = true)]
         public string FileName { get; set; }
 
         /// <summary>
-        /// ImportFromString
+        /// ExportToString
         /// </summary>
-        [Parameter(Mandatory = true, ParameterSetName = ImportFromStringParameterSetName )]
+        [Parameter(Mandatory = true, ParameterSetName = ExportToStringParameterSetName )]
         public SwitchParameter AsString { get; set; }
 
         /// <summary>
@@ -298,10 +298,10 @@ namespace PSAdmin.PowerShell.Commands {
                 x509.Dispose();
                 switch (ParameterSetName)
                 {
-                    case ImportFromFileParameterSetName:
+                    case ExportToFileParameterSetName:
                         File.WriteAllBytes(FileName, CertificateByteArray);
                         break;
-                    case ImportFromStringParameterSetName:
+                    case ExportToStringParameterSetName:
                         WriteObject(
                             Convert.ToBase64String(CertificateByteArray)
                         );
