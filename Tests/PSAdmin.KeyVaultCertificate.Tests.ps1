@@ -67,7 +67,7 @@ Describe "PSAdminKeyVaultCertificate" {
         $CertPassStr = ( -join ((33..126) | Get-Random -Count 32 | ForEach-Object { [char]$_ }))
 
         $certificate = New-TempCert -PFXPass $CertPassStr
-
+        
         $CertPath = Join-Path -Path $(Get-Location) -ChildPath "PSAdmin.KeyVaultCertificate.Tests-dyanmic.pfx"
 
         try {
@@ -75,7 +75,7 @@ Describe "PSAdminKeyVaultCertificate" {
         } catch {}
 
         [io.file]::WriteAllBytes($CertPath, $certificate.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, "$CertPassStr"))
-
+        $certificateHash = Get-FileHash -Path $CertPath
         Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psd1 -Force
 
         Open-PSAdmin -SQLConnectionString "Data Source=$PSScriptRoot/PSAdmin.DB;Pooling=True;FailIfMissing=False;Synchronous=Full;"
@@ -120,7 +120,8 @@ Describe "PSAdminKeyVaultCertificate" {
 
     Context "Export-PSAdminKeyVaultCertificate" {
         it "Validate [POS] Export" {
-            #Validating this is unique a unique process.
+            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-FileName" -FileName "Import-FileName_Export.pfx" -Password $CertPassSecStr
+            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-CertificateString" -FileName "Import-CertificateString_Export.pfx" -Password $CertPassSecStr
         }
     }
 
