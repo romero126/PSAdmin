@@ -63,28 +63,19 @@ function New-TempCert {
 
 Describe "PSAdminKeyVaultCertificate" {
     BeforeAll {
-        Write-Host "BEFORE ALL"
-        $CertPassStr = ( -join ((33..126) | Get-Random -Count 32 | ForEach-Object { [char]$_ }))
-
-        $certificate = New-TempCert -PFXPass $CertPassStr
-        $CertThumb = $certificate.Thumbprint
-
+        #region Certificate
         $CertPath = Join-Path -Path $PSScriptRoot -ChildPath "PSAdmin.KeyVaultCertificate.Tests-dynamic.pfx"
         $CertPath_ExportFileName = Join-Path $PSScriptRoot -ChildPath "Import-FileName_Export.pfx"
-        $CertPath_Export_String = Join-Path $PSScriptRoot -ChildPath "Import-CertificateString_Export.pfx"
-        
-        Remove-Item $CertPath -Force -ErrorAction SilentlyContinue
+        $CertPath_ExportString = Join-Path $PSScriptRoot -ChildPath "Import-CertificateString_Export.pfx"
 
-        [io.file]::WriteAllBytes($CertPath, $certificate.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, "$CertPassStr"))
-        $certificateHash = Get-FileHash -Path $CertPath
-        Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psd1 -Force
-
-        Open-PSAdmin -SQLConnectionString "Data Source=$PSScriptRoot/PSAdmin.DB;Pooling=True;FailIfMissing=False;Synchronous=Full;"
-
-        $VaultName = "Vault_Certificate_Test"
-        #$CertThumb      = "B86837D68B56856BC0C2E79361954E63E0A98A6F"
-        #$CertPass       = $CertThumb | ConvertTo-SecureString -AsPlainText -Force
+        $CertPassStr = ( -join ((33..126) | Get-Random -Count 32 | ForEach-Object { [char]$_ }))
         $CertPassSecStr = "$CertPassStr" | ConvertTo-SecureString -AsPlainText -Force 
+        
+        $Cert = New-TempCert -PFXPass $CertPassStr
+        $CertThumb = $Cert.Thumbprint
+
+        [io.file]::WriteAllBytes($CertPath, $Cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, "$CertPassStr"))
+
         $CertRaw = switch ($PSVersionTable.PSEdition) {
             "Desktop" {
                 Get-Content -Path $CertPath -Encoding Byte
@@ -97,14 +88,18 @@ Describe "PSAdminKeyVaultCertificate" {
             }    
         }
         $CertBase64 = [Convert]::ToBase64String($CertRaw)
+        #endregion
+
+        Import-Module $PSScriptRoot\..\Module\PSAdmin\PSAdmin.psd1 -Force
+
+        Open-PSAdmin -SQLConnectionString "Data Source=$PSScriptRoot/PSAdmin.DB;Pooling=True;FailIfMissing=False;Synchronous=Full;"
+
+        $VaultName = "Vault_Certificate_Test"
+
         New-PSAdminKeyVault -VaultName $VaultName
 
     }
 
-    AfterAll {
-        Remove-Item $CertPath_ExportFileName
-        Remove-Item $CertPath_Export_String
-    }
     Context "Import-PSAdminKeyVaultCertificate" {
         it "Validate [POS] Import -FileName" {
             Import-PSAdminKeyVaultCertificate -VaultName $VaultName -Password $CertPassSecStr -FileName $CertPath -Name "Import-FileName"
@@ -123,14 +118,19 @@ Describe "PSAdminKeyVaultCertificate" {
 
     Context "Export-PSAdminKeyVaultCertificate" {
         it "Validate [POS] Export" {
-
             Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-FileName" -FileName $CertPath_ExportFileName -Password $CertPassSecStr
-            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-CertificateString" -FileName $CertPath_Export_String -Password $CertPassSecStr
+            Test-Path $CertPath_ExportFileName | Should -Be $true
+            Export-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Import-CertificateString" -FileName $CertPath_ExportString -Password $CertPassSecStr
+            Test-Path $CertPath_ExportString | Should -Be $true
         }
 
-        it "Validate [POS] Cert Thumbprint Match" {
+        it "Validate [POS] Cert Thumbprint Match -FileName" {
             $certObj = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 -ArgumentList $CertPath_ExportFileName, $CertPassSecStr, ([System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::Exportable)
-            #$certObj.Import($CertPath_ExportFileName, $CertPassSecStr, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::DefaultKeySet)
+            $certObj.Thumbprint | Should -Be $CertThumb
+        }
+
+        it "Validate [POS] Cert Thumbprint Match -CertificateString" {
+            $certObj = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 -ArgumentList $CertPath_ExportString, $CertPassSecStr, ([System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::Exportable)
             $certObj.Thumbprint | Should -Be $CertThumb
         }
     }
@@ -214,5 +214,9 @@ Describe "PSAdminKeyVaultCertificate" {
         Remove-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "*" -Confirm:$False -Match
         Remove-PSAdminKeyVault -VaultName $VaultName -Confirm:$false
         Get-PSAdminKeyVault -VaultName $VaultName | Should -HaveCount 0
+
+        Remove-Item $CertPath -Force
+        Remove-Item $CertPath_ExportFileName
+        Remove-Item $CertPath_ExportString
     }
 }
