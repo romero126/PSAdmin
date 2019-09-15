@@ -151,7 +151,7 @@ Describe "PSAdminKeyVaultCertificate" {
             Import-PSAdminKeyVaultCertificate -VaultName $VaultName -Password $CertPassSecStr -FileName $CertPath -Name "Certificate_Get_Exact0"
             Import-PSAdminKeyVaultCertificate -VaultName $VaultName -Password $CertPassSecStr -FileName $CertPath -Name "Certificate_Get_Exact1"
             Import-PSAdminKeyVaultCertificate -VaultName $VaultName -Password $CertPassSecStr -FileName $CertPath -Name "Certificate_Get_Exact"
-            Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Certificate_Get_Exact" -Exact | % Name | Should -Be "Certificate_Get_Exact"
+            Get-PSAdminKeyVaultCertificate -VaultName $VaultName -Name "Certificate_Get_Exact" -Exact | ForEach-Object Name | Should -Be "Certificate_Get_Exact"
         }
 
         it "Validate [POS] Get Wildcard" {
