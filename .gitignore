@@ -19,3 +19,5 @@ Source/Tools/Notes.ps1
 
 .vs/
 global.json
+
+.DS_Store
