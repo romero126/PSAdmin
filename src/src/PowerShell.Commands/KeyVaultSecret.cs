@@ -11,7 +11,7 @@ namespace PSAdmin.PowerShell.Commands
     #region New
 
 	/// <summary>
-	/// New-PSAdminKeyVaultSecret2 Cmdlet.
+	/// New-PSAdminKeyVaultSecret Cmdlet.
 	/// </summary>
 	[Cmdlet(VerbsCommon.New, "PSAdminKeyVaultSecret")]
 	public sealed class NewPSAdminKeyVaultSecret : PSCmdlet
@@ -193,7 +193,7 @@ namespace PSAdmin.PowerShell.Commands
     #region Set
 
 	/// <summary>
-	/// Set-PSAdminKeyVaultSecret2 Cmdlet.
+	/// Set-PSAdminKeyVaultSecret Cmdlet.
 	/// </summary>
 	[Cmdlet(VerbsCommon.Set, "PSAdminKeyVaultSecret")]
 	public sealed class SetPSAdminKeyVaultSecret : PSCmdlet

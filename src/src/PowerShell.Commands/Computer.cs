@@ -11,7 +11,7 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region New
     /// <summary>
-    /// Creates a PSAdmin KeyVault.
+    /// Creates a PSAdmin Computer in the database.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "PSAdminComputer")]
     [OutputType(typeof(System.String))]
@@ -25,7 +25,7 @@ namespace PSAdmin.PowerShell.Commands {
         public string VaultName { get; set; }
 
         /// <summary>
-        /// Specify VaultName
+        /// Specify ComputerName
         /// </summary>
         [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, Position = 1)]
         public string ComputerName { get; set; }
@@ -387,14 +387,14 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region Set
     /// <summary>
-    /// Creates a PSAdmin KeyVault.
+    /// Updates a PSAdmin Computer in the Datbase.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "PSAdminComputer")]
     [OutputType(typeof(System.String))]
     public sealed class SetPSAdminComputer : PSCmdlet
     {
         /// <summary>
-        ///
+        /// Specify Id
         /// </summary>
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public string Id {get; set; }
@@ -406,7 +406,7 @@ namespace PSAdmin.PowerShell.Commands {
         public string VaultName { get; set; }
 
         /// <summary>
-        /// Specify VaultName
+        /// Specify ComputerName
         /// </summary>
         [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, Position = 1)]
         public string ComputerName { get; set; }
@@ -674,7 +674,7 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region Remove
     /// <summary>
-    /// Returns a PSAdmin KeyVault from the database.
+    /// Removes a PSAdmin Computer from the database.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "PSAdminComputer", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     [OutputType(typeof(System.String))]

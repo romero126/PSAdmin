@@ -12,7 +12,7 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region Import
     /// <summary>
-    /// Creates a PSAdmin KeyVault.
+    /// Import Certificate into a PSAdmin KeyVault.
     /// </summary>
     [Cmdlet(VerbsData.Import, "PSAdminKeyVaultCertificate")]
     [OutputType(typeof(System.String))]
@@ -333,7 +333,7 @@ namespace PSAdmin.PowerShell.Commands {
     #region Get
 
     /// <summary>
-    /// Returns a PSAdmin Computer from the database.
+    /// Returns a PSAdminKeyVaultCertificate from the database.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "PSAdminKeyVaultCertificate")]
     [OutputType(typeof(System.String))]
@@ -384,7 +384,7 @@ namespace PSAdmin.PowerShell.Commands {
         public SwitchParameter Exact { get; set; }
 
         /// <summary>
-        /// Searches PSAdminComputer for an machine with Specified Matching Name
+        /// Verifys SQLConnection is valid
         /// </summary>
         protected override void BeginProcessing()
         {
@@ -425,7 +425,7 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region Remove 
     /// <summary>
-    /// Returns a PSAdmin Computer from the database.
+    /// Removes a PSAdminKeyVaultCertificate from the database.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "PSAdminKeyVaultCertificate", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     [OutputType(typeof(System.String))]
@@ -463,7 +463,7 @@ namespace PSAdmin.PowerShell.Commands {
         public SwitchParameter Match { get; set; }
 
         /// <summary>
-        /// Searches PSAdminComputer for an machine with Specified Matching Name
+        /// Verifys SQLConnection is valid
         /// </summary>
         protected override void BeginProcessing()
         {
