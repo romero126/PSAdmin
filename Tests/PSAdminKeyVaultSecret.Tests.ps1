@@ -37,8 +37,14 @@ describe -Name "PSAdminKeyVault" {
             Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get*" -Exact | Should -HaveCount 0
         }
 
+        it "Validate [POS] Get WithoutSecret" {
+            New-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_WithoutSecret" -SecretValue $SecretValue
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_WithoutSecret" -WithoutSecret | Should -HaveCount 1
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get_WithoutSecret" -WithoutSecret | ForEach-Object SecretValue | Should -Be $null
+        }
+
         it "Validate [POS] Get Wildcard" {
-            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get*" | Should -HaveCount 2
+            Get-PSAdminKeyVaultSecret -VaultName $VaultName -Name "Get*" | Should -HaveCount 3
         }
 
         it "Validate [POS] Get SecretValue [SecureString]" {

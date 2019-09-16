@@ -115,45 +115,56 @@ namespace PSAdmin.PowerShell.Commands
 	/// <summary>
 	/// Get-PSAdminKeyVaultSecret Cmdlet.
 	/// </summary>
-	[Cmdlet(VerbsCommon.Get, "PSAdminKeyVaultSecret")]
+	[Cmdlet(VerbsCommon.Get, "PSAdminKeyVaultSecret", DefaultParameterSetName = "WithSecret")]
 	public sealed class GetPSAdminKeyVaultSecret : PSCmdlet
 	{
 	
 		/// <summary>
 		/// Sets value for Id
 		/// </summary>
-		[Parameter(ValueFromPipelineByPropertyName = true)]
+		[Parameter(ValueFromPipelineByPropertyName = true, ParameterSetName = "WithSecret")]
+		[Parameter(ValueFromPipelineByPropertyName = true, ParameterSetName = "WithoutSecret")]
 		public String Id { get; set; }
 
 		/// <summary>
 		/// Sets value for VaultName
 		/// </summary>
-		[Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, Position = 0)]
+		[Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, Position = 0, ParameterSetName = "WithSecret")]
+		[Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, Position = 0, ParameterSetName = "WithoutSecret")]
 		public String VaultName { get; set; }
 		
 		/// <summary>
 		/// Sets value for Name
 		/// </summary>
-		[Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, Position = 1)]
+		[Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, Position = 1, ParameterSetName = "WithSecret")]
+		[Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, Position = 1, ParameterSetName = "WithoutSecret")]
 		public String Name { get; set; }
 				
 		/// <summary>
 		/// Sets value for Tags
 		/// </summary>
-		[Parameter(ValueFromPipelineByPropertyName = true)]
+		[Parameter(ValueFromPipelineByPropertyName = true, ParameterSetName = "WithSecret")]
+		[Parameter(ValueFromPipelineByPropertyName = true, ParameterSetName = "WithoutSecret")]
 		public String[] Tags { get; set; }
 		
 		/// <summary>
 		/// Sets value for Decrypt
 		/// </summary>
-		[Parameter()]
+		[Parameter(ParameterSetName = "WithSecret")]
 		public SwitchParameter Decrypt { get; set; }
 		
 		/// <summary>
 		/// Sets value for Exact
 		/// </summary>
-		[Parameter()]
+		[Parameter(ParameterSetName = "WithSecret")]
+		[Parameter(ParameterSetName = "WithoutSecret")]
 		public SwitchParameter Exact { get; set; }
+
+		/// <summary>
+		/// Sets value for WithoutSecret
+		/// </summary>
+		[Parameter(ParameterSetName = "WithoutSecret")]
+		public SwitchParameter WithoutSecret { get; set; }
 		
 		/// <summary>
 		/// BeginProcessing
@@ -168,7 +179,7 @@ namespace PSAdmin.PowerShell.Commands
 		/// </summary>
 		protected override void ProcessRecord()
 		{
-			Data.KeyVaultSecret[] results = KeyVaultSecretHelper.GetItems(Id, VaultName, Name, Tags, Decrypt, Exact);
+			Data.KeyVaultSecret[] results = KeyVaultSecretHelper.GetItems(Id, VaultName, Name, Tags, Decrypt, Exact, WithoutSecret);
 
             // Unroll the object
             foreach (Data.KeyVaultSecret result in results)

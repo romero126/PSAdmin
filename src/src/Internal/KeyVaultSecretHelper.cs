@@ -81,7 +81,11 @@ namespace PSAdmin.Internal
             return result[0];
         }
 
-        public static Data.KeyVaultSecret[] GetItems(string Id, string VaultName, string Name, string[] Tags, bool Decrypt, bool Exact)
+        public static Data.KeyVaultSecret[] GetItems(string Id, string VaultName, string Name, string[] Tags, bool Decrypt, bool Exact) {
+            return GetItems(Id, VaultName, Name, Tags, Decrypt, Exact, false);
+        }
+
+        public static Data.KeyVaultSecret[] GetItems(string Id, string VaultName, string Name, string[] Tags, bool Decrypt, bool Exact, bool WithoutSecret)
         {
             string filter;
 
@@ -111,19 +115,23 @@ namespace PSAdmin.Internal
                 }
                 byte[] Key = KeyVaultHelper.GetVaultKey(i.VaultName);
 
-
-                // Decrypt Data to respective content type
-                if ((Decrypt) && (i.ContentType == "txt"))
+                if(!WithoutSecret)
                 {
-                    i.SecretValue = Crypto.ConvertFromKeyVaultSecret( (byte[])i.SecretValue, Key);
-                }
-                else if (Decrypt)
-                {
-                    i.SecretValue = Crypto.ConvertFromKeyVaultSecretAsBytes( (byte[])i.SecretValue, Key);
-                }
-                else
-                {
-                    i.SecretValue = Crypto.ConvertFromKeyVaultSecretAsSecureString( (byte[])i.SecretValue, Key);
+                    // Decrypt Data to respective content type
+                    if ((Decrypt) && (i.ContentType == "txt"))
+                    {
+                        i.SecretValue = Crypto.ConvertFromKeyVaultSecret( (byte[])i.SecretValue, Key);
+                    }
+                    else if (Decrypt)
+                    {
+                        i.SecretValue = Crypto.ConvertFromKeyVaultSecretAsBytes( (byte[])i.SecretValue, Key);
+                    }
+                    else
+                    {
+                        i.SecretValue = Crypto.ConvertFromKeyVaultSecretAsSecureString( (byte[])i.SecretValue, Key);
+                    }
+                } else {
+                    i.SecretValue = null;
                 }
 			}
 
