@@ -1,0 +1,37 @@
+name: Main Workflow
+
+on: [push, pull_request]
+
+jobs:
+  BuildAndTest_pwsh:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    
+    - name: Build
+      run: ./Build.ps1 -NoTest -ResolveDependency
+      shell: pwsh
+
+    - name: Test
+      run: ./Test.ps1
+      shell: pwsh
+  
+  BuildAndTest_PowerShell:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    
+    - name: Build
+      run: ./Build.ps1 -NoTest -ResolveDependency
+      shell: powershell
+
+    - name: Test
+      run: ./Test.ps1
+      shell: powershell

@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "src\core\core.csproj", "{3F5CEC5C-2D38-4430-9D11-4CDCF03558A6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "desktop", "src\desktop\desktop.csproj", "{C274B936-2DD9-4420-B76E-AB68F85B5A7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "module", "src\module\module.csproj", "{3F5CEC5C-2D38-4430-9D11-4CDCF03558A6}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution

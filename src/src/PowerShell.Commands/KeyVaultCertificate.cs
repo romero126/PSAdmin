@@ -1,18 +1,16 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Management.Automation;
 using PSAdmin.Internal;
 using System.Security;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 namespace PSAdmin.PowerShell.Commands {
 
     #region Import
     /// <summary>
-    /// Creates a PSAdmin KeyVault.
+    /// Import Certificate into a PSAdmin KeyVault.
     /// </summary>
     [Cmdlet(VerbsData.Import, "PSAdminKeyVaultCertificate")]
     [OutputType(typeof(System.String))]
@@ -202,8 +200,8 @@ namespace PSAdmin.PowerShell.Commands {
     public sealed class ExportPSAdminKeyVaultCertificate : PSCmdlet
     {
 
-        private const string ImportFromStringParameterSetName = "ImportFromStringParameterSetName";
-        private const string ImportFromFileParameterSetName = "ImportFromFileParameterSetName";
+        private const string ExportToStringParameterSetName = "ExportToStringParameterSetName";
+        private const string ExportToFileParameterSetName = "ExportToFileParameterSetName";
 
         /// <summary>
         /// Specify VaultName
@@ -219,15 +217,15 @@ namespace PSAdmin.PowerShell.Commands {
 
 
         /// <summary>
-        /// ImportFromFile
+        /// ExportToFile
         /// </summary>
-        [Parameter(Mandatory = true, ParameterSetName = ImportFromFileParameterSetName, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = true, ParameterSetName = ExportToFileParameterSetName, ValueFromPipelineByPropertyName = true)]
         public string FileName { get; set; }
 
         /// <summary>
-        /// ImportFromString
+        /// ExportToString
         /// </summary>
-        [Parameter(Mandatory = true, ParameterSetName = ImportFromStringParameterSetName )]
+        [Parameter(Mandatory = true, ParameterSetName = ExportToStringParameterSetName )]
         public SwitchParameter AsString { get; set; }
 
         /// <summary>
@@ -288,7 +286,7 @@ namespace PSAdmin.PowerShell.Commands {
 
             Data.KeyVault KeyVault = KeyVaultHelper.GetItemThrow(null, VaultName, true);
 
-            Data.KeyVaultCertificate[] SearchCertificate = KeyVaultCertificateHelper.GetItemsThrow(null, VaultName, Name, null, null, false, true);
+            Data.KeyVaultCertificate[] SearchCertificate = KeyVaultCertificateHelper.GetItemsThrow(null, VaultName, Name, null, null, true, true);
 
             // Note: This will only ever return one item
             foreach (Data.KeyVaultCertificate Certificate in SearchCertificate)
@@ -298,10 +296,10 @@ namespace PSAdmin.PowerShell.Commands {
                 x509.Dispose();
                 switch (ParameterSetName)
                 {
-                    case ImportFromFileParameterSetName:
+                    case ExportToFileParameterSetName:
                         File.WriteAllBytes(FileName, CertificateByteArray);
                         break;
-                    case ImportFromStringParameterSetName:
+                    case ExportToStringParameterSetName:
                         WriteObject(
                             Convert.ToBase64String(CertificateByteArray)
                         );
@@ -333,7 +331,7 @@ namespace PSAdmin.PowerShell.Commands {
     #region Get
 
     /// <summary>
-    /// Returns a PSAdmin Computer from the database.
+    /// Returns a PSAdminKeyVaultCertificate from the database.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "PSAdminKeyVaultCertificate")]
     [OutputType(typeof(System.String))]
@@ -384,7 +382,7 @@ namespace PSAdmin.PowerShell.Commands {
         public SwitchParameter Exact { get; set; }
 
         /// <summary>
-        /// Searches PSAdminComputer for an machine with Specified Matching Name
+        /// Verifys SQLConnection is valid
         /// </summary>
         protected override void BeginProcessing()
         {
@@ -425,7 +423,7 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region Remove 
     /// <summary>
-    /// Returns a PSAdmin Computer from the database.
+    /// Removes a PSAdminKeyVaultCertificate from the database.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "PSAdminKeyVaultCertificate", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     [OutputType(typeof(System.String))]
@@ -463,7 +461,7 @@ namespace PSAdmin.PowerShell.Commands {
         public SwitchParameter Match { get; set; }
 
         /// <summary>
-        /// Searches PSAdminComputer for an machine with Specified Matching Name
+        /// Verifys SQLConnection is valid
         /// </summary>
         protected override void BeginProcessing()
         {

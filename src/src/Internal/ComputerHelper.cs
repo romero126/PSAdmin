@@ -1,10 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using System.Management.Automation;
-
-
 namespace PSAdmin.Internal 
 {
     internal static class Computer {

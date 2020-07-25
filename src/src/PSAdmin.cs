@@ -1,12 +1,5 @@
 using System;
-using System.IO;
-using System.Management.Automation;
-/// Need to be in SQLite
-using System.Data;
-using System.Data.SQLite;
-using PSAdmin;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace PSAdmin.Internal {
 

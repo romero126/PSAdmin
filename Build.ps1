@@ -1,3 +1,8 @@
+param (
+    [switch]$NoTest,
+    [switch]$ResolveDependency
+)
+
 $ActionType = Split-Path -Path $MyInvocation.MyCommand.Path -Leaf
 Split-Path -Path $MyInvocation.MyCommand.Path -Leaf
 
@@ -17,6 +22,19 @@ function Private:WriteAction
 }
 
 
+if ($PSBoundParameters.Keys -contains 'ResolveDependency') {
+	$Script:Modules = @(
+		'Pester'
+	)
+	
+	$Script:ModuleInstallScope = 'CurrentUser'
+	
+	'Installing module dependencies...'
+	
+	Get-PackageProvider -Name 'NuGet' -ForceBootstrap | Out-Null
+	
+	Install-Module -Name $Script:Modules -Scope $Script:ModuleInstallScope -Force -SkipPublisherCheck
+}
 
 #
 #Action: Build\Cleanup-Files
@@ -40,8 +58,11 @@ dotnet publish -o "$PSScriptRoot\Module\PSAdmin\" --self-contained
 #
 #Action: Build\Invoke-Pester
 #--------------------------------------------------
-WriteAction "Build" "Invoke-Pester"
-WriteAction "Invoke-Pester" "Powershell"
-start powershell -Args "-command . .\Test.ps1" -NoNewWindow -Wait
-WriteAction "Invoke-Pester" "PWSH"
-start pwsh -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+if(-not $NoTest) {
+    WriteAction "Build" "Invoke-Pester"
+    WriteAction "Invoke-Pester" "Powershell"
+    Start-Process powershell -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+    WriteAction "Invoke-Pester" "PWSH"
+    Start-Process pwsh -Args "-command . .\Test.ps1" -NoNewWindow -Wait
+    
+}

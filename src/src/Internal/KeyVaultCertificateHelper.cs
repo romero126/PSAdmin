@@ -1,11 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
-using System.Management.Automation;
-
-using System.Security;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 namespace PSAdmin.Internal 

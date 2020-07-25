@@ -1,12 +1,6 @@
 using System;
-using PSAdmin;
 using PSAdmin.Internal;
 using System.Management.Automation;
-using System.Collections;
-using System.Collections.Generic;
-
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 
 namespace PSAdmin.PowerShell.Commands {
     #region New
@@ -154,14 +148,14 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region Set
     /// <summary>
-    /// Creates a PSAdmin KeyVault.
+    /// Updates a PSAdmin KeyVault.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "PSAdminKeyVault")]
     [OutputType(typeof(System.String))]
     public sealed class SetPSAdminKeyVault : PSCmdlet
     {
         /// <summary>
-        ///
+        /// Specify Id
         /// </summary>
         [Parameter(ValueFromPipelineByPropertyName = true)]
         public string Id {get; set; }
@@ -249,7 +243,7 @@ namespace PSAdmin.PowerShell.Commands {
 
     #region Remove
     /// <summary>
-    /// Returns a PSAdmin KeyVault from the database.
+    /// Removes a PSAdmin KeyVault from the database.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "PSAdminKeyVault", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     [OutputType(typeof(System.String))]

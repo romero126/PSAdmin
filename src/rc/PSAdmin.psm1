@@ -1,18 +1,25 @@
-if (-not (Test-Path -path "$PSScriptRoot\SQLite.Interop.dll"))
-{
+if (-not (Test-Path -path "$PSScriptRoot\SQLite.Interop.dll")) {
     #--------------------------------------------------
     #Fixes a bug where SQLite.Interop.dll is not being
     #resolved correctly from its NUGET library.
     #--------------------------------------------------
 
-    $OSVersion = [Environment]::OSVersion
-    $OSPlatform = Switch ($OSVersion.Platform)
-    {
-        "Unix" { "linux" }
-        "Win32NT" { "win" }
+    $OSPlatform = Switch ($PSVersionTable.PSEdition) {
+        "Desktop" {
+            "win"
+        }
+
+        "Core" {
+            if ($IsWindows) {
+                "win"
+            } elseif ($IsMacOS) {
+                "osx"
+            } elseif ($IsLinux) {
+                "linux"
+            }
+        }
     }
-    $Architecture = Switch ([Environment]::Is64BitProcess)
-    {
+    $Architecture = Switch ([Environment]::Is64BitProcess) {
         $true { "x64" }
         $false { "x86" }
     }
@@ -25,10 +32,9 @@ if (-not (Test-Path -path "$PSScriptRoot\SQLite.Interop.dll"))
 }
 
 
-
 $Files = Get-ChildItem "$PSScriptRoot/PowerShell.Functions/*.Public.ps1" -recurse
 
-$PubliCFunctions = new-object System.Collections.Generic.List[String]
+$PubliCFunctions = New-Object System.Collections.Generic.List[String]
 foreach ($File in $Files) {
 
     . $File
@@ -40,5 +46,4 @@ foreach ($File in $Files) {
 
 }
 
-$PSEdition = $PSVersionTable.PSEdition
-Import-Module "$PSScriptRoot/${PSEdition}.dll"
+Import-Module "$PSScriptRoot/module.dll"

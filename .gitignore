@@ -1,8 +1,6 @@
 .vscode/
-src/core/bin/
-src/core/obj/
-src/desktop/bin/
-src/desktop/obj/
+src/*/bin/
+src/*/obj/
 build.ps1.o
 
 MyDatabase/
@@ -19,4 +17,7 @@ Module/PSAdmin/PSAdmin.psm1
 Tests/TestDatabase/PSAdmin.DB
 Source/Tools/Notes.ps1
 
+.vs/
+global.json
 
+.DS_Store
